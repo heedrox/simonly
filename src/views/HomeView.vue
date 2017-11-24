@@ -1,7 +1,6 @@
 <template>
   <div class="home-view">
-    xxx
-    <simonly-key></simonly-key>
+    <simonly-board></simonly-board>
   </div>
 </template>
 <style>
@@ -10,11 +9,11 @@
   }
 </style>
 <script>
-  import SimonlyKey from '../components/simonly-key/SimonlyKey.vue';
+  import SimonlyBoard from '../components/simonly-board/SimonlyBoard.vue';
 
   export default {
     components: {
-      SimonlyKey,
+      SimonlyBoard,
     },
   };
 </script>
