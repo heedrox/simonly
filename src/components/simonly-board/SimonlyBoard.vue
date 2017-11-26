@@ -1,7 +1,7 @@
 <template>
   <div class="simonly-board">
     <div v-if="welcomeState" class="game-welcome">
-      <p>WELCOME!</p>
+      <p class="bounce">WELCOME!</p>
       <simonly-button :onClick="restart"></simonly-button>
     </div>
     <simonly-music :track="getTrack()"></simonly-music>
@@ -83,7 +83,40 @@
     margin-top: 10vh;
     letter-spacing: 0.8vw;
   }
-
+  .bounce {
+    animation: bounce 6s infinite;
+  }
+  @keyframes bounce {
+    3% {
+      transform: scale(1.2);
+      opacity: 1;
+    }
+    7% {
+      transform: scale(0.9);
+      opacity: 1
+    }
+    10% {
+      transform: scale(1.05)
+    }
+    13% {
+      transform: scale(0.95)
+    }
+    17% {
+      transform: scale(1);
+    }
+    42% {
+      transform: scale(1);
+    }
+    45% {
+      transform: scale(1.2)
+    }
+    48% {
+      transform: scale(0.8);
+    }
+    52% {
+      transform: scale(1);
+    }
+  }
 </style>
 
 

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="simonly-button">
     <INPUT type="submit" name="" value="" @click="onClick"
            :class="button"
            />
@@ -15,6 +15,7 @@
     height: 20vh;
     cursor: pointer;
   }
+
   input.play {
     background: url(../../assets/buttons/play_normal.png) no-repeat;
     background-size:cover;
