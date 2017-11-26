@@ -66,7 +66,7 @@
       },
       playAudio() {
         const audio = this.$refs.audio;
-        if (audio && audio.paused && audio.play) {
+        if (audio && audio.play) {
           audio.currentTime = 0;
           return audio.play();
         }
