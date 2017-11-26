@@ -4,6 +4,7 @@
       <p>WELCOME!</p>
       <simonly-button :onClick="restart"></simonly-button>
     </div>
+    <simonly-music></simonly-music>
     <div v-show="!welcomeState" class="simonly-keys">
       <simonly-key class="key" :position="1" :game-info="game.gameInfo" @keypress="userPressed"
                    skin="maria">
