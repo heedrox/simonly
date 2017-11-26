@@ -1,21 +1,21 @@
 import Vue from 'vue';
 import { mount } from 'avoriaz';
 import VueResource from 'vue-resource';
-import SimonlyBoard from './SimonlyBoard.vue';
+import SimonlyScore from './SimonlyScore.vue';
 
 Vue.use(VueResource);
 
-describe('SimonlyBoard', () => {
+describe('SimonlyScore', () => {
   let wrapper;
   let vm;
 
   beforeEach(() => {
-    wrapper = mount(SimonlyBoard);
+    wrapper = mount(SimonlyScore);
     vm = wrapper.vm;
   });
 
   it('sets ups', () => {
     expect(vm).to.be.defined;
-    expect(vm.game).to.be.defined;
+    expect(vm.score).to.equal(0);
   });
 });

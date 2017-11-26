@@ -7,5 +7,5 @@ yarn-error.log*
 test/unit/coverage
 test/e2e/reports
 selenium-debug.log
-static/key-images/
+static/key-files/
 .idea
