@@ -38,4 +38,17 @@ describe('SimonlyBoard', () => {
       expect(vm.welcomeState).to.equal(false);
     });
   });
+
+  describe('when playing music', () => {
+    it('plays title track when in welcome page', () => {
+      vm.welcomeState = true;
+      expect(vm.getTrack()).to.equal('title');
+    });
+
+    it('plays game track whet not in welcome page', () => {
+      vm.welcomeState = false;
+
+      expect(vm.getTrack()).to.equal('game');
+    });
+  });
 });

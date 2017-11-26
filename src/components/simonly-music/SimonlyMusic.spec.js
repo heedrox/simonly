@@ -12,6 +12,10 @@ describe('SimonlyMusic', () => {
   beforeEach(() => {
     wrapper = mount(SimonlyMusic);
     vm = wrapper.vm;
+    vm.$refs.backgroundAudio = {
+      volume: 0,
+      play: () => {},
+    };
   });
 
   it('sets ups', () => {

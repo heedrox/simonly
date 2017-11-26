@@ -4,7 +4,7 @@
       <p>WELCOME!</p>
       <simonly-button :onClick="restart"></simonly-button>
     </div>
-    <simonly-music></simonly-music>
+    <simonly-music :track="getTrack()"></simonly-music>
     <div v-show="!welcomeState" class="simonly-keys">
       <simonly-key class="key" :position="1" :game-info="game.gameInfo" @keypress="userPressed"
                    skin="maria">
@@ -118,6 +118,9 @@
       restart() {
         this.welcomeState = false;
         this.game.start();
+      },
+      getTrack() {
+        return !this.welcomeState ? 'game' : 'title';
       },
     },
     mounted() {
