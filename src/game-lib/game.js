@@ -48,7 +48,9 @@ export default class Game {
 
   checkNextTurn() {
     if (this.gameInfo.userEnteredTurnKeys.length === this.gameInfo.currentTurnKeys.length) {
-      this.runTurn(this.gameInfo.numTurn + 1);
+      setTimeout(() => {
+        this.runTurn(this.gameInfo.numTurn + 1);
+      }, 2000);
     }
   }
 

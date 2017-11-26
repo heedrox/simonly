@@ -10,7 +10,7 @@
                    skin="maria">
       </simonly-key>
       <simonly-key class="key" :position="2" :game-info="game.gameInfo" @keypress="userPressed"
-                   skin="other">
+                   skin="jone">
       </simonly-key>
       <simonly-key class="key" :position="3" :game-info="game.gameInfo" @keypress="userPressed"
                    skin="ines">
@@ -19,7 +19,7 @@
                    skin="other">
       </simonly-key>
       <simonly-key class="key" :position="5" :game-info="game.gameInfo" @keypress="userPressed"
-                   skin="other">
+                   skin="olatz">
       </simonly-key>
       <simonly-key class="key" :position="6" :game-info="game.gameInfo" @keypress="userPressed"
                    skin="jorge">

@@ -1,6 +1,17 @@
 import Game from './game';
 
 describe('Game', () => {
+
+  let clock;
+
+  beforeEach(() => {
+    clock = sinon.useFakeTimers();
+  });
+
+  afterEach(() => {
+    clock.restore();
+  });
+
   it('should exist', () => {
     const game = new Game();
     expect(game).to.be.defined;
@@ -10,16 +21,6 @@ describe('Game', () => {
   });
 
   describe('pressing a button', () => {
-    let clock;
-
-    beforeEach(() => {
-      clock = sinon.useFakeTimers();
-    });
-
-    afterEach(() => {
-      clock.restore();
-    });
-
     it('presses a button from outside', () => {
       const game = new Game();
 
@@ -115,6 +116,7 @@ describe('Game', () => {
 
     game.userPressed(7);
     game.userPressed(7);
+    clock.tick(3000);
 
     expect(game.runTurn).to.have.been.calledWith(3);
   });
