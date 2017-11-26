@@ -33,9 +33,11 @@
     </div>
 
     <simonly-score class="score" :score="game.gameInfo.score"></simonly-score>
+    <audio src="/static/audio/round-ko.mp3" ref="roundKoAudio"></audio>
+    <audio src="/static/audio/round-ok.mp3" ref="roundOkAudio"></audio>
 
     <div v-if="game.gameInfo.failed" class="game-over">
-      <p>GAME OVER :(</p>
+      <p class="bounce">GAME OVER :(</p>
       <simonly-button :onClick="restart" button="replay"></simonly-button>
     </div>
   </div>
@@ -75,13 +77,21 @@
   }
 
   .game-over {
-    display:block;
+    display:flex;
+    flex-direction: row;
+    flex-wrap:nowrap;
     color: #f4dd06;
     text-shadow: 0.5vw 0.5vw #f5991b, 0.8vw 0.8vw #c82f27, 1vw 1vw #6c100f;
     font-weight:bold;
     font-size: 5vh;
     margin-top: 10vh;
     letter-spacing: 0.8vw;
+  }
+  .game-over p {
+    flex-grow: 2;
+  }
+  .game-over > div {
+    flex-grow: 2;
   }
   .bounce {
     animation: bounce 6s infinite;
@@ -147,6 +157,9 @@
     methods: {
       userPressed(ev) {
         this.game.userPressed(ev.key);
+        if (this.game.gameInfo.failed) {
+          this.$refs.roundKoAudio.play();
+        }
       },
       restart() {
         this.welcomeState = false;

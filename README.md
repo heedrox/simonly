@@ -26,7 +26,12 @@ npm test
 
 -- License stuff --
 
-About comic.tff
+# About sounds
+http://soundbible.com/1003-Ta-Da.html
+http://soundbible.com/1343-Jump.html
+http://soundbible.com/1204-Buzz.html
+
+# About comic.tff
 
 Please read this before any use of the font.
 

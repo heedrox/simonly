@@ -1,8 +1,9 @@
 <template>
   <div class="simonly-button">
-    <INPUT type="submit" name="" value="" @click="onClick"
+    <INPUT type="submit" name="" value="" @click="click"
            :class="button"
            />
+    <audio src="/static/audio/button-press.mp3" ref="clickAudio"></audio>
   </div>
 </template>
 <style scoped>
@@ -62,6 +63,12 @@
     computed: {
     },
     methods: {
+      click() {
+        this.$refs.clickAudio.play();
+        setTimeout(() => {
+          this.onClick();
+        }, 500);
+      },
     },
   };
 </script>
