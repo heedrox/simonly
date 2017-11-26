@@ -26,4 +26,16 @@ describe('SimonlyBoard', () => {
 
     expect(vm.game.gameInfo.numTurn).to.equal(1);
   });
+
+  describe('welcome page', () => {
+    it('shows at beginning', () => {
+      expect(vm.welcomeState).to.be.true;
+    });
+
+    it('hides when start', () => {
+      vm.restart();
+
+      expect(vm.welcomeState).to.equal(false);
+    });
+  });
 });

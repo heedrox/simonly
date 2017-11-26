@@ -1,56 +1,70 @@
 <template>
   <div class="simonly-board">
-    <div class="simonly-keys">
+    <div v-if="welcomeState" class="game-welcome">
+      <p>WELCOME!</p>
+      <simonly-button :onClick="restart"></simonly-button>
+    </div>
+    <div v-show="!welcomeState" class="simonly-keys">
       <simonly-key class="key" :position="1" :game-info="game.gameInfo" @keypress="userPressed"
                    skin="maria">
       </simonly-key>
       <simonly-key class="key" :position="2" :game-info="game.gameInfo" @keypress="userPressed"
-                   skin="jorge">
+                   skin="other">
       </simonly-key>
       <simonly-key class="key" :position="3" :game-info="game.gameInfo" @keypress="userPressed"
                    skin="ines">
       </simonly-key>
       <simonly-key class="key" :position="4" :game-info="game.gameInfo" @keypress="userPressed"
-                   skin="jorge">
+                   skin="other">
       </simonly-key>
       <simonly-key class="key" :position="5" :game-info="game.gameInfo" @keypress="userPressed"
-                   skin="jorge">
+                   skin="other">
       </simonly-key>
       <simonly-key class="key" :position="6" :game-info="game.gameInfo" @keypress="userPressed"
                    skin="jorge">
       </simonly-key>
       <simonly-key class="key" :position="7" :game-info="game.gameInfo" @keypress="userPressed"
-                   skin="jorge">
+                   skin="other">
       </simonly-key>
       <simonly-key class="key" :position="8" :game-info="game.gameInfo" @keypress="userPressed"
-                   skin="jorge">
+                   skin="other">
       </simonly-key>
     </div>
 
     <simonly-score class="score" :score="game.gameInfo.score"></simonly-score>
 
-    <div v-if="game.gameInfo.failed">
+    <div v-if="game.gameInfo.failed" class="game-over">
       <p>GAME OVER :(</p>
-      <input type="button" value="RESTART" v-on:click="restart()">
+      <simonly-button :onClick="restart" button="replay"></simonly-button>
     </div>
   </div>
 </template>
 <style scoped>
+  .game-welcome {
+    display:block;
+    margin-top: 20vh;
+  }
+  .game-welcome p {
+    color: #f4dd06;
+    text-shadow: 0.5vw 0.5vw #f5991b, 0.8vw 0.8vw #c82f27, 1vw 1vw #6c100f;
+    font-weight:bold;
+    font-size: 15vh;
+    letter-spacing: 0.8vw;
+  }
+
   .simonly-board {
-    background: url(background.jpg) center;
-    background-size: cover;
     height: 100%;
     width: 100%;
   }
 
   .simonly-keys {
-    padding-top: 20vh;
+    padding-top: 30vh;
   }
 
   .key {
     display: inline-block;
-    width: 10vw;
-    max-width: 10vw;
+    width: 11vw;
+    max-width: 11vw;
   }
 
   .score {
@@ -58,10 +72,44 @@
     top:2vh;
     right:2vw;
   }
+
+  .game-over {
+    display:block;
+    color: #f4dd06;
+    text-shadow: 0.5vw 0.5vw #f5991b, 0.8vw 0.8vw #c82f27, 1vw 1vw #6c100f;
+    font-weight:bold;
+    font-size: 5vh;
+    margin-top: 10vh;
+    letter-spacing: 0.8vw;
+  }
+
+  .game-over input[type="submit"] {
+    border: 0;
+    background: url(../../assets/buttons/replay_normal.png) no-repeat;
+    background-size: cover;
+    text-indent: -9999em;
+    line-height:3000;
+    width: 10vh;
+    height: 10vh;
+    cursor: pointer;
+  }
+
+  .game-over input:hover[type="submit"] {
+    background: url(../../assets/buttons/replay_hover.png) no-repeat;
+    background-size: cover;
+  }
+
+  .game-over input:active[type="submit"] {
+    background: url(../../assets/buttons/replay_clicked.png) no-repeat;
+    background-size: cover;
+  }
+
 </style>
 
 
 <script>
+  // import screenfull from 'screenfull';
+  import SimonlyButton from '../../components/simonly-button/SimonlyButton.vue';
   import SimonlyKey from '../../components/simonly-key/SimonlyKey.vue';
   import SimonlyScore from '../../components/simonly-score/SimonlyScore.vue';
   import Game from '../../game-lib/game';
@@ -71,10 +119,12 @@
     components: {
       SimonlyKey,
       SimonlyScore,
+      SimonlyButton,
     },
     data() {
       return {
         game: new Game(),
+        welcomeState: true,
       };
     },
     props: {},
@@ -83,11 +133,16 @@
         this.game.userPressed(ev.key);
       },
       restart() {
+        this.welcomeState = false;
         this.game.start();
       },
     },
     mounted() {
-      this.game.start();
+      this.welcomeState = true;
+      this.game.numTurn = 0;
+      /* if (screenfull.enabled) {
+        screenfull.request();
+      } */
     },
   };
 </script>

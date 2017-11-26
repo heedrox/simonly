@@ -2,11 +2,8 @@
   <div>
     <img class="keyImage"
          v-on:mousedown="pressImage"
-         v-on:touchstart="pressImage"
-         v-on:mouseup="releaseImage"
-         v-on:touchend="releaseImage"
          :src="(pressed || externallyPressed) ? skinOn : skinOff">
-    <audio ref="audio" :src="'/static/key-files/'+skin+'.m4a'"></audio>
+    <audio ref="audio" :src="'/static/key-files/'+skin+'.m4a'" preload="auto"></audio>
   </div>
 </template>
 <style scoped>
@@ -57,24 +54,52 @@
       },
     },
     methods: {
-      playAudioIf(isPressed) {
+      playAudioIf(condition) {
+        if (condition) {
+          this.playAudio()
+            .then(() => {
+              setTimeout(() => {
+                this.stopAudio();
+              }, 1000);
+            });
+        }
+      },
+      playAudio() {
         const audio = this.$refs.audio;
-        if (audio && isPressed && audio.paused && audio.play) {
+        if (audio && audio.paused && audio.play) {
           audio.currentTime = 0;
-          audio.play();
-        } else if (audio && !isPressed && !audio.paused && audio.pause) {
+          return audio.play();
+        }
+        return Promise.resolve({});
+      },
+      stopAudio() {
+        const audio = this.$refs.audio;
+        const isPlaying = audio.currentTime > 0 && !audio.paused && !audio.ended
+          && audio.readyState > 2;
+        if (isPlaying) {
           audio.pause();
         }
       },
       pressImage() {
-        this.pressed = true;
-        this.playAudioIf(this.pressed);
+        this.playAudio()
+          .then(() => {
+            this.pressed = true;
+            setTimeout(() => {
+              this.releaseImage();
+            }, 1000);
+          });
       },
       releaseImage() {
         this.pressed = false;
-        this.playAudioIf(this.pressed);
+        this.stopAudio();
         this.$emit('keypress', { key: this.position });
       },
+    },
+    mounted() {
+      const audio = this.$refs.audio;
+      if (audio && audio.load) {
+        audio.load();
+      }
     },
   };
 </script>

@@ -11,17 +11,26 @@
     src: url(assets/comic.ttf);
     font-weight: bold;
   }
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
 html {
   height: 100%;
+  box-sizing: border-box;
+  position: relative;
 }
 
 body {
-  background: #000;
-  display: flex;
+  font-family: GameFont,serif;
+  overflow:hidden;
+  background: url(assets/background.jpg) center;
+  background-size: cover;
+  display: block;
   justify-content: center;
   margin: 0;
+  padding: 0;
   height: 100%;
-  font-family: GameFont;
+  min-height:100%;
 }
 
 p { font-family: GameFont; }

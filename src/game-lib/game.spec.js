@@ -62,9 +62,22 @@ describe('Game', () => {
   it('creates a turn with numTurn', () => {
     const game = new Game();
     game.gameInfo.numTurn = 5;
-    game.createTurnKeys();
+    game.gameInfo.currentTurnKeys = [1, 2, 3, 4];
+    game.addTurnKeys();
 
     expect(game.gameInfo.currentTurnKeys.length).to.equal(5);
+    expect(game.gameInfo.currentTurnKeys[0]).to.equal(1);
+    expect(game.gameInfo.currentTurnKeys[1]).to.equal(2);
+    expect(game.gameInfo.currentTurnKeys[2]).to.equal(3);
+    expect(game.gameInfo.currentTurnKeys[3]).to.equal(4);
+  });
+
+  it('runs a turn', () => {
+    const game = new Game();
+    game.runTurn(3);
+
+    expect(game.gameInfo.numTurn).to.equal(3);
+    expect(game.gameInfo.currentTurnKeys.length).to.equal(3);
   });
 
   it('increases score if you press correctly', () => {
@@ -92,5 +105,17 @@ describe('Game', () => {
 
     expect(game.gameInfo.score).to.equal(1);
     expect(game.gameInfo.failed).to.be.true;
+  });
+
+  it('runs next turn when user presses all keys', () => {
+    const game = new Game();
+    game.runTurn = sinon.spy();
+    game.gameInfo.numTurn = 2;
+    game.gameInfo.currentTurnKeys = [7, 7];
+
+    game.userPressed(7);
+    game.userPressed(7);
+
+    expect(game.runTurn).to.have.been.calledWith(3);
   });
 });

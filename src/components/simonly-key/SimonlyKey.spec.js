@@ -2,8 +2,16 @@ import Vue from 'vue';
 import { mount } from 'avoriaz';
 import VueResource from 'vue-resource';
 import SimonlyKey from './SimonlyKey.vue';
+import FakePromise from '../../../test/unit/fake-promise';
 
 Vue.use(VueResource);
+
+const audioWithPaused = paused => ({
+  paused,
+  play: () => FakePromise.resolved({}),
+  pause: () => FakePromise.resolved({}),
+  load: () => {},
+});
 
 describe('SimonlyKey', () => {
   let wrapper;
@@ -12,6 +20,7 @@ describe('SimonlyKey', () => {
   beforeEach(() => {
     wrapper = mount(SimonlyKey);
     vm = wrapper.vm;
+    vm.$refs.audio = audioWithPaused(true);
   });
 
   it('sets ups', () => {
@@ -30,26 +39,43 @@ describe('SimonlyKey', () => {
     expect(vm.skinOff).to.equal('/static/key-files/juan-off.png');
   });
 
-  it('sets pressed to true, when pressed', () => {
-    vm.pressImage();
+  describe('when being pressed by user', () => {
+    let clock;
 
-    expect(vm.pressed).to.be.true;
-  });
+    beforeEach(() => {
+      clock = sinon.useFakeTimers();
+    });
 
-  it('sets pressed to false, when released', () => {
-    vm.pressed = true;
+    afterEach(() => {
+      clock.restore();
+    });
 
-    vm.releaseImage();
+    it('sets pressed to true', () => {
+      vm.playAudio = () => FakePromise.resolved({});
+      vm.pressImage();
 
-    expect(vm.pressed).to.be.false;
-  });
+      expect(vm.pressed).to.be.true;
+    });
 
-  it('emits keypress event when released', () => {
-    vm.$emit = sinon.spy();
+    it('sets pressed to false after 1000 sec', () => {
+      vm.$refs.audio = audioWithPaused(true);
+      vm.pressed = true;
 
-    vm.releaseImage();
+      vm.pressImage();
+      clock.tick(1001);
 
-    expect(vm.$emit).to.have.been.called;
+      expect(vm.pressed).to.be.false;
+    });
+
+    it('emits keypress event when released', () => {
+      vm.$emit = sinon.spy();
+      vm.$refs.audio = audioWithPaused(true);
+
+      vm.pressImage();
+      clock.tick(1001);
+
+      expect(vm.$emit).to.have.been.called;
+    });
   });
 
   describe('when being pressed externally', () => {
