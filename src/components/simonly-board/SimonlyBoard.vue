@@ -83,27 +83,6 @@
     letter-spacing: 0.8vw;
   }
 
-  .game-over input[type="submit"] {
-    border: 0;
-    background: url(../../assets/buttons/replay_normal.png) no-repeat;
-    background-size: cover;
-    text-indent: -9999em;
-    line-height:3000;
-    width: 10vh;
-    height: 10vh;
-    cursor: pointer;
-  }
-
-  .game-over input:hover[type="submit"] {
-    background: url(../../assets/buttons/replay_hover.png) no-repeat;
-    background-size: cover;
-  }
-
-  .game-over input:active[type="submit"] {
-    background: url(../../assets/buttons/replay_clicked.png) no-repeat;
-    background-size: cover;
-  }
-
 </style>
 
 
@@ -112,6 +91,8 @@
   import SimonlyButton from '../../components/simonly-button/SimonlyButton.vue';
   import SimonlyKey from '../../components/simonly-key/SimonlyKey.vue';
   import SimonlyScore from '../../components/simonly-score/SimonlyScore.vue';
+  import SimonlyMusic from '../../components/simonly-music/SimonlyMusic.vue';
+
   import Game from '../../game-lib/game';
 
   export default {
@@ -120,6 +101,7 @@
       SimonlyKey,
       SimonlyScore,
       SimonlyButton,
+      SimonlyMusic,
     },
     data() {
       return {
