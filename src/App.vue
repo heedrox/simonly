@@ -6,6 +6,11 @@
 
 
 <style>
+  @font-face {
+    font-family: GameFont;
+    src: url(assets/comic.ttf);
+    font-weight: bold;
+  }
 html {
   height: 100%;
 }
@@ -16,9 +21,10 @@ body {
   justify-content: center;
   margin: 0;
   height: 100%;
-
+  font-family: GameFont;
 }
 
+p { font-family: GameFont; }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

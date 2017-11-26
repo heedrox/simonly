@@ -12,6 +12,7 @@ export default class Game {
       score: 0,
       currentTurnKeys: [],
       userEnteredTurnKeys: [],
+      failed: false,
     };
   }
 
@@ -33,19 +34,19 @@ export default class Game {
     const userEnteredNumTurn = this.gameInfo.userEnteredTurnKeys.length;
     this.gameInfo.userEnteredTurnKeys.push(pressedKey);
     const expectedKey = this.gameInfo.currentTurnKeys[userEnteredNumTurn];
-// eslint-disable-next-line no-console
-    console.log('hit - expected', pressedKey, expectedKey);
     if (pressedKey === expectedKey) {
       this.gameInfo.score = this.gameInfo.score + 1;
+      this.gameInfo.failed = false;
     } else {
       this.gameInfo.failed = true;
     }
   }
 
   start() {
-    this.gameInfo.numTurn = 6;
+    this.gameInfo.numTurn = 1;
+    this.gameInfo.failed = false;
     this.createTurnKeys();
-    this.userEnteredTurnKeys = [];
+    this.gameInfo.userEnteredTurnKeys = [];
     const sequencePress = sequenceArrayPromises(this.press.bind(this));
     sequencePress(this.gameInfo.currentTurnKeys);
   }

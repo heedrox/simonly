@@ -5,10 +5,18 @@
   </div>
 </template>
 <style scoped>
+  .simonly-score {
+    background-color:#fff;
+    width: 10vw;
+    height: 10vw;
+    border-radius: 50%;
+  }
   .simonly-score p {
     display:block;
-    color: #fff;
+    color: #999900;
     font-weight:bold;
+    font-size: 5vw;
+    margin-top:2.5vw;
   }
 </style>
 

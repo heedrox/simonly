@@ -1,49 +1,62 @@
 <template>
   <div class="simonly-board">
-    <simonly-key class="key" :position="1" :game-info="game.gameInfo" @keypress="userPressed"
-                 skin="maria">
-    </simonly-key>
-    <simonly-key class="key" :position="2" :game-info="game.gameInfo" @keypress="userPressed"
-                 skin="jorge">
-    </simonly-key>
-    <simonly-key class="key" :position="3" :game-info="game.gameInfo" @keypress="userPressed"
-                 skin="ines">
-    </simonly-key>
-    <simonly-key class="key" :position="4" :game-info="game.gameInfo" @keypress="userPressed"
-                 skin="jorge">
-    </simonly-key>
-    <simonly-key class="key" :position="5" :game-info="game.gameInfo" @keypress="userPressed"
-                 skin="jorge">
-    </simonly-key>
-    <simonly-key class="key" :position="6" :game-info="game.gameInfo" @keypress="userPressed"
-                 skin="jorge">
-    </simonly-key>
-    <simonly-key class="key" :position="7" :game-info="game.gameInfo" @keypress="userPressed"
-                 skin="jorge">
-    </simonly-key>
-    <simonly-key class="key" :position="8" :game-info="game.gameInfo" @keypress="userPressed"
-                 skin="jorge">
-    </simonly-key>
+    <div class="simonly-keys">
+      <simonly-key class="key" :position="1" :game-info="game.gameInfo" @keypress="userPressed"
+                   skin="maria">
+      </simonly-key>
+      <simonly-key class="key" :position="2" :game-info="game.gameInfo" @keypress="userPressed"
+                   skin="jorge">
+      </simonly-key>
+      <simonly-key class="key" :position="3" :game-info="game.gameInfo" @keypress="userPressed"
+                   skin="ines">
+      </simonly-key>
+      <simonly-key class="key" :position="4" :game-info="game.gameInfo" @keypress="userPressed"
+                   skin="jorge">
+      </simonly-key>
+      <simonly-key class="key" :position="5" :game-info="game.gameInfo" @keypress="userPressed"
+                   skin="jorge">
+      </simonly-key>
+      <simonly-key class="key" :position="6" :game-info="game.gameInfo" @keypress="userPressed"
+                   skin="jorge">
+      </simonly-key>
+      <simonly-key class="key" :position="7" :game-info="game.gameInfo" @keypress="userPressed"
+                   skin="jorge">
+      </simonly-key>
+      <simonly-key class="key" :position="8" :game-info="game.gameInfo" @keypress="userPressed"
+                   skin="jorge">
+      </simonly-key>
+    </div>
 
     <simonly-score class="score" :score="game.gameInfo.score"></simonly-score>
 
-    <div v-if="game.gameInfo.failed">FAILED!</div>
+    <div v-if="game.gameInfo.failed">
+      <p>GAME OVER :(</p>
+      <input type="button" value="RESTART" v-on:click="restart()">
+    </div>
   </div>
 </template>
 <style scoped>
   .simonly-board {
-    margin-top: 20vh;
+    background: url(background.jpg) center;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
   }
 
-  .simonly-board > div.key {
+  .simonly-keys {
+    padding-top: 20vh;
+  }
+
+  .key {
     display: inline-block;
     width: 10vw;
     max-width: 10vw;
   }
 
   .score {
-    width: 100%;
-    font-size: 5vw;
+    position:absolute;
+    top:2vh;
+    right:2vw;
   }
 </style>
 
@@ -68,6 +81,9 @@
     methods: {
       userPressed(ev) {
         this.game.userPressed(ev.key);
+      },
+      restart() {
+        this.game.start();
       },
     },
     mounted() {

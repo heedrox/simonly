@@ -69,11 +69,11 @@
       pressImage() {
         this.pressed = true;
         this.playAudioIf(this.pressed);
-        this.$emit('keypress', { key: this.position });
       },
       releaseImage() {
         this.pressed = false;
         this.playAudioIf(this.pressed);
+        this.$emit('keypress', { key: this.position });
       },
     },
   };

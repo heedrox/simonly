@@ -31,12 +31,9 @@ describe('SimonlyKey', () => {
   });
 
   it('sets pressed to true, when pressed', () => {
-    vm.$emit = sinon.spy();
-
     vm.pressImage();
 
     expect(vm.pressed).to.be.true;
-    expect(vm.$emit).to.have.been.called;
   });
 
   it('sets pressed to false, when released', () => {
@@ -45,6 +42,14 @@ describe('SimonlyKey', () => {
     vm.releaseImage();
 
     expect(vm.pressed).to.be.false;
+  });
+
+  it('emits keypress event when released', () => {
+    vm.$emit = sinon.spy();
+
+    vm.releaseImage();
+
+    expect(vm.$emit).to.have.been.called;
   });
 
   describe('when being pressed externally', () => {
