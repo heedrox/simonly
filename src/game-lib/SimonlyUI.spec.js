@@ -1,4 +1,5 @@
 import SimonlyUI from './SimonlyUI';
+import Vue from 'vue';
 
 describe('SimonlyUI', () => {
   let clock;
@@ -43,5 +44,31 @@ describe('SimonlyUI', () => {
     clock.tick(801);
 
     expect(ui.pressedKey).to.equal(1);
+  });
+
+  describe('handles the result of the round', () => {
+    it('plays ko audio when failed', () => {
+      const ui = new SimonlyUI();
+      const audio = {};
+      audio.play = sinon.spy();
+      ui.setKoAudio(audio);
+
+      ui.roundFailed();
+
+      expect(audio.play).to.have.been.called;
+    });
+
+    it('plays ok audio and waits 1 sec and follows', () => {
+      const ui = new SimonlyUI();
+      const audio = {};
+      audio.play = sinon.spy();
+      ui.setOkAudio(audio);
+
+      ui.roundOk();
+
+      clock.tick(1000);
+
+      expect(audio.play).to.have.been.called;
+    });
   });
 });

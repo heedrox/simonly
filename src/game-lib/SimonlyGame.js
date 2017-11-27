@@ -1,8 +1,5 @@
 import repeat from '../lib/repeat';
 
-
-const TIME_NEXT_ROUND = 500;
-
 export default class SimonlyGame {
 
   constructor(simonlyUI) {
@@ -27,22 +24,27 @@ export default class SimonlyGame {
 
   userPressed(pressedKey) {
     const userEnteredNumKey = this.gameInfo.userEnteredTurnKeys.length;
-    this.gameInfo.userEnteredTurnKeys.push(pressedKey);
     const expectedKey = this.gameInfo.currentTurnKeys[userEnteredNumKey];
     if (pressedKey === expectedKey) {
+      this.gameInfo.userEnteredTurnKeys.push(pressedKey);
       this.gameInfo.score = this.gameInfo.score + 1;
       this.gameInfo.failed = false;
       this.checkNextTurn();
     } else {
       this.gameInfo.failed = true;
+      this.simonlyUI.roundFailed();
     }
   }
 
   checkNextTurn() {
-    if (this.gameInfo.userEnteredTurnKeys.length === this.gameInfo.currentTurnKeys.length) {
-      setTimeout(() => {
-        this.runTurn(this.gameInfo.numTurn + 1);
-      }, TIME_NEXT_ROUND);
+    const userKeys = this.gameInfo.userEnteredTurnKeys;
+    const turnKeys = this.gameInfo.currentTurnKeys;
+    const endOfRound = (userKeys.length === turnKeys.length);
+    if (endOfRound) {
+      this.simonlyUI.roundOk(this.gameInfo.numTurn + 1)
+        .then(() => {
+          this.runTurn(this.gameInfo.numTurn + 1);
+        });
     }
   }
 

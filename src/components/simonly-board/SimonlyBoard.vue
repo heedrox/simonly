@@ -160,9 +160,6 @@
     methods: {
       userPressed(ev) {
         this.game.userPressed(ev.key);
-        if (this.game.gameInfo.failed) {
-          this.$refs.roundKoAudio.play();
-        }
       },
       restart() {
         this.welcomeState = false;
@@ -175,6 +172,8 @@
     mounted() {
       this.welcomeState = true;
       this.game.numTurn = 0;
+      this.game.simonlyUI.setOkAudio(this.$refs.roundOkAudio);
+      this.game.simonlyUI.setKoAudio(this.$refs.roundKoAudio);
       /* if (screenfull.enabled) {
         screenfull.request();
       } */
