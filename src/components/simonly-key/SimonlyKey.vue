@@ -14,6 +14,9 @@
 
 
 <script>
+
+  const TIME_PER_KEY = 600;
+
   export default {
     name: 'simonly-key',
     data() {
@@ -34,17 +37,17 @@
           return '';
         },
       },
-      gameInfo: {
-        type: Object,
+      externallyPressedKey: {
+        type: Number,
         default() {
-          return {};
+          return null;
         },
       },
     },
     computed: {
       externallyPressed() {
-        this.playAudioIf(this.gameInfo.pressed === this.position);
-        return this.gameInfo.pressed === this.position;
+        this.playAudioIf(this.externallyPressedKey === this.position);
+        return this.externallyPressedKey === this.position;
       },
       skinOn() {
         return `/static/key-files/${this.skin}-on.png`;
@@ -60,7 +63,7 @@
             .then(() => {
               setTimeout(() => {
                 this.stopAudio();
-              }, 1000);
+              }, TIME_PER_KEY);
             });
         }
       },
@@ -86,7 +89,7 @@
             this.pressed = true;
             setTimeout(() => {
               this.releaseImage();
-            }, 1000);
+            }, TIME_PER_KEY);
           });
       },
       releaseImage() {

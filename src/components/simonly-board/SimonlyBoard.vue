@@ -6,29 +6,29 @@
     </div>
     <simonly-music :track="getTrack()"></simonly-music>
     <div v-show="!welcomeState" class="simonly-keys">
-      <simonly-key class="key" :position="1" :game-info="game.gameInfo" @keypress="userPressed"
+      <simonly-key class="key" :position="1" :externallyPressedKey="simonlyUI.pressedKey" @keypress="userPressed"
                    skin="maria">
       </simonly-key>
-      <simonly-key class="key" :position="2" :game-info="game.gameInfo" @keypress="userPressed"
+      <simonly-key class="key" :position="2" :externallyPressedKey="simonlyUI.pressedKey" @keypress="userPressed"
                    skin="jone">
       </simonly-key>
-      <simonly-key class="key" :position="3" :game-info="game.gameInfo" @keypress="userPressed"
+      <simonly-key class="key" :position="3" :externallyPressedKey="simonlyUI.pressedKey" @keypress="userPressed"
                    skin="ines">
       </simonly-key>
-      <simonly-key class="key" :position="4" :game-info="game.gameInfo" @keypress="userPressed"
-                   skin="other">
+      <simonly-key class="key" :position="4" :externallyPressedKey="simonlyUI.pressedKey" @keypress="userPressed"
+                   skin="inigo">
       </simonly-key>
-      <simonly-key class="key" :position="5" :game-info="game.gameInfo" @keypress="userPressed"
+      <simonly-key class="key" :position="5" :externallyPressedKey="simonlyUI.pressedKey" @keypress="userPressed"
                    skin="olatz">
       </simonly-key>
-      <simonly-key class="key" :position="6" :game-info="game.gameInfo" @keypress="userPressed"
+      <simonly-key class="key" :position="6" :externallyPressedKey="simonlyUI.pressedKey" @keypress="userPressed"
                    skin="jorge">
       </simonly-key>
-      <simonly-key class="key" :position="7" :game-info="game.gameInfo" @keypress="userPressed"
-                   skin="other">
+      <simonly-key class="key" :position="7" :externallyPressedKey="simonlyUI.pressedKey" @keypress="userPressed"
+                   skin="irene">
       </simonly-key>
-      <simonly-key class="key" :position="8" :game-info="game.gameInfo" @keypress="userPressed"
-                   skin="other">
+      <simonly-key class="key" :position="8" :externallyPressedKey="simonlyUI.pressedKey" @keypress="userPressed"
+                   skin="mariatxiki">
       </simonly-key>
     </div>
 
@@ -137,7 +137,8 @@
   import SimonlyScore from '../../components/simonly-score/SimonlyScore.vue';
   import SimonlyMusic from '../../components/simonly-music/SimonlyMusic.vue';
 
-  import Game from '../../game-lib/game';
+  import SimonlyGame from '../../game-lib/SimonlyGame';
+  import SimonlyUI from '../../game-lib/SimonlyUI';
 
   export default {
     name: 'simonly-board',
@@ -148,8 +149,10 @@
       SimonlyMusic,
     },
     data() {
+      const ui = new SimonlyUI();
       return {
-        game: new Game(),
+        simonlyUI: ui,
+        game: new SimonlyGame(ui),
         welcomeState: true,
       };
     },

@@ -1,7 +1,7 @@
-import Game from './game';
+import SimonlyGame from './SimonlyGame';
+import SimonlyUI from './SimonlyUI';
 
-describe('Game', () => {
-
+describe('SimonlyGame', () => {
   let clock;
 
   beforeEach(() => {
@@ -13,45 +13,16 @@ describe('Game', () => {
   });
 
   it('should exist', () => {
-    const game = new Game();
+    const game = new SimonlyGame();
     expect(game).to.be.defined;
     expect(game.gameInfo).to.be.defined;
     expect(game.gameInfo.numTurn).to.equal(1);
     expect(game.gameInfo.score).to.equal(0);
   });
 
-  describe('pressing a button', () => {
-    it('presses a button from outside', () => {
-      const game = new Game();
-
-      game.press(1);
-
-      expect(game.gameInfo.pressed).to.equal(1);
-    });
-
-    it('releases a button after 3 secs', () => {
-      const game = new Game();
-      game.press(1);
-
-      clock.tick(1001);
-
-      expect(game.gameInfo.pressed).to.equal(null);
-    });
-  });
-
   xdescribe('when it starts', () => {
-    let clock;
-
-    beforeEach(() => {
-      clock = sinon.useFakeTimers();
-    });
-
-    afterEach(() => {
-      clock.restore();
-    });
-
     it('starts with one turn', () => {
-      const game = new Game();
+      const game = new SimonlyGame();
       game.start();
 
       clock.tick(999);
@@ -61,7 +32,7 @@ describe('Game', () => {
   });
 
   it('creates a turn with numTurn', () => {
-    const game = new Game();
+    const game = new SimonlyGame();
     game.gameInfo.numTurn = 5;
     game.gameInfo.currentTurnKeys = [1, 2, 3, 4];
     game.addTurnKeys();
@@ -74,7 +45,8 @@ describe('Game', () => {
   });
 
   it('runs a turn', () => {
-    const game = new Game();
+    const ui = new SimonlyUI();
+    const game = new SimonlyGame(ui);
     game.runTurn(3);
 
     expect(game.gameInfo.numTurn).to.equal(3);
@@ -82,7 +54,8 @@ describe('Game', () => {
   });
 
   it('increases score if you press correctly', () => {
-    const game = new Game();
+    const ui = new SimonlyUI();
+    const game = new SimonlyGame(ui);
     game.gameInfo.numTurn = 2;
     game.gameInfo.currentTurnKeys = [2, 5];
 
@@ -97,7 +70,8 @@ describe('Game', () => {
   });
 
   it('sets that you fail if you press wrong', () => {
-    const game = new Game();
+    const ui = new SimonlyUI();
+    const game = new SimonlyGame(ui);
     game.gameInfo.numTurn = 2;
     game.gameInfo.currentTurnKeys = [2, 5];
 
@@ -109,7 +83,8 @@ describe('Game', () => {
   });
 
   it('runs next turn when user presses all keys', () => {
-    const game = new Game();
+    const ui = new SimonlyUI();
+    const game = new SimonlyGame(ui);
     game.runTurn = sinon.spy();
     game.gameInfo.numTurn = 2;
     game.gameInfo.currentTurnKeys = [7, 7];

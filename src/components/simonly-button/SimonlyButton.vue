@@ -57,7 +57,6 @@
       },
       onClick: {
         type: Function,
-        required: true,
       },
     },
     computed: {

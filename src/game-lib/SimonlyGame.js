@@ -1,14 +1,12 @@
-import timeout from '../lib/timeout';
-import { sequenceArrayPromises } from '../lib/promises';
 import repeat from '../lib/repeat';
 
-const TIME_SECS_KEY_PRESSED = 1000;
 
-export default class Game {
+const TIME_NEXT_ROUND = 500;
 
-  constructor() {
+export default class SimonlyGame {
+
+  constructor(simonlyUI) {
     this.gameInfo = {
-      pressed: null,
       numTurn: 1,
       numKeyInTurn: 1,
       score: 0,
@@ -16,13 +14,7 @@ export default class Game {
       userEnteredTurnKeys: [],
       failed: false,
     };
-  }
-
-  press(pos) {
-    this.gameInfo.pressed = pos;
-    return timeout(() => {
-      this.gameInfo.pressed = null;
-    }, TIME_SECS_KEY_PRESSED);
+    this.simonlyUI = simonlyUI;
   }
 
   addTurnKeys() {
@@ -50,7 +42,7 @@ export default class Game {
     if (this.gameInfo.userEnteredTurnKeys.length === this.gameInfo.currentTurnKeys.length) {
       setTimeout(() => {
         this.runTurn(this.gameInfo.numTurn + 1);
-      }, 2000);
+      }, TIME_NEXT_ROUND);
     }
   }
 
@@ -59,8 +51,7 @@ export default class Game {
     this.gameInfo.numKeyInTurn = 0;
     this.gameInfo.userEnteredTurnKeys = [];
     this.addTurnKeys();
-    const sequencePress = sequenceArrayPromises(this.press.bind(this));
-    sequencePress(this.gameInfo.currentTurnKeys);
+    this.simonlyUI.showSequence(this.gameInfo.currentTurnKeys);
   }
 
   start() {

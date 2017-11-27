@@ -29,7 +29,6 @@ describe('SimonlyKey', () => {
     expect(vm.pressed).to.be.false;
     expect(vm.position).to.equal(1);
     expect(vm.externallyPressed).to.be.false;
-    expect(vm.gameInfo).to.eql({});
   });
 
   it('sets skin on and off', () => {
@@ -81,13 +80,13 @@ describe('SimonlyKey', () => {
   describe('when being pressed externally', () => {
     it('detects press when its the right position', () => {
       vm.position = 3;
-      vm.gameInfo.pressed = 3;
+      vm.externallyPressedKey = 3;
 
       expect(vm.externallyPressed).to.be.true;
     });
     it('ignores press when its the right position', () => {
       vm.position = 3;
-      vm.gameInfo.pressed = 1;
+      vm.externallyPressedKey = 1;
 
       expect(vm.externallyPressed).to.be.false;
     });

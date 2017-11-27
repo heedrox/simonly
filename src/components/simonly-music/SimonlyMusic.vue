@@ -48,8 +48,10 @@
       },
     },
     mounted() {
-      this.$refs.backgroundAudio.volume = 0.3;
-      this.$refs.backgroundAudio.play();
+      if (this.$refs.backgroundAudio && this.$refs.backgroundAudio.play) {
+        this.$refs.backgroundAudio.volume = 0.3;
+        this.$refs.backgroundAudio.play();
+      }
     },
   };
 </script>
