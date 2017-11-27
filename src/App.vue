@@ -48,12 +48,3 @@
     width: 100%;
   }
 </style>
-<script>
-  export default {
-    mounted() {
-      setTimeout(() => {
-
-      }, 5000);
-    },
-  };
-</script>

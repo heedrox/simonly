@@ -1,5 +1,4 @@
 import SimonlyUI from './SimonlyUI';
-import Vue from 'vue';
 
 describe('SimonlyUI', () => {
   let clock;
