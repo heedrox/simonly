@@ -1,6 +1,5 @@
 import { sequenceArrayPromises } from '../lib/promises';
-import timeout from '../lib/timeout';
-import syncTimeout from '../lib/synctimeout';
+import timeoutUtil from '../lib/timeoutUtil';
 
 const TIME_SECS_KEY_PRESSED = 600;
 
@@ -13,9 +12,11 @@ export default class SimonlyUI {
   /* *** interface to be implemented by simonlyGamePresenter ***** */
   press(pos) {
     this.pressedKey = pos;
-    return syncTimeout(TIME_SECS_KEY_PRESSED)
+// eslint-disable-next-line no-console
+    console.log(timeoutUtil);
+    return timeoutUtil.syncTimeout(TIME_SECS_KEY_PRESSED)
       .then(() => { this.pressedKey = null; })
-      .then(() => syncTimeout(100));
+      .then(() => timeoutUtil.syncTimeout(100));
   }
 
   showSequence(keys) {
@@ -29,8 +30,7 @@ export default class SimonlyUI {
 
   roundOk() {
     this.roundOkAudio.play();
-    return timeout(() => {
-    }, 500);
+    return timeoutUtil.syncTimeout(500);
   }
   /* *** end interface ***** */
 

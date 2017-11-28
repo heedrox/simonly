@@ -1,4 +1,6 @@
 import SimonlyUI from './SimonlyUI';
+import timeoutUtil from '../lib/timeoutUtil';
+import FakePromise from '../../test/unit/fake-promise';
 
 describe('SimonlyUI', () => {
   let clock;
@@ -25,11 +27,13 @@ describe('SimonlyUI', () => {
       expect(ui.pressedKey).to.equal(1);
     });
 
-    it('releases a button after 1 secs', () => {
+    it('releases a button after +1 secs', () => {
       const ui = new SimonlyUI();
+      timeoutUtil.syncTimeout = () => FakePromise.resolved({});
       ui.press(1);
 
-      clock.tick(1001);
+      clock.tick(600);
+      clock.tick(1500);
 
       expect(ui.pressedKey).to.equal(null);
     });
