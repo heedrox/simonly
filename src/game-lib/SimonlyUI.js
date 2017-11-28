@@ -12,8 +12,6 @@ export default class SimonlyUI {
   /* *** interface to be implemented by simonlyGamePresenter ***** */
   press(pos) {
     this.pressedKey = pos;
-// eslint-disable-next-line no-console
-    console.log(timeoutUtil);
     return timeoutUtil.syncTimeout(TIME_SECS_KEY_PRESSED)
       .then(() => { this.pressedKey = null; })
       .then(() => timeoutUtil.syncTimeout(100));
