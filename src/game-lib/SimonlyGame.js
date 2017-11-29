@@ -32,7 +32,7 @@ export default class SimonlyGame {
       this.checkNextTurn();
     } else {
       this.gameInfo.failed = true;
-      this.simonlyUI.roundFailed();
+      this.simonlyUI.roundFailed(expectedKey);
     }
   }
 

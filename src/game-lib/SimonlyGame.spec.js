@@ -2,6 +2,8 @@ import SimonlyGame from './SimonlyGame';
 import SimonlyUI from './SimonlyUI';
 import FakePromise from '../../test/unit/fake-promise';
 
+const A_GOOD_KEY = 1;
+
 describe('SimonlyGame', () => {
   let clock;
 
@@ -87,12 +89,14 @@ describe('SimonlyGame', () => {
       const ui = new SimonlyUI();
       const game = new SimonlyGame(ui);
       game.gameInfo.numTurn = 1;
-      game.gameInfo.currentTurnKeys = [1];
+
+      game.gameInfo.currentTurnKeys = [A_GOOD_KEY];
       ui.roundFailed = sinon.spy();
 
       game.userPressed(2);
 
       expect(ui.roundFailed).to.have.been.calledOnce;
+      expect(ui.roundFailed).to.have.been.calledWith(A_GOOD_KEY);
     });
   });
 
