@@ -7,6 +7,7 @@ export default class SimonlyUI {
 
   constructor() {
     this.pressedKey = null;
+    this.theRightKey = null;
   }
 
   /* *** interface to be implemented by simonlyGamePresenter ***** */
@@ -18,15 +19,18 @@ export default class SimonlyUI {
   }
 
   showSequence(keys) {
+    this.theRightKey = null;
     const sequencePress = sequenceArrayPromises(this.press.bind(this));
     sequencePress(keys);
   }
 
-  roundFailed() {
+  roundFailed(expectedKey) {
     this.roundKoAudio.play();
+    this.theRightKey = expectedKey;
   }
 
   roundOk() {
+    this.theRightKey = null;
     this.roundOkAudio.play();
     return timeoutUtil.syncTimeout(500);
   }

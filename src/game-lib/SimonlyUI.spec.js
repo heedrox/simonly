@@ -61,6 +61,17 @@ describe('SimonlyUI', () => {
       expect(audio.play).to.have.been.called;
     });
 
+    it('sets theRightKey to show which one was right', () => {
+      const ui = new SimonlyUI();
+      const audio = {};
+      audio.play = sinon.spy();
+      ui.setKoAudio(audio);
+
+      ui.roundFailed(2);
+
+      expect(ui.theRightKey).to.equal(2);
+    });
+
     it('plays ok audio and waits 1 sec and follows', () => {
       const ui = new SimonlyUI();
       const audio = {};
@@ -72,6 +83,19 @@ describe('SimonlyUI', () => {
       clock.tick(1000);
 
       expect(audio.play).to.have.been.called;
+    });
+
+    it('restarts theRightKey to null not to show anything', () => {
+      const ui = new SimonlyUI();
+      const audio = {};
+      audio.play = sinon.spy();
+      ui.setOkAudio(audio);
+
+      ui.roundOk();
+
+      clock.tick(1000);
+
+      expect(ui.theRightKey).to.be.null;
     });
   });
 });
