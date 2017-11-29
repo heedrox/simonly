@@ -5,7 +5,7 @@ import HomeView from '../views/HomeView.vue';
 Vue.use(Router);
 
 export default new Router({
-  mode: 'history',
+  mode: 'hash',
   routes: [{
     path: '/',
     component: HomeView,
