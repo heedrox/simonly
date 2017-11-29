@@ -1,6 +1,10 @@
 <template>
   <div class="container">
-    <img :class="{ keyImage: true, keyPressed: (pressed || externallyPressed) }"
+    <img :class="{ keyImage: true,
+                   keyPressed: (pressed || externallyPressed),
+                   animateBigger: (showRightKey !== null && showRightKey === position),
+                   animateSmaller: (showRightKey !== null && showRightKey !== position)
+                 }"
          v-on:mousedown="pressImage"
          :src="src">
     <audio ref="audio" preload="auto"></audio>
@@ -17,6 +21,60 @@
   .keyPressed {
     left:-100%;
   }
+
+  .animateBigger {
+    animation: scale2x 1s, pulse2x 1s;
+    animation-delay: 0s, 1s;
+    animation-iteration-count: 1, infinite;
+    animation-timing-function: linear, ease-in-out;
+  }
+
+  .animateSmaller {
+    animation: scaleHalf 1s;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes scale2x {
+    from {
+      transform: scale(0.9, 0.9);
+    }
+
+    to {
+      transform: scale(1, 1);
+    }
+  }
+
+  @keyframes pulse2x {
+    from {
+      transform: scale(1, 1);
+    }
+
+    30% {
+      transform: scale(0.95, 0.95);
+    }
+
+    60% {
+      transform: scale(0.9, 0.9);
+    }
+
+    to {
+      transform: scale(1, 1);
+    }
+  }
+
+  @keyframes scaleHalf {
+    0% {
+      transform: scale(1, 1);
+    }
+
+    100% {
+      transform: scale(0, 0);
+    }
+  }
+
 </style>
 
 
@@ -52,6 +110,12 @@
         },
       },
       externallyPressedKey: {
+        type: Number,
+        default() {
+          return null;
+        },
+      },
+      showRightKey: {
         type: Number,
         default() {
           return null;
@@ -95,6 +159,7 @@
         }
       },
       pressImage() {
+        if (this.showRightKey !== null) return;
         this.playAudio()
           .then(() => {
             this.pressed = true;

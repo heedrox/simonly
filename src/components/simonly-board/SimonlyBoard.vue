@@ -7,28 +7,28 @@
     <simonly-music :track="getTrack()"></simonly-music>
     <div v-show="!welcomeState" class="simonly-keys">
       <simonly-key class="key" :position="1" :externallyPressedKey="simonlyUI.pressedKey" @keypress="userPressed"
-                   skin="maria">
+                   skin="maria" :showRightKey="simonlyUI.theRightKey">
       </simonly-key>
       <simonly-key class="key" :position="2" :externallyPressedKey="simonlyUI.pressedKey" @keypress="userPressed"
-                   skin="jone">
+                   skin="jone" :showRightKey="simonlyUI.theRightKey">
       </simonly-key>
       <simonly-key class="key" :position="3" :externallyPressedKey="simonlyUI.pressedKey" @keypress="userPressed"
-                   skin="ines">
+                   skin="ines" :showRightKey="simonlyUI.theRightKey">
       </simonly-key>
       <simonly-key class="key" :position="4" :externallyPressedKey="simonlyUI.pressedKey" @keypress="userPressed"
-                   skin="inigo">
+                   skin="inigo" :showRightKey="simonlyUI.theRightKey">
       </simonly-key>
       <simonly-key class="key" :position="5" :externallyPressedKey="simonlyUI.pressedKey" @keypress="userPressed"
-                   skin="olatz">
+                   skin="olatz" :showRightKey="simonlyUI.theRightKey">
       </simonly-key>
       <simonly-key class="key" :position="6" :externallyPressedKey="simonlyUI.pressedKey" @keypress="userPressed"
-                   skin="jorge">
+                   skin="jorge" :showRightKey="simonlyUI.theRightKey">
       </simonly-key>
       <simonly-key class="key" :position="7" :externallyPressedKey="simonlyUI.pressedKey" @keypress="userPressed"
-                   skin="irene">
+                   skin="irene" :showRightKey="simonlyUI.theRightKey">
       </simonly-key>
       <simonly-key class="key" :position="8" :externallyPressedKey="simonlyUI.pressedKey" @keypress="userPressed"
-                   skin="mariatxiki">
+                   skin="mariatxiki" :showRightKey="simonlyUI.theRightKey">
       </simonly-key>
     </div>
 
