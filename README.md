@@ -23,6 +23,7 @@ npm run e2e
 npm test
 ```
 
+webview.getSettings().setMediaPlaybackRequiresUserGesture(fa‌​lse); 
 
 -- License stuff --
 

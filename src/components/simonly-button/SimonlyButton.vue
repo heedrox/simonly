@@ -3,7 +3,7 @@
     <INPUT type="submit" name="" value="" @click="click"
            :class="button"
            />
-    <audio src="/static/audio/button-press.mp3" ref="clickAudio"></audio>
+    <audio src="./static/audio/button-press.mp3" ref="clickAudio"></audio>
   </div>
 </template>
 <style scoped>

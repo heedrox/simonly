@@ -33,8 +33,8 @@
     </div>
 
     <simonly-score class="score" :score="game.gameInfo.score"></simonly-score>
-    <audio src="/static/audio/round-ko.mp3" ref="roundKoAudio"></audio>
-    <audio src="/static/audio/round-ok.mp3" ref="roundOkAudio"></audio>
+    <audio src="./static/audio/round-ko.mp3" ref="roundKoAudio"></audio>
+    <audio src="./static/audio/round-ok.mp3" ref="roundOkAudio"></audio>
 
     <div v-if="game.gameInfo.failed" class="game-over">
       <p class="bounce">GAME OVER :(</p>

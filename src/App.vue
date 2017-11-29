@@ -8,7 +8,7 @@
 <style>
   @font-face {
     font-family: GameFont;
-    src: url(assets/comic.ttf);
+    src: url(./assets/comic.ttf);
     font-weight: bold;
   }
 
@@ -25,7 +25,7 @@
   body {
     font-family: GameFont, serif;
     overflow: hidden;
-    background: url(assets/background.jpg) center;
+    background: url(./assets/background.jpg) center;
     background-size: cover;
     display: block;
     justify-content: center;

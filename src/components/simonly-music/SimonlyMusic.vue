@@ -33,7 +33,7 @@
         if (isPlaying) {
           audio.pause();
         }
-        return `/static/audio/${this.track}-music.mp3`;
+        return `./static/audio/${this.track}-music.mp3`;
       },
     },
     watch: {
