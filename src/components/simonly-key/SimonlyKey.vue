@@ -1,19 +1,27 @@
 <template>
-  <div>
-    <img class="keyImage"
+  <div class="container">
+    <img :class="{ keyImage: true, keyPressed: (pressed || externallyPressed) }"
          v-on:mousedown="pressImage"
-         :src="(pressed || externallyPressed) ? skinOn : skinOff">
-    <audio ref="audio" :src="'/static/key-files/'+skin+'.m4a'" preload="auto"></audio>
+         :src="src">
+    <audio ref="audio" preload="auto"></audio>
   </div>
 </template>
 <style scoped>
+  .container {
+    overflow: hidden;
+  }
   .keyImage {
-    width: 100%;
+    position:relative;
+    width: 200%;
+  }
+  .keyPressed {
+    left:-100%;
   }
 </style>
 
 
 <script>
+  import { mediaPreload } from '../../lib/media-preload';
 
   const TIME_PER_KEY = 600;
 
@@ -37,6 +45,12 @@
           return '';
         },
       },
+      type: {
+        type: String,
+        default() {
+          return 'separate';
+        },
+      },
       externallyPressedKey: {
         type: Number,
         default() {
@@ -45,15 +59,12 @@
       },
     },
     computed: {
+      src() {
+        return `./static/key-files/${this.skin}.png`;
+      },
       externallyPressed() {
         this.playAudioIf(this.externallyPressedKey === this.position);
         return this.externallyPressedKey === this.position;
-      },
-      skinOn() {
-        return `/static/key-files/${this.skin}-on.png`;
-      },
-      skinOff() {
-        return `/static/key-files/${this.skin}-off.png`;
       },
     },
     methods: {
@@ -77,7 +88,7 @@
       },
       stopAudio() {
         const audio = this.$refs.audio;
-        const isPlaying = audio.currentTime > 0 && !audio.paused && !audio.ended
+        const isPlaying = !audio.paused && !audio.ended
           && audio.readyState > 2;
         if (isPlaying) {
           audio.pause();
@@ -97,8 +108,15 @@
         this.stopAudio();
         this.$emit('keypress', { key: this.position });
       },
+      preloadAudio() {
+        mediaPreload(`./static/key-files/${this.skin}.m4a`)
+          .then((video) => {
+            this.$refs.audio.src = video;
+          });
+      },
     },
     mounted() {
+      this.preloadAudio();
       const audio = this.$refs.audio;
       if (audio && audio.load) {
         audio.load();

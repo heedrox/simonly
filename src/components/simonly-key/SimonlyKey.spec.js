@@ -31,11 +31,10 @@ describe('SimonlyKey', () => {
     expect(vm.externallyPressed).to.be.false;
   });
 
-  it('sets skin on and off', () => {
+  it('sets skin src', () => {
     vm.skin = 'juan';
 
-    expect(vm.skinOn).to.equal('/static/key-files/juan-on.png');
-    expect(vm.skinOff).to.equal('/static/key-files/juan-off.png');
+    expect(vm.src).to.contain('/static/key-files/juan.png');
   });
 
   describe('when being pressed by user', () => {
