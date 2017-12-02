@@ -4,34 +4,8 @@
       <p class="bounce">WELCOME!</p>
       <simonly-button :onClick="restart"></simonly-button>
     </div>
+    <simonly-keys class="simonly-keys" v-show="!welcomeState" :game="game" :simonlyUI="simonlyUI"></simonly-keys>
     <simonly-music :track="getTrack()"></simonly-music>
-    <div v-show="!welcomeState" class="simonly-keys">
-      <simonly-key class="key" :position="1" :externallyPressedKey="simonlyUI.pressedKey" @keypress="userPressed"
-                   skin="maria" :showRightKey="simonlyUI.theRightKey">
-      </simonly-key>
-      <simonly-key class="key" :position="2" :externallyPressedKey="simonlyUI.pressedKey" @keypress="userPressed"
-                   skin="jone" :showRightKey="simonlyUI.theRightKey">
-      </simonly-key>
-      <simonly-key class="key" :position="3" :externallyPressedKey="simonlyUI.pressedKey" @keypress="userPressed"
-                   skin="ines" :showRightKey="simonlyUI.theRightKey">
-      </simonly-key>
-      <simonly-key class="key" :position="4" :externallyPressedKey="simonlyUI.pressedKey" @keypress="userPressed"
-                   skin="inigo" :showRightKey="simonlyUI.theRightKey">
-      </simonly-key>
-      <simonly-key class="key" :position="5" :externallyPressedKey="simonlyUI.pressedKey" @keypress="userPressed"
-                   skin="olatz" :showRightKey="simonlyUI.theRightKey">
-      </simonly-key>
-      <simonly-key class="key" :position="6" :externallyPressedKey="simonlyUI.pressedKey" @keypress="userPressed"
-                   skin="jorge" :showRightKey="simonlyUI.theRightKey">
-      </simonly-key>
-      <simonly-key class="key" :position="7" :externallyPressedKey="simonlyUI.pressedKey" @keypress="userPressed"
-                   skin="irene" :showRightKey="simonlyUI.theRightKey">
-      </simonly-key>
-      <simonly-key class="key" :position="8" :externallyPressedKey="simonlyUI.pressedKey" @keypress="userPressed"
-                   skin="mariatxiki" :showRightKey="simonlyUI.theRightKey">
-      </simonly-key>
-    </div>
-
     <simonly-score class="score" :score="game.gameInfo.score"></simonly-score>
     <audio src="./static/audio/round-ko.mp3" ref="roundKoAudio"></audio>
     <audio src="./static/audio/round-ok.mp3" ref="roundOkAudio"></audio>
@@ -62,12 +36,6 @@
 
   .simonly-keys {
     padding-top: 30vh;
-  }
-
-  .key {
-    display: inline-block;
-    width: 11vw;
-    max-width: 11vw;
   }
 
   .score {
@@ -133,9 +101,9 @@
 <script>
   // import screenfull from 'screenfull';
   import SimonlyButton from '../../components/simonly-button/SimonlyButton.vue';
-  import SimonlyKey from '../../components/simonly-key/SimonlyKey.vue';
   import SimonlyScore from '../../components/simonly-score/SimonlyScore.vue';
   import SimonlyMusic from '../../components/simonly-music/SimonlyMusic.vue';
+  import SimonlyKeys from '../../components/simonly-keys/SimonlyKeys.vue';
 
   import SimonlyGame from '../../game-lib/SimonlyGame';
   import SimonlyUI from '../../game-lib/SimonlyUI';
@@ -143,10 +111,10 @@
   export default {
     name: 'simonly-board',
     components: {
-      SimonlyKey,
       SimonlyScore,
       SimonlyButton,
       SimonlyMusic,
+      SimonlyKeys,
     },
     data() {
       const ui = new SimonlyUI();
@@ -158,9 +126,6 @@
     },
     props: {},
     methods: {
-      userPressed(ev) {
-        this.game.userPressed(ev.key);
-      },
       restart() {
         this.welcomeState = false;
         this.game.start();
