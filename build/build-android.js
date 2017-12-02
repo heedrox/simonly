@@ -13,7 +13,9 @@ var webpackConfig = require('./webpack.android.conf');
 var spinner = ora('building for ANDROID (dist/)...');
 spinner.start();
 
-rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
+var configOptions = config.android;
+
+rm(path.join(configOptions.assetsRoot, configOptions.assetsSubDirectory), err => {
   if (err) throw err;
   webpack(webpackConfig, function (err, stats) {
     spinner.stop()
