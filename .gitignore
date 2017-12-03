@@ -12,3 +12,4 @@ selenium-debug.log
 static/key-files/
 .idea
 src/config.js
+src/assets/comic.ttf
