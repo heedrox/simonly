@@ -9,7 +9,7 @@
         <td width="5%">{{index +  1}}</td>
         <td v-if="scorePosition !== index" width="55%">{{row.name ? row.name : '---'}}</td>
         <td v-if="scorePosition === index" width="55%">
-          <form v-on:submit="saveName">
+          <form v-on:submit.prevent="saveName">
           <input placeholder="..." type="text" class="name" v-model="name" v-focus="focused" @focus="focused = true" @blur="focused = false">
           <input type="submit" class="okimg" value=" ">
           </form>
