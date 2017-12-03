@@ -29,26 +29,48 @@ describe('SimonlyBoard', () => {
 
   describe('welcome page', () => {
     it('shows at beginning', () => {
-      expect(vm.welcomeState).to.be.true;
+      expect(vm.currentState).to.equal('welcome');
     });
 
     it('hides when start', () => {
       vm.restart();
 
-      expect(vm.welcomeState).to.equal(false);
+      expect(vm.currentState).not.to.equal('welcome');
     });
   });
 
   describe('when playing music', () => {
     it('plays title track when in welcome page', () => {
-      vm.welcomeState = true;
+      vm.currentState = 'welcome';
       expect(vm.getTrack()).to.equal('title');
     });
 
     it('plays game track whet not in welcome page', () => {
-      vm.welcomeState = false;
+      vm.currentState = 'playing';
 
       expect(vm.getTrack()).to.equal('game');
+    });
+  });
+
+  describe('hall of fame showing or hiding is controlled', () => {
+    let clock;
+
+    beforeEach(() => {
+      clock = sinon.useFakeTimers();
+    });
+
+    afterEach(() => {
+      clock.restore();
+    });
+
+    it('shows when loosing', (done) => {
+      vm.game.simonlyUI.theRightKey = 3;
+
+      vm.$nextTick(() => {
+        clock.tick(5005);
+        expect(vm.currentState).to.equal('hall-of-fame');
+        done();
+      });
     });
   });
 });

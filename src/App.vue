@@ -35,7 +35,7 @@
     min-height: 100%;
   }
 
-  p {
+  p, input {
     font-family: GameFont;
   }
 

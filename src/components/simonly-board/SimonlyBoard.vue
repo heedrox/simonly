@@ -1,16 +1,17 @@
 <template>
   <div class="simonly-board">
-    <div v-if="welcomeState" class="game-welcome">
+    <div v-if="currentState === 'welcome'" class="game-welcome">
       <p class="bounce">WELCOME!</p>
       <simonly-button :onClick="restart"></simonly-button>
     </div>
-    <simonly-keys class="simonly-keys" v-show="!welcomeState" :game="game" :simonlyUI="simonlyUI"></simonly-keys>
-    <simonly-music :track="getTrack()"></simonly-music>
     <simonly-score class="score" :score="game.gameInfo.score"></simonly-score>
+    <simonly-keys :class="{ 'simonly-keys': true, 'slide-when-hall-of-fame' : (currentState === 'hall-of-fame') }" v-show="currentState === 'playing' || currentState === 'hall-of-fame' " :game="game" :simonlyUI="simonlyUI"></simonly-keys>
+    <simonly-hall-of-fame :score="game.gameInfo.score"  v-if="currentState === 'hall-of-fame'" class="hall-of-fame"></simonly-hall-of-fame>
+    <simonly-music :track="getTrack()"></simonly-music>
     <audio src="./static/audio/round-ko.mp3" ref="roundKoAudio"></audio>
     <audio src="./static/audio/round-ok.mp3" ref="roundOkAudio"></audio>
 
-    <div v-if="game.gameInfo.failed" class="game-over">
+    <div v-if="currentState === 'hall-of-fame'" :class="{ 'game-over': true, 'shown-hall-of-fame' : (currentState === 'hall-of-fame') }">
       <p class="bounce">GAME OVER :(</p>
       <simonly-button :onClick="restart" button="replay"></simonly-button>
     </div>
@@ -52,14 +53,33 @@
     text-shadow: 0.5vw 0.5vw #f5991b, 0.8vw 0.8vw #c82f27, 1vw 1vw #6c100f;
     font-weight:bold;
     font-size: 5vh;
-    margin-top: 10vh;
     letter-spacing: 0.8vw;
+    position: fixed;
+    bottom: 3vh;
+    width: 100%;
   }
   .game-over p {
     flex-grow: 2;
   }
   .game-over > div {
     flex-grow: 2;
+  }
+
+  .hall-of-fame {
+    padding-top: 5vh;
+    margin:auto;
+    width:100%;
+    animation: slideInRight 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+
+  }
+
+  .slide-when-hall-of-fame {
+    animation: slideOutLeft 3s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    position:absolute;
   }
   .bounce {
     animation: bounce 6s infinite;
@@ -95,6 +115,31 @@
       transform: scale(1);
     }
   }
+
+  @keyframes slideOutLeft {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+
+    to {
+      display: none;
+      transform: translate3d(-100%, 0, 0);
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      transform: translate3d(100%, 0, 0);
+      visibility: visible;
+    }
+
+    to {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+
+
 </style>
 
 
@@ -104,9 +149,16 @@
   import SimonlyScore from '../../components/simonly-score/SimonlyScore.vue';
   import SimonlyMusic from '../../components/simonly-music/SimonlyMusic.vue';
   import SimonlyKeys from '../../components/simonly-keys/SimonlyKeys.vue';
+  import SimonlyHallOfFame from '../../components/simonly-hall-of-fame/SimonlyHallOfFame.vue';
 
   import SimonlyGame from '../../game-lib/SimonlyGame';
   import SimonlyUI from '../../game-lib/SimonlyUI';
+
+  const STATES = {
+    WELCOME: 'welcome',
+    PLAYING: 'playing',
+    HALL_OF_FAME: 'hall-of-fame',
+  };
 
   export default {
     name: 'simonly-board',
@@ -115,33 +167,41 @@
       SimonlyButton,
       SimonlyMusic,
       SimonlyKeys,
+      SimonlyHallOfFame,
     },
     data() {
       const ui = new SimonlyUI();
       return {
         simonlyUI: ui,
         game: new SimonlyGame(ui),
-        welcomeState: true,
+        currentState: STATES.WELCOME,
       };
     },
     props: {},
     methods: {
       restart() {
-        this.welcomeState = false;
+        this.currentState = STATES.PLAYING;
         this.game.start();
       },
       getTrack() {
-        return !this.welcomeState ? 'game' : 'title';
+        return (this.currentState === STATES.WELCOME) ? 'title' : 'game';
       },
     },
     mounted() {
-      this.welcomeState = true;
+      this.currentState = STATES.WELCOME;
       this.game.numTurn = 0;
       this.game.simonlyUI.setOkAudio(this.$refs.roundOkAudio);
       this.game.simonlyUI.setKoAudio(this.$refs.roundKoAudio);
       /* if (screenfull.enabled) {
         screenfull.request();
       } */
+      this.$watch('game.simonlyUI.theRightKey', () => {
+        if (this.game.simonlyUI.theRightKey) {
+          setTimeout(() => {
+            this.currentState = STATES.HALL_OF_FAME;
+          }, 1500);
+        }
+      });
     },
   };
 </script>
