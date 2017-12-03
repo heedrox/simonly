@@ -146,6 +146,7 @@
         const audio = this.$refs.audio;
         if (audio && audio.play) {
           audio.currentTime = 0;
+          audio.volume = 1;
           return audio.play();
         }
         return Promise.resolve({});

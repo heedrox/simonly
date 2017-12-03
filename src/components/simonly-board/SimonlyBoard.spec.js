@@ -8,10 +8,16 @@ Vue.use(VueResource);
 describe('SimonlyBoard', () => {
   let wrapper;
   let vm;
+  let clock;
 
   beforeEach(() => {
+    clock = sinon.useFakeTimers();
     wrapper = mount(SimonlyBoard);
     vm = wrapper.vm;
+  });
+
+  afterEach(() => {
+    clock.restore();
   });
 
   it('sets ups', () => {
@@ -19,10 +25,11 @@ describe('SimonlyBoard', () => {
     expect(vm.game).to.be.defined;
   });
 
-  it('restarts', () => {
+  it('restarts after 321 page', () => {
     vm.game.gameInfo.numTurn = 5;
 
     vm.restart();
+    clock.tick(3001);
 
     expect(vm.game.gameInfo.numTurn).to.equal(1);
   });
@@ -39,17 +46,23 @@ describe('SimonlyBoard', () => {
     });
   });
 
+  describe('3, 2, 1 page', () => {
+    it('shows when restarting', () => {
+      vm.restart();
+
+      expect(vm.currentState).to.equal('321');
+    });
+
+    it('hides after 3 secs', () => {
+      vm.restart();
+
+      clock.tick(3001);
+
+      expect(vm.currentState).to.equal('playing');
+    });
+  });
+
   describe('hall of fame showing or hiding is controlled', () => {
-    let clock;
-
-    beforeEach(() => {
-      clock = sinon.useFakeTimers();
-    });
-
-    afterEach(() => {
-      clock.restore();
-    });
-
     it('shows when loosing', (done) => {
       vm.game.simonlyUI.theRightKey = 3;
 

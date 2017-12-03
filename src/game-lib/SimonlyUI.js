@@ -25,12 +25,14 @@ export default class SimonlyUI {
   }
 
   roundFailed(expectedKey) {
+    this.roundKoAudio.volume = 1;
     this.roundKoAudio.play();
     this.theRightKey = expectedKey;
   }
 
   roundOk() {
     this.theRightKey = null;
+    this.roundOkAudio.volume = 1;
     this.roundOkAudio.play();
     return timeoutUtil.syncTimeout(500);
   }

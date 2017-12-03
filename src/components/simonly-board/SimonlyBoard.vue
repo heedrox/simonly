@@ -2,8 +2,9 @@
   <div class="simonly-board">
     <div v-if="currentState === 'welcome'" class="game-welcome">
       <p class="bounce">WELCOME!</p>
-      <simonly-button :onClick="restart"></simonly-button>
+      <simonly-button :onClick="preloadAndStart"></simonly-button>
     </div>
+    <simonly-go321 v-if="currentState === '321'"></simonly-go321>
     <simonly-score class="score" :score="game.gameInfo.score"></simonly-score>
     <simonly-keys :class="{ 'simonly-keys': true, 'slide-when-hall-of-fame' : (currentState === 'hall-of-fame') }" v-show="currentState === 'playing' || currentState === 'hall-of-fame' " :game="game" :simonlyUI="simonlyUI"></simonly-keys>
     <simonly-hall-of-fame :score="game.gameInfo.score"  v-if="currentState === 'hall-of-fame'" class="hall-of-fame"></simonly-hall-of-fame>
@@ -150,6 +151,7 @@
   import SimonlyMusic from '../../components/simonly-music/SimonlyMusic.vue';
   import SimonlyKeys from '../../components/simonly-keys/SimonlyKeys.vue';
   import SimonlyHallOfFame from '../../components/simonly-hall-of-fame/SimonlyHallOfFame.vue';
+  import SimonlyGo321 from '../../components/simonly-go321/SimonlyGo321.vue';
 
   import SimonlyGame from '../../game-lib/SimonlyGame';
   import SimonlyUI from '../../game-lib/SimonlyUI';
@@ -158,6 +160,7 @@
     WELCOME: 'welcome',
     PLAYING: 'playing',
     HALL_OF_FAME: 'hall-of-fame',
+    GO321: '321',
   };
 
   export default {
@@ -168,6 +171,7 @@
       SimonlyMusic,
       SimonlyKeys,
       SimonlyHallOfFame,
+      SimonlyGo321,
     },
     data() {
       const ui = new SimonlyUI();
@@ -180,8 +184,23 @@
     props: {},
     methods: {
       restart() {
-        this.currentState = STATES.PLAYING;
-        this.game.start();
+        this.currentState = STATES.GO321;
+        setTimeout(() => {
+          this.currentState = STATES.PLAYING;
+          this.game.start();
+        }, 3000);
+      },
+      preloadAndStart() {
+        const audios = window.document.getElementsByTagName('audio');
+        for (let a = 0; a < audios.length; a += 1) {
+          const audio = audios[a];
+          audio.volume = 0;
+          audio.play();
+          setTimeout(() => {
+            audio.pause();
+          }, 500);
+        }
+        this.restart();
       },
     },
     mounted() {

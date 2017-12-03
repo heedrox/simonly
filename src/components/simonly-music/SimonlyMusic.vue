@@ -41,7 +41,7 @@
         if (audio && audio.load && audio.play) {
           setTimeout(() => {
             audio.currentTime = 0;
-            audio.volume = 0.3;
+            audio.volume = (this.track === 'hall-of-fame') ? 1 : 0.3;
             audio.load();
             audio.play();
           }, 1000);
