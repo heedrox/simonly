@@ -39,19 +39,6 @@ describe('SimonlyBoard', () => {
     });
   });
 
-  describe('when playing music', () => {
-    it('plays title track when in welcome page', () => {
-      vm.currentState = 'welcome';
-      expect(vm.getTrack()).to.equal('title');
-    });
-
-    it('plays game track whet not in welcome page', () => {
-      vm.currentState = 'playing';
-
-      expect(vm.getTrack()).to.equal('game');
-    });
-  });
-
   describe('hall of fame showing or hiding is controlled', () => {
     let clock;
 
