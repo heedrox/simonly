@@ -7,6 +7,10 @@ simon.ly - play simon with your family
 # install dependencies
 npm install
 
+# Copy config.template.js as config.js and edit your own firebase properties
+cp ./config.template.js ./config.js
+vi config.js
+
 # serve with hot reload at localhost:8080
 npm run dev
 
