@@ -155,6 +155,7 @@
 
   import SimonlyGame from '../../game-lib/SimonlyGame';
   import SimonlyUI from '../../game-lib/SimonlyUI';
+  import autoPlayerHack from '../../lib/auto-player-hack';
 
   const STATES = {
     WELCOME: 'welcome',
@@ -192,14 +193,7 @@
       },
       preloadAndStart() {
         const audios = window.document.getElementsByTagName('audio');
-        for (let a = 0; a < audios.length; a += 1) {
-          const audio = audios[a];
-          audio.volume = 0;
-          audio.play();
-          setTimeout(() => {
-            audio.pause();
-          }, 500);
-        }
+        autoPlayerHack(audios);
         this.restart();
       },
     },
