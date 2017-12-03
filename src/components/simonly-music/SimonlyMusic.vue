@@ -40,10 +40,12 @@
       getBackgroundAudioName() {
         const audio = this.$refs.backgroundAudio;
         setTimeout(() => {
-          audio.currentTime = 0;
-          audio.volume = 0.3;
-          audio.load();
-          audio.play();
+          if (audio && audio.load && audio.play) {
+            audio.currentTime = 0;
+            audio.volume = 0.3;
+            audio.load();
+            audio.play();
+          }
         }, 1000);
       },
     },
