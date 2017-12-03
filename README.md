@@ -1,6 +1,10 @@
 # simonly
 simon.ly - play simon with your family
 
+Simonly is a HTML game written in VueJS. 
+
+I did it so my nephews had a game in which they were the main characters!
+
 ## Build Setup
 
 ``` bash
@@ -35,11 +39,18 @@ npm test
 
 # Technologies of this repo
 
-This uses VueJS + Firebase. 
+- This uses VueJS + Firebase.
+- Unit tests with Karma + Mocha + Chai.
+- Firebase is used for Hall Of Fame.
 
-Unit tests with Karma + Mocha + Chai.
+# Want to improve this?
+- Do a PR, I would love to hear from you!
+- You can improve the design a little bit. I'm a developer, not a designer, I've tried to do my best! :)
+- You can refactor it to N keys instead of hardcoded 8.
 
-Firebase is used for Hall Of Fame.
+# Where am I going?
+- I can't deploy it as PWA or web, because of user gestures media limitations. I'm working on that... 
+- Collaborative mode: my nephews and nieces playing together!
 
 # License stuff 
 
