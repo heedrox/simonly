@@ -7,7 +7,7 @@
     <simonly-score class="score" :score="game.gameInfo.score"></simonly-score>
     <simonly-keys :class="{ 'simonly-keys': true, 'slide-when-hall-of-fame' : (currentState === 'hall-of-fame') }" v-show="currentState === 'playing' || currentState === 'hall-of-fame' " :game="game" :simonlyUI="simonlyUI"></simonly-keys>
     <simonly-hall-of-fame :score="game.gameInfo.score"  v-if="currentState === 'hall-of-fame'" class="hall-of-fame"></simonly-hall-of-fame>
-    <simonly-music :track="getTrack()"></simonly-music>
+    <simonly-music :track="currentState"></simonly-music>
     <audio src="./static/audio/round-ko.mp3" ref="roundKoAudio"></audio>
     <audio src="./static/audio/round-ok.mp3" ref="roundOkAudio"></audio>
 
@@ -182,9 +182,6 @@
       restart() {
         this.currentState = STATES.PLAYING;
         this.game.start();
-      },
-      getTrack() {
-        return (this.currentState === STATES.WELCOME) ? 'title' : 'game';
       },
     },
     mounted() {
