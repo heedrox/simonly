@@ -35,8 +35,10 @@ exports.cssLoaders = function (options) {
     // Extract CSS when that option is specified
     // (which is the case during production build)
     if (options.extract) {
+      //console.log('adding', (options.configOptions && options.configOptions.assetsCssRelativePublicPath)? options.configOptions.assetsCssRelativePublicPath : '');
       return ExtractTextPlugin.extract({
         use: loaders,
+        publicPath: '../../',
         fallback: 'vue-style-loader'
       })
     } else {
@@ -46,7 +48,7 @@ exports.cssLoaders = function (options) {
 
   // https://vue-loader.vuejs.org/en/configurations/extract-css.html
   return {
-    css: generateLoaders(),
+    css: generateLoaders(''),
     postcss: generateLoaders(),
     less: generateLoaders('less'),
     sass: generateLoaders('sass', { indentedSyntax: true }),
