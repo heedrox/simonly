@@ -1,5 +1,7 @@
+import config from '../../config';
+
 const SimonlyHallOfFameQueries = db => ({
-  top10: () => db.ref('marticarrera8/hall-of-fame').orderByChild('scoreDesc').limitToFirst(7),
+  top10: () => db.ref(`${config.nameOfFamily}/hall-of-fame`).orderByChild('scoreDesc').limitToFirst(7),
 });
 
 // eslint-disable-next-line import/prefer-default-export

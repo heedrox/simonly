@@ -5,4 +5,5 @@ export default {
   projectId: 'xxxx',
   storageBucket: 'xxxxxxx.appspot.com',
   messagingSenderId: 'xxxxx',
+  nameOfFamily: 'aShortNameForTheDBOfFirebase',
 };
