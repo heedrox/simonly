@@ -11,3 +11,4 @@ test/e2e/reports
 selenium-debug.log
 static/key-files/
 .idea
+src/config.js
