@@ -18,7 +18,7 @@
     color: #f4dd06;
     padding: 0px;
     text-shadow: 0.5vw 0.5vw #f5991b, 0.8vw 0.8vw #c82f27, 1vw 1vw #6c100f;
-    top: 15vh;
+    top: 35vh;
     text-align: center;
     opacity: 0;
     animation: zoomIn;
