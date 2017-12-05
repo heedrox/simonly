@@ -1,9 +1,6 @@
 <template>
   <div class="simonly-board">
-    <div v-if="currentState === 'welcome'" class="game-welcome">
-      <p class="bounce">WELCOME!</p>
-      <simonly-button :onClick="preloadAndStart"></simonly-button>
-    </div>
+    <simonly-welcome v-if="currentState === 'welcome'" :onClick="preloadAndStart"></simonly-welcome>
     <simonly-go321 v-if="currentState === '321'"></simonly-go321>
     <simonly-score class="score" :score="game.gameInfo.score"></simonly-score>
     <simonly-keys :class="{ 'simonly-keys': true, 'slide-when-hall-of-fame' : (currentState === 'hall-of-fame') }" v-show="currentState === 'playing' || currentState === 'hall-of-fame' " :game="game" :simonlyUI="simonlyUI"></simonly-keys>
@@ -19,21 +16,10 @@
   </div>
 </template>
 <style scoped>
-  .game-welcome {
-    display:block;
-    margin-top: 20vh;
-  }
-  .game-welcome p {
-    color: #f4dd06;
-    text-shadow: 0.5vw 0.5vw #f5991b, 0.8vw 0.8vw #c82f27, 1vw 1vw #6c100f;
-    font-weight:bold;
-    font-size: 15vh;
-    letter-spacing: 0.8vw;
-  }
-
   .simonly-board {
     height: 100%;
     width: 100%;
+    z-index: 1;
   }
 
   .simonly-keys {
@@ -146,16 +132,19 @@
 
 <script>
   // import screenfull from 'screenfull';
+  import Firebase from 'firebase';
   import SimonlyButton from '../../components/simonly-button/SimonlyButton.vue';
   import SimonlyScore from '../../components/simonly-score/SimonlyScore.vue';
   import SimonlyMusic from '../../components/simonly-music/SimonlyMusic.vue';
   import SimonlyKeys from '../../components/simonly-keys/SimonlyKeys.vue';
   import SimonlyHallOfFame from '../../components/simonly-hall-of-fame/SimonlyHallOfFame.vue';
   import SimonlyGo321 from '../../components/simonly-go321/SimonlyGo321.vue';
+  import SimonlyWelcome from '../../components/simonly-welcome/SimonlyWelcolme.vue';
 
   import SimonlyGame from '../../game-lib/SimonlyGame';
   import SimonlyUI from '../../game-lib/SimonlyUI';
   import autoPlayerHack from '../../lib/auto-player-hack';
+  import { db } from '../../lib/db-firebase';
 
   const STATES = {
     WELCOME: 'welcome',
@@ -173,6 +162,7 @@
       SimonlyKeys,
       SimonlyHallOfFame,
       SimonlyGo321,
+      SimonlyWelcome,
     },
     data() {
       const ui = new SimonlyUI();
@@ -210,6 +200,32 @@
           setTimeout(() => {
             this.currentState = STATES.HALL_OF_FAME;
           }, 1500);
+        }
+      });
+      // since I can connect from multiple devices or browser tabs,
+      // we store each connection instance separately
+      // any time that connectionsRef's value is null (i.e. has no children) I am offline
+      const myConnectionsRef = db.ref('marticarrera8/joe/connections');
+
+      // stores the timestamp of my last disconnect (the last time I was seen online)
+      const lastOnlineRef = db.ref('marticarrera8/joe/lastOnline');
+
+      const connectedRef = db.ref('.info/connected');
+      connectedRef.on('value', (snap) => {
+        if (snap.val() === true) {
+          // We're connected (or reconnected)! Do anything
+          // here that should happen only if online (or on reconnect)
+          const con = myConnectionsRef.push();
+
+          // When I disconnect, remove this device
+          con.onDisconnect().remove();
+
+          // Add this device to my connections list
+          // this value could contain info about the device or a timestamp too
+          con.set({ userAgent: window.navigator.userAgent });
+
+          // When I disconnect, update the last time I was seen online
+          lastOnlineRef.onDisconnect().set(Firebase.database.ServerValue.TIMESTAMP);
         }
       });
     },
