@@ -170,13 +170,15 @@
       hallRowsWithEmpty() {
         const emptyRows = (n) => {
           const result = [];
-          Array.from(Array(n)).forEach(() => {
-            result.push({});
-          });
+          if (n > 0) {
+            Array.from(Array(n)).forEach(() => {
+              result.push({});
+            });
+          }
           return result;
         };
 
-        return this.hallRows.concat(emptyRows(7 - this.hallRows.length));
+        return this.hallRows.concat(emptyRows(7 - (this.hallRows ? this.hallRows.length : 0)));
       },
     },
     methods: {
