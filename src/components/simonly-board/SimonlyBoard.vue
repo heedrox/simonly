@@ -139,7 +139,7 @@
   import SimonlyKeys from '../../components/simonly-keys/SimonlyKeys.vue';
   import SimonlyHallOfFame from '../../components/simonly-hall-of-fame/SimonlyHallOfFame.vue';
   import SimonlyGo321 from '../../components/simonly-go321/SimonlyGo321.vue';
-  import SimonlyWelcome from '../../components/simonly-welcome/SimonlyWelcolme.vue';
+  import SimonlyWelcome from '../../components/simonly-welcome/SimonlyWelcome.vue';
 
   import SimonlyGame from '../../game-lib/SimonlyGame';
   import SimonlyUI from '../../game-lib/SimonlyUI';
