@@ -11,16 +11,9 @@ export default class SimonlyUI {
   }
 
   /* *** interface to be implemented by simonlyGamePresenter ***** */
-  press(pos) {
-    this.pressedKey = pos;
-    return timeoutUtil.syncTimeout(TIME_SECS_KEY_PRESSED)
-      .then(() => { this.pressedKey = null; })
-      .then(() => timeoutUtil.syncTimeout(100));
-  }
-
   showSequence(keys) {
     this.theRightKey = null;
-    const sequencePress = sequenceArrayPromises(this.press.bind(this));
+    const sequencePress = sequenceArrayPromises(this.showKey.bind(this));
     sequencePress(keys);
   }
 
@@ -37,6 +30,13 @@ export default class SimonlyUI {
     return timeoutUtil.syncTimeout(500);
   }
   /* *** end interface ***** */
+
+  showKey(pos) {
+    this.pressedKey = pos;
+    return timeoutUtil.syncTimeout(TIME_SECS_KEY_PRESSED)
+      .then(() => { this.pressedKey = null; })
+      .then(() => timeoutUtil.syncTimeout(100));
+  }
 
   setOkAudio(okAudio) {
     this.roundOkAudio = okAudio;
