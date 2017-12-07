@@ -16,7 +16,8 @@ export default class SimonlyHallOfFameQueries {
       name: userName,
       score,
       scoreDesc: -score,
-      date: new Date(),
+      date: new Date().toISOString(),
+      datetime: new Date().getTime(),
     });
   }
 
