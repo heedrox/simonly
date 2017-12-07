@@ -4,7 +4,7 @@ export default class SimonlyGame {
 
   constructor(simonlyUI) {
     this.gameInfo = {
-      numTurn: 1,
+      numTurn: 0,
       numKeyInTurn: 1,
       score: 0,
       currentTurnKeys: [],

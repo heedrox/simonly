@@ -189,7 +189,6 @@
     },
     mounted() {
       this.currentState = STATES.WELCOME;
-      this.game.numTurn = 0;
       this.game.simonlyUI.setOkAudio(this.$refs.roundOkAudio);
       this.game.simonlyUI.setKoAudio(this.$refs.roundKoAudio);
       /* if (screenfull.enabled) {

@@ -19,7 +19,7 @@ describe('SimonlyGame', () => {
     const game = new SimonlyGame();
     expect(game).to.be.defined;
     expect(game.gameInfo).to.be.defined;
-    expect(game.gameInfo.numTurn).to.equal(1);
+    expect(game.gameInfo.numTurn).to.equal(0);
     expect(game.gameInfo.score).to.equal(0);
   });
 
