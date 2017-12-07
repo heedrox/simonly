@@ -3,7 +3,7 @@
     <simonly-welcome v-if="currentState === 'welcome'" :onClick="preloadAndStart"></simonly-welcome>
     <simonly-go321 v-if="currentState === '321'"></simonly-go321>
     <simonly-score class="score" :score="simonlyUI.score"></simonly-score>
-    <simonly-keys :class="{ 'simonly-keys': true, 'slide-when-hall-of-fame' : (currentState === 'hall-of-fame') }" v-show="currentState === 'playing' || currentState === 'hall-of-fame' " :game="game" :simonlyUI="simonlyUI"></simonly-keys>
+    <simonly-keys :class="{ 'simonly-keys': true, 'slide-when-hall-of-fame' : (currentState === 'hall-of-fame') }" v-show="currentState === 'playing' || currentState === 'hall-of-fame' " :whenUserPress="userPressed" :simonlyUI="simonlyUI"></simonly-keys>
     <simonly-hall-of-fame :score="simonlyUI.score"  v-if="currentState === 'hall-of-fame'" class="hall-of-fame"></simonly-hall-of-fame>
     <simonly-music :track="currentState"></simonly-music>
     <audio src="./static/audio/round-ko.mp3" ref="roundKoAudio"></audio>
@@ -145,6 +145,7 @@
   import SimonlyUI from '../../game-lib/SimonlyUI';
   import autoPlayerHack from '../../lib/auto-player-hack';
   import { db } from '../../lib/db-firebase';
+  import config from '../../config';
 
   const STATES = {
     WELCOME: 'welcome',
@@ -186,16 +187,19 @@
         autoPlayerHack(audios);
         this.restart();
       },
+      userPressed(key) {
+        this.game.userPressed(key);
+      },
     },
     mounted() {
       this.currentState = STATES.WELCOME;
-      this.game.simonlyUI.setOkAudio(this.$refs.roundOkAudio);
-      this.game.simonlyUI.setKoAudio(this.$refs.roundKoAudio);
+      this.simonlyUI.setOkAudio(this.$refs.roundOkAudio);
+      this.simonlyUI.setKoAudio(this.$refs.roundKoAudio);
       /* if (screenfull.enabled) {
         screenfull.request();
       } */
-      this.$watch('game.simonlyUI.theRightKey', () => {
-        if (this.game.simonlyUI.theRightKey) {
+      this.$watch('simonlyUI.theRightKey', () => {
+        if (this.simonlyUI.theRightKey) {
           setTimeout(() => {
             this.currentState = STATES.HALL_OF_FAME;
           }, 1500);
@@ -204,10 +208,10 @@
       // since I can connect from multiple devices or browser tabs,
       // we store each connection instance separately
       // any time that connectionsRef's value is null (i.e. has no children) I am offline
-      const myConnectionsRef = db.ref('marticarrera8/joe/connections');
+      const myConnectionsRef = db.ref(`${config.nameOfFamily}/joe/connections`);
 
       // stores the timestamp of my last disconnect (the last time I was seen online)
-      const lastOnlineRef = db.ref('marticarrera8/joe/lastOnline');
+      const lastOnlineRef = db.ref(`${config.nameOfFamily}/joe/lastOnline`);
 
       const connectedRef = db.ref('.info/connected');
       connectedRef.on('value', (snap) => {

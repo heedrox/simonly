@@ -19,9 +19,9 @@ describe('SimonlyKeys', () => {
   });
 
   it('handles keypress', () => {
-    vm.game = { userPressed: sinon.spy() };
+    vm.whenUserPress = sinon.spy();
     vm.userPressed({ key: 2 });
 
-    expect(vm.game.userPressed).to.be.calledWith(2);
+    expect(vm.whenUserPress).to.be.calledWith(2);
   });
 });

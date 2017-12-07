@@ -44,14 +44,19 @@
       SimonlyKey,
     },
     props: {
-      game: {},
       simonlyUI: {},
+      whenUserPress: {
+        type: Function,
+        default() {
+          return () => {};
+        },
+      },
     },
     computed: {
     },
     methods: {
       userPressed(ev) {
-        this.game.userPressed(ev.key);
+        this.whenUserPress(ev.key);
       },
     },
   };
