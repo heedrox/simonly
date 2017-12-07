@@ -49,7 +49,6 @@ npm test
 - You can refactor it to N keys instead of hardcoded 8.
 
 # Where am I going?
-- I can't deploy it as PWA or web, because of user gestures media limitations. I'm working on that... 
 - Collaborative mode: my nephews and nieces playing together!
 
 # License stuff 
