@@ -18,11 +18,11 @@ describe('SimonlyUI', () => {
     expect(ui).to.be.defined;
   });
 
-  describe('pressing a button', () => {
+  describe('shows which key should be pressed', () => {
     it('presses a button from outside', () => {
       const ui = new SimonlyUI();
 
-      ui.press(1);
+      ui.showKey(1);
 
       expect(ui.pressedKey).to.equal(1);
     });
@@ -30,7 +30,7 @@ describe('SimonlyUI', () => {
     it('releases a button after +1 secs', () => {
       const ui = new SimonlyUI();
       timeoutUtil.syncTimeout = () => FakePromise.resolved({});
-      ui.press(1);
+      ui.showKey(1);
 
       clock.tick(600);
       clock.tick(1500);
