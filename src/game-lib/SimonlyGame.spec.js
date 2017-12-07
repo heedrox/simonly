@@ -24,12 +24,15 @@ describe('SimonlyGame', () => {
   });
 
   it('runs turn ONE when starting', () => {
-    const game = new SimonlyGame();
+    const ui = new SimonlyUI();
+    ui.updateScore = sinon.spy();
+    const game = new SimonlyGame(ui);
     game.runTurn = sinon.spy();
 
     game.start();
 
     expect(game.runTurn).to.have.been.calledWith(1);
+    expect(ui.updateScore).to.be.calledWith(0);
   });
 
   it('creates a turn with numTurn', () => {
@@ -56,6 +59,7 @@ describe('SimonlyGame', () => {
 
   it('increases score if you press correctly', () => {
     const ui = new SimonlyUI();
+    ui.updateScore = sinon.spy();
     const game = new SimonlyGame(ui);
     game.gameInfo.numTurn = 2;
     game.gameInfo.currentTurnKeys = [2, 5, 8];
@@ -68,6 +72,8 @@ describe('SimonlyGame', () => {
 
     expect(game.gameInfo.score).to.equal(2);
     expect(game.gameInfo.failed).not.to.be.true;
+
+    expect(ui.updateScore).to.be.calledTwice;
   });
 
   describe('when press wrong', () => {

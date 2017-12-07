@@ -8,6 +8,7 @@ export default class SimonlyUI {
   constructor() {
     this.pressedKey = null;
     this.theRightKey = null;
+    this.score = 0;
   }
 
   /* *** interface to be implemented by simonlyGamePresenter ***** */
@@ -28,6 +29,10 @@ export default class SimonlyUI {
     this.roundOkAudio.volume = 1;
     this.roundOkAudio.play();
     return timeoutUtil.syncTimeout(500);
+  }
+
+  updateScore(score) {
+    this.score = score;
   }
   /* *** end interface ***** */
 

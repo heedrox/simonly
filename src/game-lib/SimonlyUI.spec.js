@@ -98,4 +98,12 @@ describe('SimonlyUI', () => {
       expect(ui.theRightKey).to.be.null;
     });
   });
+
+  it('updates and stores score', () => {
+    const ui = new SimonlyUI();
+
+    ui.updateScore(10);
+
+    expect(ui.score).to.equal(10);
+  });
 });

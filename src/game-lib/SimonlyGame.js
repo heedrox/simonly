@@ -27,7 +27,7 @@ export default class SimonlyGame {
     const expectedKey = this.gameInfo.currentTurnKeys[userEnteredNumKey];
     if (pressedKey === expectedKey) {
       this.gameInfo.userEnteredTurnKeys.push(pressedKey);
-      this.gameInfo.score = this.gameInfo.score + 1;
+      this.setScore(this.gameInfo.score + 1);
       this.gameInfo.failed = false;
       this.checkNextTurn();
     } else {
@@ -58,9 +58,13 @@ export default class SimonlyGame {
 
   start() {
     this.gameInfo.failed = false;
-    this.gameInfo.score = 0;
+    this.setScore(0);
     this.gameInfo.currentTurnKeys = [];
     this.runTurn(1);
   }
 
+  setScore(score) {
+    this.gameInfo.score = score;
+    this.simonlyUI.updateScore(score);
+  }
 }
