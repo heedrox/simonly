@@ -1,8 +1,23 @@
 import config from '../../config';
 
-const SimonlyHallOfFameQueries = db => ({
-  top10: () => db.ref(`${config.nameOfFamily}/hall-of-fame`).orderByChild('scoreDesc').limitToFirst(7),
-});
+export default class SimonlyHallOfFameQueries {
+  constructor(db) {
+    this.db = db;
+  }
 
-// eslint-disable-next-line import/prefer-default-export
-export { SimonlyHallOfFameQueries };
+  top10() {
+    return this.db.ref(`${config.nameOfFamily}/hall-of-fame`).orderByChild('scoreDesc').limitToFirst(7);
+  }
+
+// eslint-disable-next-line class-methods-use-this
+  addTop10(hallRows, userName, score) {
+    const newScore = hallRows.push();
+    newScore.set({
+      name: userName,
+      score,
+      scoreDesc: -score,
+      date: new Date(),
+    });
+  }
+
+}
