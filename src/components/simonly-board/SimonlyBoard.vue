@@ -141,8 +141,6 @@
   import SimonlyGo321 from '../../components/simonly-go321/SimonlyGo321.vue';
   import SimonlyWelcome from '../../components/simonly-welcome/SimonlyWelcome.vue';
 
-  import SimonlyGame from '../../game-lib/SimonlyGame';
-  import SimonlyUI from '../../game-lib/SimonlyUI';
   import autoPlayerHack from '../../lib/auto-player-hack';
   import { db } from '../../lib/db-firebase';
   import config from '../../config';
@@ -156,6 +154,7 @@
 
   export default {
     name: 'simonly-board',
+    ioc: ['simonlyUI', 'simonlyGame'],
     components: {
       SimonlyScore,
       SimonlyButton,
@@ -166,10 +165,7 @@
       SimonlyWelcome,
     },
     data() {
-      const ui = new SimonlyUI();
       return {
-        simonlyUI: ui,
-        game: new SimonlyGame(ui),
         currentState: STATES.WELCOME,
       };
     },
@@ -179,7 +175,7 @@
         this.currentState = STATES.GO321;
         setTimeout(() => {
           this.currentState = STATES.PLAYING;
-          this.game.start();
+          this.simonlyGame.start();
         }, 3000);
       },
       preloadAndStart() {
@@ -188,7 +184,7 @@
         this.restart();
       },
       userPressed(key) {
-        this.game.userPressed(key);
+        this.simonlyGame.userPressed(key);
       },
     },
     mounted() {

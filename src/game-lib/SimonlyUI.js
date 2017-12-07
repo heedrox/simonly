@@ -9,6 +9,7 @@ export default class SimonlyUI {
     this.pressedKey = null;
     this.theRightKey = null;
     this.score = 0;
+    this.id = Math.round(Math.random() * 100000);
   }
 
   /* *** interface to be implemented by simonlyGamePresenter ***** */

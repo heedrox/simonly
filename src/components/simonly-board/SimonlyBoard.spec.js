@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { mount } from 'avoriaz';
 import VueResource from 'vue-resource';
 import SimonlyBoard from './SimonlyBoard.vue';
+import simonlyIOC from '../../game-lib/SimonlyIOC';
 
 Vue.use(VueResource);
 
@@ -12,6 +13,7 @@ describe('SimonlyBoard', () => {
 
   beforeEach(() => {
     clock = sinon.useFakeTimers();
+    simonlyIOC(Vue);
     wrapper = mount(SimonlyBoard);
     vm = wrapper.vm;
   });
@@ -22,16 +24,16 @@ describe('SimonlyBoard', () => {
 
   it('sets ups', () => {
     expect(vm).to.be.defined;
-    expect(vm.game).to.be.defined;
+    expect(vm.simonlyGame).to.be.defined;
   });
 
   it('restarts after 321 page', () => {
-    vm.game.gameInfo.numTurn = 5;
+    vm.simonlyGame.gameInfo.numTurn = 5;
 
     vm.restart();
     clock.tick(3001);
 
-    expect(vm.game.gameInfo.numTurn).to.equal(1);
+    expect(vm.simonlyGame.gameInfo.numTurn).to.equal(1);
   });
 
   describe('welcome page', () => {
@@ -64,7 +66,7 @@ describe('SimonlyBoard', () => {
 
   describe('hall of fame showing or hiding is controlled', () => {
     it('shows when loosing', (done) => {
-      vm.game.simonlyUI.theRightKey = 3;
+      vm.simonlyUI.theRightKey = 3;
 
       vm.$nextTick(() => {
         clock.tick(5005);

@@ -7,12 +7,15 @@ import VueFire from 'vuefire';
 import store from './store';
 import router from './router';
 import App from './App.vue';
+import SimonlyIOC from './game-lib/SimonlyIOC';
 
 sync(store, router);
 
 Vue.config.productionTip = false;
 Vue.use(VueResource);
 Vue.use(VueFire);
+
+SimonlyIOC(Vue);
 
 /* eslint-disable no-new */
 new Vue({
