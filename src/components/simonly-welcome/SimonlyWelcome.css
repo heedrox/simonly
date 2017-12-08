@@ -1,16 +1,26 @@
 .game-welcome {
   display:block;
-  margin-top: 20vh;
 }
-.game-welcome p {
-  margin: 10vh;
+
+.game-welcome .playButton {
+  position: absolute;
+  bottom: 5vh;
+  margin: auto;
+  width: 100%;
 }
+
+
 .game-welcome p.title {
+  margin-top: 20vh;
   color: #f4dd06;
   text-shadow: 0.5vw 0.5vw #f5991b, 0.8vw 0.8vw #c82f27, 1vw 1vw #6c100f;
   font-weight:bold;
   font-size: 15vh;
   letter-spacing: 0.8vw;
+}
+
+.game-welcome p.namerow {
+  margin-top: 5vh;
 }
 
 .game-welcome p input {
@@ -27,12 +37,6 @@
 }
 
 .game-welcome p input:focus {
-  color: #c82f27;
-  letter-spacing: 0.8vw;
-  font-size: 8vh;
-  text-align: center;
-  padding: 2.5vh;
-  margin: 0vh;
   border-radius: 5vh;
   -webkit-appearance: none;
   -moz-appearance: none;

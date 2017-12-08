@@ -2,8 +2,8 @@
 
 <div class="game-welcome">
   <p class="title bounce">WELCOME!</p>
-  <p><input placeholder="Enter your name" type="text" v-model="name"></p>
-  <simonly-button :onClick="clickPlay"></simonly-button>
+  <p class="namerow"><input placeholder="Enter your name" type="text" v-model="name"></p>
+  <simonly-button class="playButton" :onClick="clickPlay"></simonly-button>
 </div>
 
 </template>
