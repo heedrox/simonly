@@ -56,16 +56,15 @@
 </style>
 <script>
   import SimonlyButton from '../simonly-button/SimonlyButton.vue';
-  import SimonlyStorage from '../../game-lib/SimonlyStorage';
 
   export default {
     name: 'simonly-welcome',
+    ioc: ['simonlyStorage'],
     components: {
       SimonlyButton,
     },
     data() {
       return {
-        simonlyStorage: new SimonlyStorage(),
         name: '',
       };
     },

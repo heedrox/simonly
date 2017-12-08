@@ -113,17 +113,16 @@
   import { db } from '../../lib/db-firebase';
   import SimonlyHallOfFameQueries from './SimonlyHallOfFame.queries';
   import { emptyRows } from '../../lib/arrays';
-  import SimonlyStorage from '../../game-lib/SimonlyStorage';
 
   export default {
     name: 'simonly-hall-of-fame',
+    ioc: ['simonlyStorage'],
     props: {
       score: 0,
     },
     data() {
       return {
         name: '',
-        simonlyStorage: new SimonlyStorage(),
         queries: new SimonlyHallOfFameQueries(db),
         username: '',
       };
