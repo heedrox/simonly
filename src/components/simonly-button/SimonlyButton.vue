@@ -6,43 +6,7 @@
     <audio src="./static/audio/button-press.mp3" ref="clickAudio"></audio>
   </div>
 </template>
-<style scoped>
-  input[type="submit"] {
-    border: 0;
-    background-size: cover;
-    text-indent: -9999em;
-    line-height:3000;
-    width: 20vh;
-    height: 20vh;
-    cursor: pointer;
-  }
-
-  input.play {
-    background: url(../../assets/buttons/play_normal.png) no-repeat;
-    background-size:cover;
-  }
-  input.play:hover {
-    background: url(../../assets/buttons/play_hover.png) no-repeat;
-    background-size: cover;
-  }
-  input.play:active {
-    background: url(../../assets/buttons/play_clicked.png) no-repeat;
-    background-size: cover;
-  }
-  input.replay {
-    background: url(../../assets/buttons/replay_normal.png) no-repeat;
-    background-size:cover;
-  }
-  input.replay:hover {
-    background: url(../../assets/buttons/replay_hover.png) no-repeat;
-    background-size: cover;
-  }
-  input.replay:active {
-    background: url(../../assets/buttons/replay_clicked.png) no-repeat;
-    background-size: cover;
-  }
-
-</style>
+<style scoped src="./SimonlyButton.css"></style>
 
 
 <script>

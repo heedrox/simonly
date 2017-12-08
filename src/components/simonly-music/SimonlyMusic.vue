@@ -4,11 +4,6 @@
            :src="getBackgroundAudioName"></audio>
   </div>
 </template>
-<style scoped>
-
-</style>
-
-
 <script>
   export default {
     name: 'simonly-music',

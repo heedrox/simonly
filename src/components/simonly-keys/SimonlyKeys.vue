@@ -26,14 +26,7 @@
       </simonly-key>
   </div>
 </template>
-<style scoped>
-  .key {
-    display: inline-block;
-    width: 11vw;
-    max-width: 11vw;
-  }
-
-</style>
+<style scoped src="./SimonlyKeys.css"></style>
 
 <script>
   import SimonlyKey from '../simonly-key/SimonlyKey.vue';

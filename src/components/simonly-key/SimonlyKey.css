@@ -1,0 +1,63 @@
+.container {
+  overflow: hidden;
+}
+.keyImage {
+  position:relative;
+  width: 200%;
+}
+.keyPressed {
+  left:-100%;
+}
+
+.animateBigger {
+  animation: scale2x 1s, pulse2x 1s;
+  animation-delay: 0s, 1s;
+  animation-iteration-count: 1, infinite;
+  animation-timing-function: linear, ease-in-out;
+}
+
+.animateSmaller {
+  animation: scaleHalf 1s;
+  animation-delay: 0s;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes scale2x {
+  from {
+    transform: scale(0.9, 0.9);
+  }
+
+  to {
+    transform: scale(1, 1);
+  }
+}
+
+@keyframes pulse2x {
+  from {
+    transform: scale(1, 1);
+  }
+
+  30% {
+    transform: scale(0.95, 0.95);
+  }
+
+  60% {
+    transform: scale(0.9, 0.9);
+  }
+
+  to {
+    transform: scale(1, 1);
+  }
+}
+
+@keyframes scaleHalf {
+  0% {
+    transform: scale(1, 1);
+  }
+
+  100% {
+    transform: scale(0, 0);
+  }
+}

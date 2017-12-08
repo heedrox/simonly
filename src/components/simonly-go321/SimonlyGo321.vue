@@ -5,54 +5,5 @@
     <div class="gosign go1"><p>1</p></div>
   </div>
 </template>
-<style scoped>
-  .gopage {
-    width: 100%;
-    text-align: center;
-    margin: auto;
-  }
-  .gosign {
-    position: absolute;
-    font-size: 20vh;
-    left: 48vw;
-    color: #f4dd06;
-    padding: 0px;
-    text-shadow: 0.5vw 0.5vw #f5991b, 0.8vw 0.8vw #c82f27, 1vw 1vw #6c100f;
-    top: 35vh;
-    text-align: center;
-    opacity: 0;
-    animation: zoomIn;
-    animation-duration: 1s;
-  }
-  .go3 {
-    animation-delay: 0s;
-  }
-  .go2 {
-    animation-delay: 1s;
-  }
-  .go1 {
-    animation-delay: 2s;
-  }
-  @keyframes zoomIn {
-    from {
-      opacity: 0;
-      transform: scale3d(10, 10, 10);
-    }
+<style src="./SimonlyGo321.css"></style>
 
-    50% {
-      opacity: 1;
-      transform: scale3d(1, 1, 1);
-    }
-  }
-
-  .zoomIn {
-    animation-name: zoomIn;
-  }
-</style>
-
-
-<script>
-  export default {
-    name: 'simonly-go321',
-  };
-</script>
