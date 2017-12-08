@@ -21,6 +21,9 @@ table td {
   text-shadow: 0.2vw 0.2vw #6c100f;
   font-size: 4vh;
   letter-spacing: 0.5vw;
+}
+
+table td.namecell {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

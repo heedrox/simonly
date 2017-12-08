@@ -1,8 +1,8 @@
-import SimonlyUI from './SimonlyUI';
+import SimonlyLocalUI from './SimonlyLocalUI';
 import timeoutUtil from '../lib/timeoutUtil';
 import FakePromise from '../../test/unit/fake-promise';
 
-describe('SimonlyUI', () => {
+describe('SimonlyLocalUI', () => {
   let clock;
 
   beforeEach(() => {
@@ -14,13 +14,13 @@ describe('SimonlyUI', () => {
   });
 
   it('should exist', () => {
-    const ui = new SimonlyUI();
+    const ui = new SimonlyLocalUI();
     expect(ui).to.be.defined;
   });
 
   describe('shows which key should be pressed', () => {
     it('presses a button from outside', () => {
-      const ui = new SimonlyUI();
+      const ui = new SimonlyLocalUI();
 
       ui.showKey(1);
 
@@ -28,7 +28,7 @@ describe('SimonlyUI', () => {
     });
 
     it('releases a button after +1 secs', () => {
-      const ui = new SimonlyUI();
+      const ui = new SimonlyLocalUI();
       timeoutUtil.syncTimeout = () => FakePromise.resolved({});
       ui.showKey(1);
 
@@ -41,7 +41,7 @@ describe('SimonlyUI', () => {
 
   xit('shows a sequence', () => {
     // This should work but does not because of the promise chaining sequencing
-    const ui = new SimonlyUI();
+    const ui = new SimonlyLocalUI();
     ui.showSequence([1, 2, 3]);
 
     clock.tick(801);
@@ -51,7 +51,7 @@ describe('SimonlyUI', () => {
 
   describe('handles the result of the round', () => {
     it('plays ko audio when failed', () => {
-      const ui = new SimonlyUI();
+      const ui = new SimonlyLocalUI();
       const audio = {};
       audio.play = sinon.spy();
       ui.setKoAudio(audio);
@@ -62,7 +62,7 @@ describe('SimonlyUI', () => {
     });
 
     it('sets theRightKey to show which one was right', () => {
-      const ui = new SimonlyUI();
+      const ui = new SimonlyLocalUI();
       const audio = {};
       audio.play = sinon.spy();
       ui.setKoAudio(audio);
@@ -73,7 +73,7 @@ describe('SimonlyUI', () => {
     });
 
     it('plays ok audio and waits 1 sec and follows', () => {
-      const ui = new SimonlyUI();
+      const ui = new SimonlyLocalUI();
       const audio = {};
       audio.play = sinon.spy();
       ui.setOkAudio(audio);
@@ -86,7 +86,7 @@ describe('SimonlyUI', () => {
     });
 
     it('restarts theRightKey to null not to show anything', () => {
-      const ui = new SimonlyUI();
+      const ui = new SimonlyLocalUI();
       const audio = {};
       audio.play = sinon.spy();
       ui.setOkAudio(audio);
@@ -100,7 +100,7 @@ describe('SimonlyUI', () => {
   });
 
   it('updates and stores score', () => {
-    const ui = new SimonlyUI();
+    const ui = new SimonlyLocalUI();
 
     ui.updateScore(10);
 

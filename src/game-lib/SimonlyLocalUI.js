@@ -3,7 +3,7 @@ import timeoutUtil from '../lib/timeoutUtil';
 
 const TIME_SECS_KEY_PRESSED = 600;
 
-export default class SimonlyUI {
+export default class SimonlyLocalUI {
 
   constructor() {
     this.pressedKey = null;

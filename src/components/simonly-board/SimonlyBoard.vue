@@ -2,9 +2,9 @@
   <div class="simonly-board">
     <simonly-welcome v-if="currentState === 'welcome'" :onClick="preloadAndStart"></simonly-welcome>
     <simonly-go321 v-if="currentState === '321'"></simonly-go321>
-    <simonly-score class="score" :score="simonlyUI.score"></simonly-score>
-    <simonly-keys :class="{ 'simonly-keys': true, 'slide-when-hall-of-fame' : (currentState === 'hall-of-fame') }" v-show="currentState === 'playing' || currentState === 'hall-of-fame' " :whenUserPress="userPressed" :simonlyUI="simonlyUI"></simonly-keys>
-    <simonly-hall-of-fame :score="simonlyUI.score"  v-if="currentState === 'hall-of-fame'" class="hall-of-fame"></simonly-hall-of-fame>
+    <simonly-score class="score" :score="simonlyLocalUI.score"></simonly-score>
+    <simonly-keys :class="{ 'simonly-keys': true, 'slide-when-hall-of-fame' : (currentState === 'hall-of-fame') }" v-show="currentState === 'playing' || currentState === 'hall-of-fame' " :whenUserPress="userPressed" :simonlyUI="simonlyLocalUI"></simonly-keys>
+    <simonly-hall-of-fame :score="simonlyLocalUI.score"  v-if="currentState === 'hall-of-fame'" class="hall-of-fame"></simonly-hall-of-fame>
     <simonly-music :track="currentState"></simonly-music>
     <audio src="./static/audio/round-ko.mp3" ref="roundKoAudio"></audio>
     <audio src="./static/audio/round-ok.mp3" ref="roundOkAudio"></audio>
@@ -42,7 +42,7 @@
 
   export default {
     name: 'simonly-board',
-    ioc: ['simonlyUI', 'simonlyGame'],
+    ioc: ['simonlyLocalUI', 'simonlyGame'],
     components: {
       SimonlyScore,
       SimonlyButton,
@@ -77,13 +77,10 @@
     },
     mounted() {
       this.currentState = STATES.WELCOME;
-      this.simonlyUI.setOkAudio(this.$refs.roundOkAudio);
-      this.simonlyUI.setKoAudio(this.$refs.roundKoAudio);
-      /* if (screenfull.enabled) {
-        screenfull.request();
-      } */
-      this.$watch('simonlyUI.theRightKey', () => {
-        if (this.simonlyUI.theRightKey) {
+      this.simonlyLocalUI.setOkAudio(this.$refs.roundOkAudio);
+      this.simonlyLocalUI.setKoAudio(this.$refs.roundKoAudio);
+      this.$watch('simonlyLocalUI.theRightKey', () => {
+        if (this.simonlyLocalUI.theRightKey) {
           setTimeout(() => {
             this.currentState = STATES.HALL_OF_FAME;
           }, 1500);

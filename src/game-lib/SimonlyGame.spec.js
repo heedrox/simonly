@@ -1,8 +1,14 @@
 import SimonlyGame from './SimonlyGame';
-import SimonlyUI from './SimonlyUI';
 import FakePromise from '../../test/unit/fake-promise';
 
 const A_GOOD_KEY = 1;
+
+const SimonlyUIMock = () => ({
+  showSequence: () => {},
+  roundFailed: () => {},
+  roundOk: () => {},
+  updateScore: () => {},
+});
 
 describe('SimonlyGame', () => {
   let clock;
@@ -24,7 +30,7 @@ describe('SimonlyGame', () => {
   });
 
   it('runs turn ONE when starting', () => {
-    const ui = new SimonlyUI();
+    const ui = SimonlyUIMock();
     ui.updateScore = sinon.spy();
     const game = new SimonlyGame(ui);
     game.runTurn = sinon.spy();
@@ -49,7 +55,7 @@ describe('SimonlyGame', () => {
   });
 
   it('runs a turn', () => {
-    const ui = new SimonlyUI();
+    const ui = SimonlyUIMock();
     const game = new SimonlyGame(ui);
     game.runTurn(3);
 
@@ -58,7 +64,7 @@ describe('SimonlyGame', () => {
   });
 
   it('increases score if you press correctly', () => {
-    const ui = new SimonlyUI();
+    const ui = SimonlyUIMock();
     ui.updateScore = sinon.spy();
     const game = new SimonlyGame(ui);
     game.gameInfo.numTurn = 2;
@@ -78,7 +84,7 @@ describe('SimonlyGame', () => {
 
   describe('when press wrong', () => {
     it('sets that you fail ', () => {
-      const ui = new SimonlyUI();
+      const ui = SimonlyUIMock();
       const game = new SimonlyGame(ui);
       ui.roundFailed = () => {};
       game.gameInfo.numTurn = 2;
@@ -92,7 +98,7 @@ describe('SimonlyGame', () => {
     });
 
     it('tells the UI presenter that you fail', () => {
-      const ui = new SimonlyUI();
+      const ui = SimonlyUIMock();
       const game = new SimonlyGame(ui);
       game.gameInfo.numTurn = 1;
 
@@ -107,7 +113,7 @@ describe('SimonlyGame', () => {
   });
 
   it('tells the UI presenter that round is OK when presses all keys ok', () => {
-    const ui = new SimonlyUI();
+    const ui = SimonlyUIMock();
     sinon.stub(ui, 'roundOk').returns(FakePromise.resolved({}));
     const game = new SimonlyGame(ui);
     game.runTurn = sinon.spy();

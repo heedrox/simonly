@@ -2,9 +2,32 @@ import Vue from 'vue';
 import { mount } from 'avoriaz';
 import VueResource from 'vue-resource';
 import SimonlyBoard from './SimonlyBoard.vue';
-import simonlyIOC from '../../game-lib/SimonlyIOC';
+import SimonlyGame from '../../game-lib/SimonlyGame';
+import SimonlyStorage from '../../game-lib/SimonlyStorage';
+import ioc from '../../lib/ioc';
+import vueIoc from '../../lib/vue-ioc';
 
 Vue.use(VueResource);
+
+const SimonlyUIMock = () => ({
+  theRightKey: 0,
+  showSequence: () => {},
+  roundFailed: () => {},
+  roundOk: () => {},
+  updateScore: () => {},
+  setOkAudio: () => {},
+  setKoAudio: () => {},
+});
+
+const simonlyMockIOC = () => {
+  const localUI = SimonlyUIMock();
+  const multiplayerUI = SimonlyUIMock();
+  ioc.set('simonlyLocalUI', localUI);
+  ioc.set('simonlyUI', multiplayerUI);
+  ioc.set('simonlyGame', new SimonlyGame(multiplayerUI));
+  ioc.set('simonlyStorage', new SimonlyStorage());
+  Vue.use(vueIoc);
+};
 
 describe('SimonlyBoard', () => {
   let wrapper;
@@ -13,7 +36,7 @@ describe('SimonlyBoard', () => {
 
   beforeEach(() => {
     clock = sinon.useFakeTimers();
-    simonlyIOC(Vue);
+    simonlyMockIOC();
     wrapper = mount(SimonlyBoard);
     vm = wrapper.vm;
   });
@@ -66,7 +89,7 @@ describe('SimonlyBoard', () => {
 
   describe('hall of fame showing or hiding is controlled', () => {
     it('shows when loosing', (done) => {
-      vm.simonlyUI.theRightKey = 3;
+      vm.simonlyLocalUI.theRightKey = 3;
 
       vm.$nextTick(() => {
         clock.tick(5005);
