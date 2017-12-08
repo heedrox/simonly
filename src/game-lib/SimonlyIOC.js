@@ -14,7 +14,6 @@ const simonlyIOC = (Vue) => {
   const simonlyStorage = new SimonlyStorage();
   const simonlyGame = new SimonlyGame(simonlyMultiplayerUI);
   ioc.set('simonlyLocalUI', simonlyLocalUI);
-  ioc.set('simonlyUI', simonlyMultiplayerUI);
   ioc.set('simonlyGame', simonlyGame);
   ioc.set('simonlyStorage', simonlyStorage);
   Vue.use(vueIoc);
