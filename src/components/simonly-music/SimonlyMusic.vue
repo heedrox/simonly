@@ -1,6 +1,6 @@
 <template>
   <div class="simonly-music">
-    <audio ref="backgroundAudio"
+    <audio ref="backgroundAudio" loop
            :src="getBackgroundAudioName"></audio>
   </div>
 </template>
