@@ -3,6 +3,7 @@ import { mount } from 'avoriaz';
 import VueResource from 'vue-resource';
 import SimonlyBoard from './SimonlyBoard.vue';
 import simonlyIOC from '../../game-lib/SimonlyIOC';
+import ioc from '../../lib/ioc';
 
 Vue.use(VueResource);
 
@@ -14,6 +15,7 @@ describe('SimonlyBoard', () => {
   beforeEach(() => {
     clock = sinon.useFakeTimers();
     simonlyIOC(Vue);
+    ioc.set('config', { numKeys: 4, nameOfFamily: 'testFamily' });
     wrapper = mount(SimonlyBoard);
     vm = wrapper.vm;
   });

@@ -46,7 +46,6 @@ npm test
 # Want to improve this?
 - Do a PR, I would love to hear from you!
 - You can improve the design a little bit. I'm a developer, not a designer, I've tried to do my best! :)
-- You can refactor it to N keys instead of hardcoded 8.
 
 # Where am I going?
 - Collaborative mode: my nephews and nieces playing together!

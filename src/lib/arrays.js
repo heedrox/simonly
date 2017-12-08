@@ -8,5 +8,11 @@ const emptyRows = (n) => {
   return result;
 };
 
-// eslint-disable-next-line import/prefer-default-export
-export { emptyRows };
+const array0ToN = (n) => {
+  if (typeof n === 'undefined') return [];
+  if (n <= 0) return [0];
+  if (n === 1) return [0, 1];
+  return Array(...{ length: (n + 1) }).map(Number.call, Number);
+};
+
+export { emptyRows, array0ToN };

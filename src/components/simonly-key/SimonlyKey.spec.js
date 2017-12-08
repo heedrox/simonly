@@ -25,7 +25,7 @@ describe('SimonlyKey', () => {
 
   it('sets ups', () => {
     expect(vm).to.be.defined;
-    expect(vm.skin).to.equal('');
+    expect(vm.skin).to.equal(0);
     expect(vm.pressed).to.be.false;
     expect(vm.position).to.equal(1);
     expect(vm.externallyPressed).to.be.false;

@@ -3,7 +3,7 @@
     <simonly-welcome v-if="currentState === 'welcome'" :onClick="preloadAndStart"></simonly-welcome>
     <simonly-go321 v-if="currentState === '321'"></simonly-go321>
     <simonly-score class="score" :score="simonlyUI.score"></simonly-score>
-    <simonly-keys :class="{ 'simonly-keys': true, 'slide-when-hall-of-fame' : (currentState === 'hall-of-fame') }" v-show="currentState === 'playing' || currentState === 'hall-of-fame' " :whenUserPress="userPressed" :simonlyUI="simonlyUI"></simonly-keys>
+    <simonly-keys :numKeys="config.numKeys" :class="{ 'simonly-keys': true, 'slide-when-hall-of-fame' : (currentState === 'hall-of-fame') }" v-show="currentState === 'playing' || currentState === 'hall-of-fame' " :whenUserPress="userPressed" :simonlyUI="simonlyUI"></simonly-keys>
     <simonly-hall-of-fame :score="simonlyUI.score"  v-if="currentState === 'hall-of-fame'" class="hall-of-fame"></simonly-hall-of-fame>
     <simonly-music :track="currentState"></simonly-music>
     <audio src="./static/audio/round-ko.mp3" ref="roundKoAudio"></audio>
@@ -42,7 +42,7 @@
 
   export default {
     name: 'simonly-board',
-    ioc: ['simonlyUI', 'simonlyGame'],
+    ioc: ['simonlyUI', 'simonlyGame', 'config'],
     components: {
       SimonlyScore,
       SimonlyButton,

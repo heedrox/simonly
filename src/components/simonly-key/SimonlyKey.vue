@@ -31,9 +31,9 @@
         },
       },
       skin: {
-        type: String,
+        type: Number,
         default() {
-          return '';
+          return 0;
         },
       },
       type: {

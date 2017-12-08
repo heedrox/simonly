@@ -7,7 +7,7 @@
       <tr :class="{ winnerrow: isRowCurrentGame(row) }" v-for="(row, index) in hallRowsWithEmpty">
         <td width="5%" :class="{ left: true, winnerasterisk: isRowCurrentGame(row) }">{{(isRowCurrentGame(row)) ? '*' : ''}}</td>
         <td width="5%">{{index + 1}}</td>
-        <td width="55%">
+        <td width="55%" class="namerow">
           {{row.name ? row.name : '---'}}
         </td>
         <td width="30%" class="score">{{ row.score ? row.score : '-' }}</td>

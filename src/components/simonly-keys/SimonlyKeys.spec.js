@@ -6,22 +6,20 @@ import SimonlyKeys from './SimonlyKeys.vue';
 Vue.use(VueResource);
 
 describe('SimonlyKeys', () => {
-  let wrapper;
-  let vm;
-
-  beforeEach(() => {
-    wrapper = mount(SimonlyKeys);
-    vm = wrapper.vm;
-  });
-
-  it('sets ups', () => {
-    expect(vm).to.be.defined;
-  });
-
   it('handles keypress', () => {
+    const wrapper = mount(SimonlyKeys);
+    const vm = wrapper.vm;
+
     vm.whenUserPress = sinon.spy();
     vm.userPressed({ key: 2 });
 
     expect(vm.whenUserPress).to.be.calledWith(2);
+  });
+
+  it('generates N elements', () => {
+    const wrapper = mount(SimonlyKeys, { propsData: { numKeys: 4 } });
+    const vm = wrapper.vm;
+
+    expect(vm.$el.getElementsByClassName('key').length).to.equal(4);
   });
 });

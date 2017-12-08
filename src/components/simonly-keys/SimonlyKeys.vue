@@ -1,28 +1,7 @@
 <template>
     <div class="simonly-keys">
-      <simonly-key class="key" :position="1" :externallyPressedKey="simonlyUI && simonlyUI.pressedKey" @keypress="userPressed"
-                   skin="1" :showRightKey="simonlyUI && simonlyUI.theRightKey">
-      </simonly-key>
-      <simonly-key class="key" :position="2" :externallyPressedKey="simonlyUI && simonlyUI.pressedKey" @keypress="userPressed"
-                   skin="2" :showRightKey="simonlyUI && simonlyUI.theRightKey">
-      </simonly-key>
-      <simonly-key class="key" :position="3" :externallyPressedKey="simonlyUI && simonlyUI.pressedKey" @keypress="userPressed"
-                   skin="3" :showRightKey="simonlyUI && simonlyUI.theRightKey">
-      </simonly-key>
-      <simonly-key class="key" :position="4" :externallyPressedKey="simonlyUI && simonlyUI.pressedKey" @keypress="userPressed"
-                   skin="4" :showRightKey="simonlyUI && simonlyUI.theRightKey">
-      </simonly-key>
-      <simonly-key class="key" :position="5" :externallyPressedKey="simonlyUI && simonlyUI.pressedKey" @keypress="userPressed"
-                   skin="5" :showRightKey="simonlyUI && simonlyUI.theRightKey">
-      </simonly-key>
-      <simonly-key class="key" :position="6" :externallyPressedKey="simonlyUI && simonlyUI.pressedKey" @keypress="userPressed"
-                   skin="6" :showRightKey="simonlyUI && simonlyUI.theRightKey">
-      </simonly-key>
-      <simonly-key class="key" :position="7" :externallyPressedKey="simonlyUI && simonlyUI.pressedKey" @keypress="userPressed"
-                   skin="7" :showRightKey="simonlyUI && simonlyUI.theRightKey">
-      </simonly-key>
-      <simonly-key class="key" :position="8" :externallyPressedKey="simonlyUI && simonlyUI.pressedKey" @keypress="userPressed"
-                   skin="8" :showRightKey="simonlyUI && simonlyUI.theRightKey">
+      <simonly-key v-for="keyNumber in numKeys" :key="keyNumber" class="key" :position="keyNumber" :externallyPressedKey="simonlyUI && simonlyUI.pressedKey" @keypress="userPressed"
+                   :skin="keyNumber" :showRightKey="simonlyUI && simonlyUI.theRightKey">
       </simonly-key>
   </div>
 </template>
@@ -38,14 +17,18 @@
     },
     props: {
       simonlyUI: {},
+      numKeys: {
+        type: Number,
+        default() {
+          return 1;
+        },
+      },
       whenUserPress: {
         type: Function,
         default() {
           return () => {};
         },
       },
-    },
-    computed: {
     },
     methods: {
       userPressed(ev) {
