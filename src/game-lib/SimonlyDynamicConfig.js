@@ -1,8 +1,8 @@
 const getCode = (url) => {
   if (url.indexOf('/_/') < 0) return false;
   return url
-    .replace('https://simon.ly/#/_/', '')
-    .replace('http://localhost:8080/#/_/', '');
+    .replace('https://simon.ly/_/#/', '')
+    .replace('http://localhost:8080/_/#/', '');
 };
 
 const decode = code => JSON.parse(window.atob(decodeURIComponent(code)));

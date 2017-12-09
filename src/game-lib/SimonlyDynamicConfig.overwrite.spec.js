@@ -5,8 +5,8 @@ const A_CODE_WITH_NUMKEYS_2 = 'eyJpZCI6Im15aWQiLCJkIjpbeyJpIjoiaW1hZ2VvbmUiLCJhI
 
 describe('SimonlyDynamicConfigOverwrite', () => {
   const PARSEABLE_CODES = [
-    `https://simon.ly/#/_/${A_CODE_WITH_NUMKEYS_2}`,
-    `http://localhost:8080/#/_/${A_CODE_WITH_NUMKEYS_2}`,
+    `https://simon.ly/_/#/${A_CODE_WITH_NUMKEYS_2}`,
+    `http://localhost:8080/_/#/${A_CODE_WITH_NUMKEYS_2}`,
   ];
 
   const UNPARSEABLE_CODES = [
