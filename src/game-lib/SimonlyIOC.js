@@ -15,7 +15,7 @@ const simonlyIOC = (Vue) => {
   const simonlyUI = new SimonlyUI();
   const simonlyGame = new SimonlyGame(simonlyUI, overwrittenConfig.numKeys);
   const simonlyStorage = new SimonlyStorage();
-  const simonlyHallOfFameQueries = new SimonlyHallOfFameQueries(db, config);
+  const simonlyHallOfFameQueries = new SimonlyHallOfFameQueries(db, overwrittenConfig);
 
   ioc.set('simonlyUI', simonlyUI);
   ioc.set('simonlyGame', simonlyGame);
