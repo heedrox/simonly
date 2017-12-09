@@ -12,11 +12,9 @@
 </template>
 <style scoped src="./SimonlyKey.css"></style>
 <script>
-  /* eslint-disable no-console */
-
   import { mediaPreload } from '../../lib/media-preload';
 
-  const TIME_PER_KEY = 600;
+  const TIME_PER_KEY = 800;
 
   export default {
     name: 'simonly-key',
