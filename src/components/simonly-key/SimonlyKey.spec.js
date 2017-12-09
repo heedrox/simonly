@@ -32,9 +32,27 @@ describe('SimonlyKey', () => {
   });
 
   it('sets skin src', () => {
-    vm.skin = 'juan';
+    vm.skin = '1';
 
-    expect(vm.src).to.contain('/static/key-files/juan.png');
+    expect(vm.src).to.contain('/static/key-files/1.png');
+  });
+
+  it('overwrites skin from dataKeys', () => {
+    vm.overwriteSkin = 'https://otherdomain.com/skin/1.png';
+
+    expect(vm.src).to.equal('https://otherdomain.com/skin/1.png');
+  });
+
+  it('get audio src from number', () => {
+    vm.skin = '1';
+
+    expect(vm.getAudioSrc()).to.contains('/static/key-files/1.m4a');
+  });
+
+  it('overwrites audio from dataKeys', () => {
+    vm.overwriteAudio = 'https://otherdomain.com/audio/1.m4a';
+
+    expect(vm.getAudioSrc()).to.equal('https://otherdomain.com/audio/1.m4a');
   });
 
   describe('when being pressed by user', () => {

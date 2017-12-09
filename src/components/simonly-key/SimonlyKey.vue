@@ -12,6 +12,8 @@
 </template>
 <style scoped src="./SimonlyKey.css"></style>
 <script>
+  /* eslint-disable no-console */
+
   import { mediaPreload } from '../../lib/media-preload';
 
   const TIME_PER_KEY = 600;
@@ -36,6 +38,18 @@
           return 0;
         },
       },
+      overwriteSkin: {
+        type: String,
+        default() {
+          return null;
+        },
+      },
+      overwriteAudio: {
+        type: String,
+        default() {
+          return null;
+        },
+      },
       type: {
         type: String,
         default() {
@@ -57,7 +71,7 @@
     },
     computed: {
       src() {
-        return `./static/key-files/${this.skin}.png`;
+        return this.overwriteSkin ? this.overwriteSkin : `./static/key-files/${this.skin}.png`;
       },
       externallyPressed() {
         this.playAudioIf(this.externallyPressedKey === this.position);
@@ -80,7 +94,11 @@
         if (audio && audio.play) {
           audio.currentTime = 0;
           audio.volume = 1;
-          return audio.play();
+          try {
+            return audio.play();
+          } catch (e) {
+            return Promise.resolve({});
+          }
         }
         return Promise.resolve({});
       },
@@ -107,10 +125,16 @@
         this.stopAudio();
         this.$emit('keypress', { key: this.position });
       },
+      getAudioSrc() {
+        return this.overwriteAudio ? this.overwriteAudio : `./static/key-files/${this.skin}.m4a`;
+      },
       preloadAudio() {
-        mediaPreload(`./static/key-files/${this.skin}.m4a`)
+        mediaPreload(this.getAudioSrc())
           .then((video) => {
             this.$refs.audio.src = video;
+          })
+          .catch(() => {
+            this.$refs.audio.src = this.getAudioSrc();
           });
       },
     },

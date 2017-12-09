@@ -4,6 +4,7 @@
   <p class="title bounce">WELCOME!</p>
   <p class="namerow"><input placeholder="Enter your name" type="text" v-model="name"></p>
   <simonly-button class="playButton" :onClick="clickPlay"></simonly-button>
+  {{ config.nameOfFamily }}
 </div>
 
 </template>
@@ -14,7 +15,7 @@
 
   export default {
     name: 'simonly-welcome',
-    ioc: ['simonlyStorage'],
+    ioc: ['simonlyStorage', 'config'],
     components: {
       SimonlyButton,
     },

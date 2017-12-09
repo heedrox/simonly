@@ -37,6 +37,39 @@ npm test
 - static / key-files / 1.m4a ... 8.m4a - sounds for each key
 - config.js (copy config.template.js)
 
+# Dynamic config
+
+No need to install this in your site to add your own keys! 
+
+Now simonly allows dynamic configuration from URL.
+ 
+You can replace the name of the family (the id of the game), and the keys image and audio from an external
+configuration, through the URL.
+
+You can set as many keys as you like. Recommended from 4 to 8 max.
+
+Example: 
+https://simon.ly/#/_/eyJpZCI6ImNoaXF1aXRvIiwiZCI6W3siaSI6Imh0dHBzOi8vc2ltb24ubHkvc3RhdGljLWNoaXF1aXRvLzEucG5nIiwiYSI6Imh0dHBzOi8vc2ltb24ubHkvc3RhdGljLWNoaXF1aXRvLzEubTRhIn0seyJpIjoiaHR0cHM6Ly9zaW1vbi5seS9zdGF0aWMtY2hpcXVpdG8vMi5wbmciLCJhIjoiaHR0cHM6Ly9zaW1vbi5seS9zdGF0aWMtY2hpcXVpdG8vMi5tNGEifSx7ImkiOiJodHRwczovL3NpbW9uLmx5L3N0YXRpYy1jaGlxdWl0by8zLnBuZyIsImEiOiJodHRwczovL3NpbW9uLmx5L3N0YXRpYy1jaGlxdWl0by8zLm00YSJ9LHsiaSI6Imh0dHBzOi8vc2ltb24ubHkvc3RhdGljLWNoaXF1aXRvLzQucG5nIiwiYSI6Imh0dHBzOi8vc2ltb24ubHkvc3RhdGljLWNoaXF1aXRvLzQubTRhIn1dfQ%3D%3D
+
+The code that goes after /_/ must be generated like this:
+```
+encodeURIComponent(window.btoa(JSON.stringify(json)));
+```
+
+being json something with this format:
+
+```
+{ 
+ "id": "myid",
+ "d": [
+  { "i": "https://simon.ly/static-chiquito/1.png", "a": "https://simon.ly/static-chiquito/1.m4a" },
+  { "i": "https://simon.ly/static-chiquito/2.png", "a": "https://simon.ly/static-chiquito/1.m4a" }, 
+  { "i": "https://simon.ly/static-chiquito/3.png", "a": "https://simon.ly/static-chiquito/1.m4a" },
+  { "i": "https://simon.ly/static-chiquito/4.png", "a": "https://simon.ly/static-chiquito/1.m4a" }
+  ]
+}
+``
+
 # Technologies of this repo
 
 - This uses VueJS + Firebase.

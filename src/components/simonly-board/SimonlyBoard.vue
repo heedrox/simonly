@@ -19,7 +19,6 @@
 
 
 <script>
-  // import screenfull from 'screenfull';
   import Firebase from 'firebase';
   import SimonlyButton from '../../components/simonly-button/SimonlyButton.vue';
   import SimonlyScore from '../../components/simonly-score/SimonlyScore.vue';

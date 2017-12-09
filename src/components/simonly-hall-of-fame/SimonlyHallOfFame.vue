@@ -19,20 +19,17 @@
 <style scoped src="./SimonlyHallOfFame.css"></style>
 
 <script>
-  import { db } from '../../lib/db-firebase';
-  import SimonlyHallOfFameQueries from './SimonlyHallOfFame.queries';
   import { emptyRows } from '../../lib/arrays';
 
   export default {
     name: 'simonly-hall-of-fame',
-    ioc: ['simonlyStorage'],
+    ioc: ['simonlyStorage', 'queries'],
     props: {
       score: 0,
     },
     data() {
       return {
         name: '',
-        queries: new SimonlyHallOfFameQueries(db),
         username: '',
       };
     },
