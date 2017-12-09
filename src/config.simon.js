@@ -7,4 +7,5 @@ export default {
   projectId: 'simonly-a3839',
   storageBucket: 'simonly-a3839.appspot.com',
   messagingSenderId: '570803477257',
+  hidePubli: 0,
 };
