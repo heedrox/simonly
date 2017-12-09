@@ -5,7 +5,15 @@ const getCode = (url) => {
     .replace('http://localhost:8080/_/#/', '');
 };
 
-const decode = code => JSON.parse(window.atob(decodeURIComponent(code)));
+const tryOr = (fn, defaultValue) => {
+  try {
+    return fn();
+  } catch (ex) {
+    return defaultValue;
+  }
+};
+
+const decode = code => tryOr(() => JSON.parse(window.atob(decodeURIComponent(code))), null);
 
 const SimonlyDynamicConfigEncode = json => encodeURIComponent(window.btoa(JSON.stringify(json)));
 
@@ -14,11 +22,11 @@ const SimonlyDynamicConfigOverwrite = (url, config) => {
   const code = getCode(url);
   if (code) {
     const decodedCode = decode(code);
-    if (decodedCode.d) {
+    if (decodedCode && decodedCode.d) {
       newConfig.numKeys = decodedCode.d.length;
       newConfig.dataKeys = decodedCode.d;
     }
-    if (decodedCode.id) {
+    if (decodedCode && decodedCode.id) {
       newConfig.nameOfFamily = decodedCode.id;
     }
   }

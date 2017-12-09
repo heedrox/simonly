@@ -9,13 +9,13 @@ Vue.use(Router);
 export default new Router({
   mode: 'hash',
   routes: [{
+    path: '*',
+    component: HomeView,
+  }, {
     path: '/explain',
     component: ExplainView,
   }, {
     path: '/new',
     component: NewView,
-  }, {
-    path: '*',
-    component: HomeView,
   }],
 });
