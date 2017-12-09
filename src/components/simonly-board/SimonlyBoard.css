@@ -106,3 +106,11 @@
     transform: translate3d(0, 0, 0);
   }
 }
+
+.explain-simonly p {
+  font-family: Verdana,serif;
+  font-size: 4vh;
+  position:absolute;
+  bottom: 6vh;
+  left: 2vw;
+}

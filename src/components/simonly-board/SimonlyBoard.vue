@@ -13,6 +13,10 @@
       <p class="bounce">GAME OVER :(</p>
       <simonly-button :onClick="restart" button="replay"></simonly-button>
     </div>
+
+    <div class="explain-simonly" v-if="config.hidePubli === 0">
+      <p><router-link :to="{ path: '/explain'}" replace>Create your own simon!</router-link></p>
+    </div>
   </div>
 </template>
 <style scoped src="./SimonlyBoard.css"></style>
