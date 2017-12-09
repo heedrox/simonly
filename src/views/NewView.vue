@@ -3,6 +3,7 @@
     <h1>Create your own simon.ly !</h1>
     <p class="row">Identifier: <input type="text" v-model="identifier" placeholder="a string without spaces"> </p>
     <p class="row">Number of keys: <input type="number" step="1" v-model="numKeys"></p>
+    <p class="row">(*) Recommended size per image: width 600 x height 400 pixels. It's a sprite horizontally made of two pieces of 300 pixels ( = 600 pixels). The first 300 pixels contains the image without being pressed, and the next 300 pixels contain the image being pressed. <a href="https://simon.ly/_/static/key-files/1.png" target="_blank">You have an example here.</a></p>
     <div v-for="(key, index) in parseInt(numKeys)" :key="key">
       <p class="row">
         <input type="text" class="image" v-model="image[index]" :placeholder="'URL for image '+(index+1)">
@@ -15,7 +16,8 @@
     </span>
     <input type="button" value="copy to clipboard" v-on:click="copy"></p>
     <textarea id="result">{{ result }}</textarea>
-    <p>What does this do? It creates a JSON array. Each element of array is an object with "i" and "a" property. "i" stands for image, "a" stands for audio. It later codifies it in base64 (btoa) and encodes it (encodeURIComponent). And it is attached to the server URL after the "https://simon.ly/#/_/" part ! <br/>You can try decoding the part after "_"</p>
+    <p>What does this do? It creates a JSON object, with the identifier ("id") and an array ("d" element). Each element of array is an object with "i" and "a" property. "i" stands for image, "a" stands for audio. It later codifies it in base64 (btoa) and encodes it (encodeURIComponent). And it is attached to the server URL after the "https://simon.ly/#/_/" part ! <br/>You can try decoding the part after "_"</p>
+    <p><router-link :to="{ path: '/explain'}" replace>Go back</router-link></p>
   </div>
 </template>
 <style scoped>
@@ -27,7 +29,10 @@
   }
   h1 {
     margin: 0;
-    padding: 0;
+    padding: 0 0 5vh;
+    font-family: GameFont;
+    color: #f4dd06;
+    text-shadow: 0.5vw 0.5vw #f5991b, 0.8vw 0.8vw #c82f27, 1vw 1vw #6c100f;
   }
   .new-view, .new-view p, .new-view input {
     font-family: Verdana,serif;
@@ -76,7 +81,7 @@
         };
         try {
           const code = SimonlyDynamicConfigEncode(buildJson());
-          return `https://simon.ly/#/_/${code}`;
+          return `https://simon.ly/_/#/${code}`;
         } catch (e) {
           return ` error ${e}`;
         }
