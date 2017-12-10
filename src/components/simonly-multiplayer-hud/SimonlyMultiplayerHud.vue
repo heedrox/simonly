@@ -14,14 +14,17 @@
 <script>
 
 
-  import { byDesc } from '../../lib/arrays';
+  import { byDesc, byNot } from '../../lib/arrays';
 
   export default {
     name: 'simonly-multiplayer-hud',
-    ioc: ['multiplayerHudQueries'],
+    ioc: ['multiplayerHudQueries', 'simonlyMultiplayer'],
     computed: {
       sortedPlayers() {
-        return this.players ? this.players.sort(byDesc('score')) : [];
+        if (!this.players) return [];
+        const myId = this.simonlyMultiplayer.getUserId();
+        const playersWithoutMe = this.players.filter(byNot('userId', myId));
+        return playersWithoutMe.sort(byDesc('score'));
       },
     },
     firebase() {

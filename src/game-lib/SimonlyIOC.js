@@ -12,16 +12,21 @@ import config from '../config';
 import SimonlyMultiplayerHudQueries from '../components/simonly-multiplayer-hud/SimonlyMultiplayerHud.queries';
 import SimonlyMultiplayer from './SimonlyMultiplayer';
 
+
 const simonlyIOC = (Vue) => {
   const overwrittenConfig = SimonlyDynamicConfigOverwrite(window.location.href, config);
   ioc.set('config', overwrittenConfig);
 
+  const simonlyStorage = new SimonlyStorage();
+
   const simonlyLocalUI = new SimonlyLocalUI(overwrittenConfig.timePerKey);
   const simonlyRemoteUI = new SimonlyRemoteUI();
   const simonlyMultiplayerUI = new SimonlyMultiplayerUI(db, simonlyLocalUI, simonlyRemoteUI);
-  const simonlyStorage = new SimonlyStorage();
+
   const simonlyGame = new SimonlyGame(simonlyMultiplayerUI, overwrittenConfig.numKeys);
+
   const simonlyHallOfFameQueries = new SimonlyHallOfFameQueries(db, overwrittenConfig);
+
   const simonlyMultiplayerHudQueries = new SimonlyMultiplayerHudQueries(db, overwrittenConfig);
   const simonlyMultiplayer = new SimonlyMultiplayer(db, overwrittenConfig.nameOfFamily);
 

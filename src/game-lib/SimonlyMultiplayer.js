@@ -7,6 +7,7 @@ export default class SimonlyMultiplayer {
     this.db = db;
     this.nameOfFamily = nameOfFamily;
     this.connectedNode = null;
+    this.userId = null;
   }
 
   setPresence(name) {
@@ -17,8 +18,14 @@ export default class SimonlyMultiplayer {
     const handleConnection = (isConnected) => {
       if (isConnected.val() === true) {
         this.connectedNode = this.connectedNode || myConnectionsRef.push();
+        this.userId = this.connectedNode.key;
         this.connectedNode.onDisconnect().remove();
-        this.connectedNode.set({ name, score: 0, userAgent: window.navigator.userAgent });
+        this.connectedNode.set({
+          name,
+          score: 0,
+          userAgent: window.navigator.userAgent,
+          userId: this.userId,
+        });
         this.updateLastUpdate();
       }
     };
@@ -31,4 +38,9 @@ export default class SimonlyMultiplayer {
       this.connectedNode.child('lastUpdate').set(Firebase.database.ServerValue.TIMESTAMP);
     }
   }
+
+  getUserId() {
+    return this.userId;
+  }
+
 }

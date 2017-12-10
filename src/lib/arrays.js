@@ -18,4 +18,6 @@ const array0ToN = (n) => {
 const byAsc = property => (a, b) => a[property] - b[property];
 const byDesc = property => (a, b) => b[property] - a[property];
 
-export { emptyRows, array0ToN, byAsc, byDesc };
+const byNot = (property, value) => obj => obj[property] !== value;
+
+export { emptyRows, array0ToN, byAsc, byDesc, byNot };

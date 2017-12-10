@@ -1,5 +1,6 @@
 import { mount } from 'avoriaz';
 import SimonlyMultiplayerHud from './SimonlyMultiplayerHud.vue';
+import * as Vue from 'vue';
 
 describe('SimonlyMultiplayerHud', () => {
   let wrapper;
@@ -12,5 +13,14 @@ describe('SimonlyMultiplayerHud', () => {
 
   it('sets up', () => {
     expect(vm).to.be.defined;
+  });
+
+  xit('sorts players based on score - no way to make it work without VueFire?', (done) => {
+    vm.$options.players = [{}];
+
+    vm.$nextTick(() => {
+      expect(vm.sortedPlayers).to.eql([{}]);
+      done();
+    });
   });
 });
