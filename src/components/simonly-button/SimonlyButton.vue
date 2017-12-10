@@ -23,8 +23,6 @@
         type: Function,
       },
     },
-    computed: {
-    },
     methods: {
       click() {
         this.$refs.clickAudio.play();

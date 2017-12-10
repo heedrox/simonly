@@ -3,6 +3,9 @@
   src: url(../../assets/atarian.ttf);
 }
 
+.simonly-multiplayer-hud {
+  animation: slideInUp 0.5s;
+}
 ul {
   width: 100vw;
   display: table;
@@ -33,6 +36,7 @@ li  {
   height: 5vh;
   margin-right: 3vw;
   border: solid 0.3vh #6c100f;
+  animation: slideInUp 1s;
 }
 
 .badge {
@@ -64,3 +68,15 @@ li  {
   border: solid 0.3vh #f5991b;
   border-bottom: none;
 }
+
+@keyframes slideInUp {
+  from {
+    transform: translate3d(0, 100%, 0);
+    visibility: visible;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+

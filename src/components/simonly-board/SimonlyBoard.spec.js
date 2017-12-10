@@ -37,7 +37,8 @@ const simonlyMockIOC = () => {
     top10: () => [],
     addTop10: () => [],
   });
-  ioc.set('multiplayerQueries', { players: () => [] });
+  ioc.set('multiplayerHudQueries', { players: () => [] });
+  ioc.set('simonlyMultiplayer', { setPresence: () => { } });
 
   Vue.use(vueIoc);
 };
@@ -132,6 +133,21 @@ describe('SimonlyBoard', () => {
             done();
           });
       });
+    });
+  });
+
+  it('adds multiplayer presence when starting after welcome', (done) => {
+    ioc.get('simonlyStorage').set('name', 'Jordi');
+    ioc.set('simonlyMultiplayer', { setPresence: sinon.spy() });
+    wrapper = mount(SimonlyBoard);
+    vm = wrapper.vm;
+
+    vm.$mount();
+    vm.restart();
+
+    vm.$nextTick(() => {
+      expect(vm.simonlyMultiplayer.setPresence).to.have.been.calledWith('Jordi');
+      done();
     });
   });
 });

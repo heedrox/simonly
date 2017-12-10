@@ -3,8 +3,12 @@
     <simonly-welcome v-if="currentState === 'welcome'" :onClick="preloadAndStart"></simonly-welcome>
     <simonly-go321 v-if="currentState === '321'"></simonly-go321>
     <simonly-score class="score" :score="simonlyLocalUI.score"></simonly-score>
-    <simonly-hall-of-fame :score="simonlyLocalUI.score"  v-if="currentState === 'hall-of-fame'" class="hall-of-fame"></simonly-hall-of-fame>
-    <simonly-keys :numKeys="config.numKeys" :class="{ 'simonly-keys': true, 'slide-when-hall-of-fame' : (currentState === 'hall-of-fame') }" v-show="currentState === 'playing' || currentState === 'hall-of-fame' " :whenUserPress="userPressed" :simonlyUI="simonlyLocalUI"></simonly-keys>
+    <simonly-hall-of-fame :score="simonlyLocalUI.score" v-if="currentState === 'hall-of-fame'"
+                          class="hall-of-fame"></simonly-hall-of-fame>
+    <simonly-keys :numKeys="config.numKeys"
+                  :class="{ 'simonly-keys': true, 'slide-when-hall-of-fame' : (currentState === 'hall-of-fame') }"
+                  v-show="currentState === 'playing' || currentState === 'hall-of-fame' " :whenUserPress="userPressed"
+                  :simonlyUI="simonlyLocalUI"></simonly-keys>
 
     <simonly-music :track="currentState"></simonly-music>
     <audio src="./static/audio/round-ko.mp3" ref="roundKoAudio"></audio>
@@ -19,7 +23,6 @@
 
 
 <script>
-  import Firebase from 'firebase';
   import SimonlyGameover from '../../components/simonly-gameover/SimonlyGameover.vue';
   import SimonlyScore from '../../components/simonly-score/SimonlyScore.vue';
   import SimonlyMusic from '../../components/simonly-music/SimonlyMusic.vue';
@@ -31,8 +34,6 @@
   import SimonlyMultiplayerHud from '../../components/simonly-multiplayer-hud/SimonlyMultiplayerHud.vue';
 
   import autoPlayerHack from '../../lib/auto-player-hack';
-  import { db } from '../../lib/db-firebase';
-  import config from '../../config';
 
   const STATES = {
     WELCOME: 'welcome',
@@ -43,7 +44,7 @@
 
   export default {
     name: 'simonly-board',
-    ioc: ['simonlyLocalUI', 'simonlyGame', 'config'],
+    ioc: ['simonlyLocalUI', 'simonlyGame', 'config', 'simonlyStorage', 'simonlyMultiplayer'],
     components: {
       SimonlyScore,
       SimonlyGameover,
@@ -63,6 +64,7 @@
     props: {},
     methods: {
       restart() {
+        this.setMultiplayerPresence();
         this.currentState = STATES.GO321;
         setTimeout(() => {
           this.currentState = STATES.PLAYING;
@@ -80,6 +82,12 @@
       isAtState(states) {
         return states.indexOf(this.currentState) >= 0;
       },
+      setMultiplayerPresence() {
+        this.simonlyStorage.get('name')
+          .then((name) => {
+            this.simonlyMultiplayer.setPresence(name);
+          });
+      },
     },
     mounted() {
       this.currentState = STATES.WELCOME;
@@ -90,32 +98,6 @@
           setTimeout(() => {
             this.currentState = STATES.HALL_OF_FAME;
           }, 1500);
-        }
-      });
-      // since I can connect from multiple devices or browser tabs,
-      // we store each connection instance separately
-      // any time that connectionsRef's value is null (i.e. has no children) I am offline
-      const myConnectionsRef = db.ref(`${config.nameOfFamily}/joe/connections`);
-
-      // stores the timestamp of my last disconnect (the last time I was seen online)
-      const lastOnlineRef = db.ref(`${config.nameOfFamily}/joe/lastOnline`);
-
-      const connectedRef = db.ref('.info/connected');
-      connectedRef.on('value', (snap) => {
-        if (snap.val() === true) {
-          // We're connected (or reconnected)! Do anything
-          // here that should happen only if online (or on reconnect)
-          const con = myConnectionsRef.push();
-
-          // When I disconnect, remove this device
-          con.onDisconnect().remove();
-
-          // Add this device to my connections list
-          // this value could contain info about the device or a timestamp too
-          con.set({ userAgent: window.navigator.userAgent });
-
-          // When I disconnect, update the last time I was seen online
-          lastOnlineRef.onDisconnect().set(Firebase.database.ServerValue.TIMESTAMP);
         }
       });
     },
