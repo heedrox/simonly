@@ -14,7 +14,7 @@
 
   export default {
     name: 'simonly-welcome',
-    ioc: ['simonlyStorage'],
+    ioc: ['simonlyStorage', 'config'],
     components: {
       SimonlyButton,
     },

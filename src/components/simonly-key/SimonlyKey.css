@@ -7,6 +7,8 @@
 }
 .keyPressed {
   left:-100%;
+  background: -webkit-radial-gradient(75%, yellow 60%, #f5991b 90%, rgba(0,0,0,0));
+  background: radial-gradient(10vh at 75%, yellow 60%, #f5991b 90%, rgba(0,0,0,0)); /* Standard syntax */
 }
 
 .animateBigger {

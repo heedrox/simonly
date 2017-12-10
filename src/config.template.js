@@ -1,4 +1,5 @@
 export default {
+  numKeys: 8,
   apiKey: 'xxx',
   authDomain: 'xxx',
   databaseURL: 'https://xxxx.firebaseio.com',

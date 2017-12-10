@@ -4,19 +4,25 @@ import VueResource from 'vue-resource';
 import SimonlyBoard from './SimonlyBoard.vue';
 import SimonlyGame from '../../game-lib/SimonlyGame';
 import SimonlyStorage from '../../game-lib/SimonlyStorage';
-import ioc from '../../lib/ioc';
 import vueIoc from '../../lib/vue-ioc';
+import ioc from '../../lib/ioc';
 
 Vue.use(VueResource);
 
 const SimonlyUIMock = () => ({
   theRightKey: 0,
-  showSequence: () => {},
-  roundFailed: () => {},
-  roundOk: () => {},
-  updateScore: () => {},
-  setOkAudio: () => {},
-  setKoAudio: () => {},
+  showSequence: () => {
+  },
+  roundFailed: () => {
+  },
+  roundOk: () => {
+  },
+  updateScore: () => {
+  },
+  setOkAudio: () => {
+  },
+  setKoAudio: () => {
+  },
 });
 
 const simonlyMockIOC = () => {
@@ -26,6 +32,11 @@ const simonlyMockIOC = () => {
   ioc.set('simonlyUI', multiplayerUI);
   ioc.set('simonlyGame', new SimonlyGame(multiplayerUI));
   ioc.set('simonlyStorage', new SimonlyStorage());
+  ioc.set('queries', {
+    top10: () => [],
+    addTop10: () => [],
+  });
+
   Vue.use(vueIoc);
 };
 
@@ -37,6 +48,7 @@ describe('SimonlyBoard', () => {
   beforeEach(() => {
     clock = sinon.useFakeTimers();
     simonlyMockIOC();
+    ioc.set('config', { numKeys: 4, nameOfFamily: 'testFamily' });
     wrapper = mount(SimonlyBoard);
     vm = wrapper.vm;
   });
@@ -89,6 +101,7 @@ describe('SimonlyBoard', () => {
 
   describe('hall of fame showing or hiding is controlled', () => {
     it('shows when loosing', (done) => {
+      vm.hallRows = [];
       vm.simonlyLocalUI.theRightKey = 3;
 
       vm.$nextTick(() => {

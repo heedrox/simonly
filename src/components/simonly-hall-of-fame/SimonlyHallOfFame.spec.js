@@ -1,13 +1,12 @@
 import Vue from 'vue';
 import { mount } from 'avoriaz';
 import VueResource from 'vue-resource';
-import VueFire from 'vuefire';
 import SimonlyHallOfFame from './SimonlyHallOfFame.vue';
 import SimonlyStorage from '../../game-lib/SimonlyStorage';
-
+import simonlyIOC from '../../game-lib/SimonlyIOC';
+import ioc from '../../lib/ioc';
 
 Vue.use(VueResource);
-Vue.use(VueFire);
 
 describe('SimonlyHallOfFame', () => {
   const threeRows = () => [{ name: 'jone', score: 28 }, { name: 'juan', score: 25 }, { name: 'luis', score: 23 }];
@@ -16,9 +15,10 @@ describe('SimonlyHallOfFame', () => {
   let vm;
 
   beforeEach(() => {
+    simonlyIOC(Vue);
+    ioc.get('simonlyStorage').clear();
     wrapper = mount(SimonlyHallOfFame);
     vm = wrapper.vm;
-    new SimonlyStorage().clear();
   });
 
   it('sets ups', () => {
@@ -64,20 +64,22 @@ describe('SimonlyHallOfFame', () => {
   });
 
   describe('saves name when hall of fame shows up / mounts', () => {
-    let simonlyStorage;
-
     beforeEach(() => {
-      simonlyStorage = new SimonlyStorage();
-    });
-
-    it('saves the game when score greater than zero', (done) => {
       vm.queries = {
         top10: () => [],
         addTop10: sinon.spy(),
       };
       vm.hallRows = threeRows();
+      vm.$firebaseRefs = { hallRows: { } };
+      ioc.get('simonlyStorage').set('name', 'jordi');
+    });
+
+    afterEach(() => {
+      ioc.get('simonlyStorage').clear();
+    });
+
+    it('saves the game when score greater than zero', (done) => {
       vm.score = 1;
-      simonlyStorage.set('name', 'jordi');
 
       vm.$mount();
 
@@ -85,25 +87,17 @@ describe('SimonlyHallOfFame', () => {
         expect(vm.queries.addTop10).to.be.called;
         expect(vm.queries.addTop10.getCall(0).args[1]).to.equal('jordi');
         expect(vm.queries.addTop10.getCall(0).args[2]).to.equal(1);
-        simonlyStorage.clear();
         done();
       });
     });
 
     it('does not save the game if score is zero', (done) => {
-      vm.queries = {
-        top10: () => [],
-        addTop10: sinon.spy(),
-      };
-      vm.hallRows = threeRows();
       vm.score = 0;
-      simonlyStorage.set('name', 'jordi');
 
       vm.$mount();
 
       vm.$nextTick(() => {
         expect(vm.queries.addTop10).not.to.be.called;
-        simonlyStorage.clear();
         done();
       });
     });

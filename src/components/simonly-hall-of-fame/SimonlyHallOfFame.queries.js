@@ -1,12 +1,11 @@
-import config from '../../config';
-
 export default class SimonlyHallOfFameQueries {
-  constructor(db) {
+  constructor(db, config) {
     this.db = db;
+    this.config = config;
   }
 
   top10() {
-    return this.db.ref(`${config.nameOfFamily}/hall-of-fame`).orderByChild('scoreDesc').limitToFirst(7);
+    return this.db.ref(`${this.config.nameOfFamily}/hall-of-fame`).orderByChild('scoreDesc').limitToFirst(7);
   }
 
 // eslint-disable-next-line class-methods-use-this

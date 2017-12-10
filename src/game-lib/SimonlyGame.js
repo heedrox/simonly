@@ -1,8 +1,9 @@
 import repeat from '../lib/repeat';
+import { randomNumber } from '../lib/numbers';
 
 export default class SimonlyGame {
 
-  constructor(simonlyUI) {
+  constructor(simonlyUI, numKeys) {
     this.gameInfo = {
       numTurn: 0,
       numKeyInTurn: 1,
@@ -12,14 +13,15 @@ export default class SimonlyGame {
       failed: false,
     };
     this.simonlyUI = simonlyUI;
+    this.numKeys = numKeys;
   }
 
   addTurnKeys() {
-    const randomNumber = (min, max) => Math.floor((Math.random() * ((max + 1) - min)) + min);
-    const pendingKeys = this.gameInfo.numTurn - this.gameInfo.currentTurnKeys.length;
+    const numOfNewKeys = this.gameInfo.numTurn - this.gameInfo.currentTurnKeys.length;
 
-    const pushRandomNumber = () => this.gameInfo.currentTurnKeys.push(randomNumber(1, 8));
-    repeat(pendingKeys, pushRandomNumber);
+    const pushRandomNumber = () => this.gameInfo.currentTurnKeys
+      .push(randomNumber(1, this.numKeys));
+    repeat(numOfNewKeys, pushRandomNumber);
   }
 
   userPressed(pressedKey) {

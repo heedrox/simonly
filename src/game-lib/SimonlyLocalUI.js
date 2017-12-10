@@ -1,7 +1,7 @@
 import { sequenceArrayPromises } from '../lib/promises';
 import timeoutUtil from '../lib/timeoutUtil';
 
-const TIME_SECS_KEY_PRESSED = 600;
+const TIME_SECS_KEY_PRESSED = 800;
 
 export default class SimonlyLocalUI {
 

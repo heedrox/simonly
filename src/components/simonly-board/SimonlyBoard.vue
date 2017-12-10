@@ -3,8 +3,9 @@
     <simonly-welcome v-if="currentState === 'welcome'" :onClick="preloadAndStart"></simonly-welcome>
     <simonly-go321 v-if="currentState === '321'"></simonly-go321>
     <simonly-score class="score" :score="simonlyLocalUI.score"></simonly-score>
-    <simonly-keys :class="{ 'simonly-keys': true, 'slide-when-hall-of-fame' : (currentState === 'hall-of-fame') }" v-show="currentState === 'playing' || currentState === 'hall-of-fame' " :whenUserPress="userPressed" :simonlyUI="simonlyLocalUI"></simonly-keys>
     <simonly-hall-of-fame :score="simonlyLocalUI.score"  v-if="currentState === 'hall-of-fame'" class="hall-of-fame"></simonly-hall-of-fame>
+    <simonly-keys :numKeys="config.numKeys" :class="{ 'simonly-keys': true, 'slide-when-hall-of-fame' : (currentState === 'hall-of-fame') }" v-show="currentState === 'playing' || currentState === 'hall-of-fame' " :whenUserPress="userPressed" :simonlyUI="simonlyLocalUI"></simonly-keys>
+
     <simonly-music :track="currentState"></simonly-music>
     <audio src="./static/audio/round-ko.mp3" ref="roundKoAudio"></audio>
     <audio src="./static/audio/round-ok.mp3" ref="roundOkAudio"></audio>
@@ -13,13 +14,16 @@
       <p class="bounce">GAME OVER :(</p>
       <simonly-button :onClick="restart" button="replay"></simonly-button>
     </div>
+
+    <div class="explain-simonly" v-if="config.hidePubli === 0">
+      <p><router-link :to="{ path: '/explain'}" replace>Create your own simon!</router-link></p>
+    </div>
   </div>
 </template>
 <style scoped src="./SimonlyBoard.css"></style>
 
 
 <script>
-  // import screenfull from 'screenfull';
   import Firebase from 'firebase';
   import SimonlyButton from '../../components/simonly-button/SimonlyButton.vue';
   import SimonlyScore from '../../components/simonly-score/SimonlyScore.vue';
@@ -42,7 +46,7 @@
 
   export default {
     name: 'simonly-board',
-    ioc: ['simonlyLocalUI', 'simonlyGame'],
+    ioc: ['simonlyLocalUI', 'simonlyGame', 'config'],
     components: {
       SimonlyScore,
       SimonlyButton,
