@@ -15,23 +15,9 @@
 }
 
 .game-over {
-  display:flex;
-  flex-direction: row;
-  flex-wrap:nowrap;
-  color: #f4dd06;
-  text-shadow: 0.5vw 0.5vw #f5991b, 0.8vw 0.8vw #c82f27, 1vw 1vw #6c100f;
-  font-weight:bold;
-  font-size: 5vh;
-  letter-spacing: 0.8vw;
   position: fixed;
   bottom: 3vh;
   width: 100%;
-}
-.game-over p {
-  flex-grow: 2;
-}
-.game-over > div {
-  flex-grow: 2;
 }
 
 .hall-of-fame {
@@ -105,12 +91,4 @@
   to {
     transform: translate3d(0, 0, 0);
   }
-}
-
-.explain-simonly p {
-  font-family: Verdana,serif;
-  font-size: 4vh;
-  position:absolute;
-  bottom: 6vh;
-  left: 2vw;
 }

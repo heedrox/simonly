@@ -10,14 +10,8 @@
     <audio src="./static/audio/round-ko.mp3" ref="roundKoAudio"></audio>
     <audio src="./static/audio/round-ok.mp3" ref="roundOkAudio"></audio>
 
-    <div v-if="currentState === 'hall-of-fame'" :class="{ 'game-over': true, 'shown-hall-of-fame' : (currentState === 'hall-of-fame') }">
-      <p class="bounce">GAME OVER :(</p>
-      <simonly-button :onClick="restart" button="replay"></simonly-button>
-    </div>
-
-    <div class="explain-simonly" v-if="config.hidePubli === 0">
-      <p><router-link :to="{ path: '/explain'}" replace>Create your own simon!</router-link></p>
-    </div>
+    <simonly-gameover :onClick="restart" v-if="currentState === 'hall-of-fame'" class="game-over"></simonly-gameover>
+    <simonly-explain v-if="config.hidePubli === 0"></simonly-explain>
   </div>
 </template>
 <style scoped src="./SimonlyBoard.css"></style>
@@ -25,13 +19,14 @@
 
 <script>
   import Firebase from 'firebase';
-  import SimonlyButton from '../../components/simonly-button/SimonlyButton.vue';
+  import SimonlyGameover from '../../components/simonly-gameover/SimonlyGameover.vue';
   import SimonlyScore from '../../components/simonly-score/SimonlyScore.vue';
   import SimonlyMusic from '../../components/simonly-music/SimonlyMusic.vue';
   import SimonlyKeys from '../../components/simonly-keys/SimonlyKeys.vue';
   import SimonlyHallOfFame from '../../components/simonly-hall-of-fame/SimonlyHallOfFame.vue';
   import SimonlyGo321 from '../../components/simonly-go321/SimonlyGo321.vue';
   import SimonlyWelcome from '../../components/simonly-welcome/SimonlyWelcome.vue';
+  import SimonlyExplain from '../../components/simonly-explain/SimonlyExplain.vue';
 
   import autoPlayerHack from '../../lib/auto-player-hack';
   import { db } from '../../lib/db-firebase';
@@ -49,12 +44,13 @@
     ioc: ['simonlyLocalUI', 'simonlyGame', 'config'],
     components: {
       SimonlyScore,
-      SimonlyButton,
+      SimonlyGameover,
       SimonlyMusic,
       SimonlyKeys,
       SimonlyHallOfFame,
       SimonlyGo321,
       SimonlyWelcome,
+      SimonlyExplain,
     },
     data() {
       return {
