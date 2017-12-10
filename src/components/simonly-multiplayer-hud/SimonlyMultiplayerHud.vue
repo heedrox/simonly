@@ -1,7 +1,7 @@
 <template>
   <div class="simonly-multiplayer-hud">
     <div v-if="sortedPlayers.length > 1">
-      <div class="line"> - Juegan contigo - </div>
+      <div class="line"> - Now Playing - </div>
       <ul>
         <li v-for="(row, index) in sortedPlayers" :key="index">
           <span class="badge">{{index + 1}}</span> {{row.name}}: {{row.score}}
@@ -18,7 +18,7 @@
 
   export default {
     name: 'simonly-multiplayer-hud',
-    ioc: ['multiplayerHudQueries', 'simonlyMultiplayer'],
+    ioc: ['simonlyMultiplayer'],
     computed: {
       sortedPlayers() {
         if (!this.players) return [];
@@ -27,7 +27,7 @@
     },
     firebase() {
       return {
-        players: this.multiplayerHudQueries.players(),
+        players: this.simonlyMultiplayer.getPlayers(),
       };
     },
   };

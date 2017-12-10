@@ -1,5 +1,6 @@
 <template>
   <div class="simonly-board">
+    <simonly-waiting-for-players v-if="currentState === 'waiting-for-players'"></simonly-waiting-for-players>
     <simonly-welcome v-if="currentState === 'welcome'" :onClick="preloadAndStart"></simonly-welcome>
     <simonly-go321 v-if="currentState === '321'"></simonly-go321>
     <simonly-score class="score" :score="simonlyLocalUI.score"></simonly-score>
@@ -32,6 +33,8 @@
   import SimonlyWelcome from '../../components/simonly-welcome/SimonlyWelcome.vue';
   import SimonlyExplain from '../../components/simonly-explain/SimonlyExplain.vue';
   import SimonlyMultiplayerHud from '../../components/simonly-multiplayer-hud/SimonlyMultiplayerHud.vue';
+  import SimonlyWaitingForPlayers from '../../components/simonly-waiting-for-players/SimonlyWaitingForPlayers.vue';
+
 
   import autoPlayerHack from '../../lib/auto-player-hack';
 
@@ -56,6 +59,7 @@
       SimonlyWelcome,
       SimonlyExplain,
       SimonlyMultiplayerHud,
+      SimonlyWaitingForPlayers,
     },
     data() {
       return {
@@ -71,8 +75,10 @@
       },
       waitForOthers() {
         this.currentState = STATES.WAITING_FOR_PLAYERS;
-
-        return { then: x => x() };
+        return this.simonlyMultiplayer.updateState(STATES.WAITING_FOR_PLAYERS)
+          .then(() => new Promise(() => {
+            setTimeout(() => { }, 5000);
+          }));
       },
       showWelcomeAndStart() {
         this.currentState = STATES.GO321;

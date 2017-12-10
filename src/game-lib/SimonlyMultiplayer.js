@@ -6,6 +6,7 @@ const buildUserData = (name, userId) => ({
   score: 0,
   userAgent: window.navigator.userAgent,
   lastUpdateDate: Firebase.database.ServerValue.TIMESTAMP,
+  state: 'welcome',
 });
 
 export default class SimonlyMultiplayer {
@@ -36,11 +37,15 @@ export default class SimonlyMultiplayer {
   }
 
   updateLastUpdate() {
-    this.updatePropertyValue('lastUpdate', Firebase.database.ServerValue.TIMESTAMP);
+    return this.updatePropertyValue('lastUpdate', Firebase.database.ServerValue.TIMESTAMP);
   }
 
   updateScore(score) {
-    this.updatePropertyValue('score', score);
+    return this.updatePropertyValue('score', score);
+  }
+
+  updateState(state) {
+    return this.updatePropertyValue('state', state);
   }
 
   getUserId() {
@@ -53,8 +58,13 @@ export default class SimonlyMultiplayer {
 
   updatePropertyValue(property, value) {
     if (this.connectedNode) {
-      this.connectedNode.child(property).set(value);
+      return this.connectedNode.child(property).set(value);
     }
+    return Promise.resolve();
+  }
+
+  getPlayers() {
+    return this.db.ref(`${this.nameOfFamily}/players`).orderByChild('scoreDesc');
   }
 
 }
