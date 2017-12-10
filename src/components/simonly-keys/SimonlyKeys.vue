@@ -3,7 +3,8 @@
         <simonly-key v-for="keyNumber in numKeys" :key="keyNumber" class="key" :position="keyNumber" :externallyPressedKey="simonlyUI && simonlyUI.pressedKey" @keypress="userPressed"
                       :skin="keyNumber" :showRightKey="simonlyUI && simonlyUI.theRightKey"
                      :overwriteSkin="(config.dataKeys && config.dataKeys[parseInt(keyNumber - 1)]) ?config.dataKeys[parseInt(keyNumber - 1)]['i']:null"
-                     :overwriteAudio="(config.dataKeys && config.dataKeys[parseInt(keyNumber - 1)]) ?config.dataKeys[parseInt(keyNumber - 1)]['a']:null" >
+                     :overwriteAudio="(config.dataKeys && config.dataKeys[parseInt(keyNumber - 1)]) ?config.dataKeys[parseInt(keyNumber - 1)]['a']:null"
+                     :timePerKey = "config.timePerKey">
         </simonly-key>
   </div>
 </template>

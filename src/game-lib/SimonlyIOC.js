@@ -14,7 +14,7 @@ const simonlyIOC = (Vue) => {
   const overwrittenConfig = SimonlyDynamicConfigOverwrite(window.location.href, config);
   ioc.set('config', overwrittenConfig);
 
-  const simonlyLocalUI = new SimonlyLocalUI();
+  const simonlyLocalUI = new SimonlyLocalUI(overwrittenConfig.timePerKey);
   const simonlyRemoteUI = new SimonlyRemoteUI();
   const simonlyMultiplayerUI = new SimonlyMultiplayerUI(db, simonlyLocalUI, simonlyRemoteUI);
   const simonlyStorage = new SimonlyStorage();

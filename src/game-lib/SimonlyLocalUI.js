@@ -1,15 +1,16 @@
 import { sequenceArrayPromises } from '../lib/promises';
 import timeoutUtil from '../lib/timeoutUtil';
 
-const TIME_SECS_KEY_PRESSED = 800;
+const DEFAULT_TIME_PER_KEY = 800;
 
 export default class SimonlyLocalUI {
 
-  constructor() {
+  constructor(timePerKey) {
     this.pressedKey = null;
     this.theRightKey = null;
     this.score = 0;
     this.id = Math.round(Math.random() * 100000);
+    this.timePerKey = timePerKey || DEFAULT_TIME_PER_KEY;
   }
 
   /* *** interface to be implemented by simonlyGamePresenter ***** */
@@ -35,12 +36,15 @@ export default class SimonlyLocalUI {
   updateScore(score) {
     this.score = score;
   }
+
   /* *** end interface ***** */
 
   showKey(pos) {
     this.pressedKey = pos;
-    return timeoutUtil.syncTimeout(TIME_SECS_KEY_PRESSED)
-      .then(() => { this.pressedKey = null; })
+    return timeoutUtil.syncTimeout(this.timePerKey)
+      .then(() => {
+        this.pressedKey = null;
+      })
       .then(() => timeoutUtil.syncTimeout(100));
   }
 

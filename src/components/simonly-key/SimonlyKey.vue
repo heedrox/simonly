@@ -14,7 +14,7 @@
 <script>
   import { mediaPreload } from '../../lib/media-preload';
 
-  const TIME_PER_KEY = 800;
+  const DEFAULT_TIME_PER_KEY = 800;
 
   export default {
     name: 'simonly-key',
@@ -60,6 +60,12 @@
           return null;
         },
       },
+      timePerKey: {
+        type: Number,
+        default() {
+          return DEFAULT_TIME_PER_KEY;
+        },
+      },
       showRightKey: {
         type: Number,
         default() {
@@ -83,7 +89,7 @@
             .then(() => {
               setTimeout(() => {
                 this.stopAudio();
-              }, TIME_PER_KEY);
+              }, this.timePerKey);
             });
         }
       },
@@ -115,7 +121,7 @@
             this.pressed = true;
             setTimeout(() => {
               this.releaseImage();
-            }, TIME_PER_KEY);
+            }, this.timePerKey);
           });
       },
       releaseImage() {

@@ -7,4 +7,5 @@ export default {
   storageBucket: 'xxxxxxx.appspot.com',
   messagingSenderId: 'xxxxx',
   nameOfFamily: 'aShortNameForTheDBOfFirebase',
+  timePerKey: 600,
 };
