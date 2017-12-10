@@ -10,6 +10,7 @@
     <audio src="./static/audio/round-ko.mp3" ref="roundKoAudio"></audio>
     <audio src="./static/audio/round-ok.mp3" ref="roundOkAudio"></audio>
 
+    <simonly-multiplayer-hud class="multiplayer-hud" v-if="isAtState(['321','playing'])"></simonly-multiplayer-hud>
     <simonly-gameover :onClick="restart" v-if="currentState === 'hall-of-fame'" class="game-over"></simonly-gameover>
     <simonly-explain v-if="config.hidePubli === 0"></simonly-explain>
   </div>
@@ -27,6 +28,7 @@
   import SimonlyGo321 from '../../components/simonly-go321/SimonlyGo321.vue';
   import SimonlyWelcome from '../../components/simonly-welcome/SimonlyWelcome.vue';
   import SimonlyExplain from '../../components/simonly-explain/SimonlyExplain.vue';
+  import SimonlyMultiplayerHud from '../../components/simonly-multiplayer-hud/SimonlyMultiplayerHud.vue';
 
   import autoPlayerHack from '../../lib/auto-player-hack';
   import { db } from '../../lib/db-firebase';
@@ -51,6 +53,7 @@
       SimonlyGo321,
       SimonlyWelcome,
       SimonlyExplain,
+      SimonlyMultiplayerHud,
     },
     data() {
       return {
@@ -73,6 +76,9 @@
       },
       userPressed(key) {
         this.simonlyGame.userPressed(key);
+      },
+      isAtState(states) {
+        return states.indexOf(this.currentState) >= 0;
       },
     },
     mounted() {

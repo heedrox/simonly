@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Vue from 'vue';
 import { mount } from 'avoriaz';
 import VueResource from 'vue-resource';
@@ -48,7 +49,7 @@ describe('SimonlyBoard', () => {
   beforeEach(() => {
     clock = sinon.useFakeTimers();
     simonlyMockIOC();
-    ioc.set('config', { numKeys: 4, nameOfFamily: 'testFamily' });
+    ioc.set('config', {numKeys: 4, nameOfFamily: 'testFamily'});
     wrapper = mount(SimonlyBoard);
     vm = wrapper.vm;
   });
@@ -108,6 +109,27 @@ describe('SimonlyBoard', () => {
         clock.tick(5005);
         expect(vm.currentState).to.equal('hall-of-fame');
         done();
+      });
+    });
+  });
+
+  describe('multiplayer hud showing or hiding is controller', () => {
+    const TEST_DATA = [
+      {state: '321', expectedShown: true},
+      {state: 'playing', expectedShown: true},
+      {state: 'welcome', expectedShown: false},
+      {state: 'hall-of-fame', expectedShown: false},
+    ];
+
+    TEST_DATA.forEach((test) => {
+      it(`handles case for: ${test.state} expectedShown: ${test.expectedShown}`, (done) => {
+        vm.currentState = test.state;
+
+        vm.$nextTick()
+          .then(() => {
+            expect(vm.$el.getElementsByClassName('multiplayer-hud').length).to.equal(test.expectedShown ? 1 : 0);
+            done();
+          });
       });
     });
   });

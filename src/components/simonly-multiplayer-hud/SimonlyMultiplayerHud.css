@@ -1,0 +1,66 @@
+@font-face {
+  font-family: Atarian;
+  src: url(../../assets/atarian.ttf);
+}
+
+ul {
+  width: 100vw;
+  display: table;
+  margin: 0 auto auto 0;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  border-bottom: solid 0.3vh #f5991b;
+  border-top: solid 0.3vh #f5991b;
+  background-color: rgba(255,255,255,0.5);
+}
+li  {
+  display: table-row;
+  font-family: Atarian, serif;
+  font-weight: bold;
+  width:20vw;
+  float:left;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  text-align: center;
+  letter-spacing: 0.3vw;
+  font-size: 2vw;
+  overflow: hidden;
+  white-space: nowrap;
+  color: #f5991b;
+  text-shadow: 0.15vw 0.15vw 0 #6c100f;
+  border-radius: 25%;
+  background-color: #fff;
+  height: 5vh;
+  margin-right: 3vw;
+  border: solid 0.3vh #6c100f;
+}
+
+.badge {
+  color: #fff;
+  text-shadow: none;
+  background-color: #6c100f;
+  width: 2vw;
+  height: 3vh;
+  display: inline-block;
+  border-radius: 50%;
+  font-size: 1.5vw;
+  text-align: center;
+}
+
+.multiplayer-hud {
+  position: absolute;
+  bottom: 0vh;
+}
+
+.line {
+  margin: auto;
+  display: block;
+  font-family: Atarian, serif;
+  width: 33%;
+  clear: both;
+  font-size: 5vh;
+  color: #6c100f;
+  background-color: rgba(255,255,255,0.5);
+  border: solid 0.3vh #f5991b;
+  border-bottom: none;
+}
