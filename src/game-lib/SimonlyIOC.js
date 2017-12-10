@@ -6,7 +6,7 @@ import vueIoc from '../lib/vue-ioc';
 import SimonlyStorage from './SimonlyStorage';
 import { db } from '../lib/db-firebase';
 import SimonlyMultiplayerUI from './SimonlyMultiplayerUI';
-import SimonlyRemoteUI from './SimonlyRemoteUI.spec';
+import SimonlyRemoteUI from './SimonlyRemoteUI';
 import { SimonlyDynamicConfigOverwrite } from './SimonlyDynamicConfig';
 import config from '../config';
 import SimonlyMultiplayerHudQueries from '../components/simonly-multiplayer-hud/SimonlyMultiplayerHud.queries';
@@ -19,16 +19,16 @@ const simonlyIOC = (Vue) => {
 
   const simonlyStorage = new SimonlyStorage();
 
+  const simonlyHallOfFameQueries = new SimonlyHallOfFameQueries(db, overwrittenConfig);
+  const simonlyMultiplayerHudQueries = new SimonlyMultiplayerHudQueries(db, overwrittenConfig);
+  const simonlyMultiplayer = new SimonlyMultiplayer(db, overwrittenConfig.nameOfFamily);
+
   const simonlyLocalUI = new SimonlyLocalUI(overwrittenConfig.timePerKey);
-  const simonlyRemoteUI = new SimonlyRemoteUI();
-  const simonlyMultiplayerUI = new SimonlyMultiplayerUI(db, simonlyLocalUI, simonlyRemoteUI);
+  const simonlyRemoteUI = new SimonlyRemoteUI(simonlyMultiplayer);
+  const simonlyMultiplayerUI = new SimonlyMultiplayerUI(simonlyLocalUI, simonlyRemoteUI);
 
   const simonlyGame = new SimonlyGame(simonlyMultiplayerUI, overwrittenConfig.numKeys);
 
-  const simonlyHallOfFameQueries = new SimonlyHallOfFameQueries(db, overwrittenConfig);
-
-  const simonlyMultiplayerHudQueries = new SimonlyMultiplayerHudQueries(db, overwrittenConfig);
-  const simonlyMultiplayer = new SimonlyMultiplayer(db, overwrittenConfig.nameOfFamily);
 
   ioc.set('simonlyLocalUI', simonlyLocalUI);
   ioc.set('simonlyGame', simonlyGame);

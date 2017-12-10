@@ -1,3 +1,9 @@
-export default class SimonlyRemoteUI {
+import SimonlyRemoteUI from './SimonlyRemoteUI';
 
-}
+describe('SimonlyRemoteUI', () => {
+  it('exists', () => {
+    const simonlyRemoteUI = new SimonlyRemoteUI();
+
+    expect(simonlyRemoteUI).to.be.defined;
+  });
+});

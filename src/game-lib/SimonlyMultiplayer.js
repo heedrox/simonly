@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars,class-methods-use-this */
 import Firebase from 'firebase';
 
 export default class SimonlyMultiplayer {
@@ -34,13 +33,21 @@ export default class SimonlyMultiplayer {
   }
 
   updateLastUpdate() {
-    if (this.connectedNode) {
-      this.connectedNode.child('lastUpdate').set(Firebase.database.ServerValue.TIMESTAMP);
-    }
+    this.updatePropertyValue('lastUpdate', Firebase.database.ServerValue.TIMESTAMP);
+  }
+
+  updateScore(score) {
+    this.updatePropertyValue('score', score);
   }
 
   getUserId() {
     return this.userId;
+  }
+
+  updatePropertyValue(property, value) {
+    if (this.connectedNode) {
+      this.connectedNode.child(property).set(value);
+    }
   }
 
 }
