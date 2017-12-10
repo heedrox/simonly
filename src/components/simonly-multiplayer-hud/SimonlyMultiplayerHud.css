@@ -28,7 +28,7 @@ li  {
   white-space: nowrap;
   color: #f5991b;
   text-shadow: 0.15vw 0.15vw 0 #6c100f;
-  border-radius: 25%;
+  border-radius: 10px;
   background-color: #fff;
   height: 5vh;
   margin-right: 3vw;
