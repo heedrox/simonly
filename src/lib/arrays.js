@@ -15,4 +15,7 @@ const array0ToN = (n) => {
   return Array(...{ length: (n + 1) }).map(Number.call, Number);
 };
 
-export { emptyRows, array0ToN };
+const byAsc = property => (a, b) => a[property] - b[property];
+const byDesc = property => (a, b) => b[property] - a[property];
+
+export { emptyRows, array0ToN, byAsc, byDesc };

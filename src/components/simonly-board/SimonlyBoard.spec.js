@@ -37,6 +37,7 @@ const simonlyMockIOC = () => {
     top10: () => [],
     addTop10: () => [],
   });
+  ioc.set('multiplayerQueries', { players: () => [] });
 
   Vue.use(vueIoc);
 };
