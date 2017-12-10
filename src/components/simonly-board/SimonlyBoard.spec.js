@@ -65,13 +65,16 @@ describe('SimonlyBoard', () => {
     expect(vm.simonlyGame).to.be.defined;
   });
 
-  it('restarts after 321 page', () => {
+  it('restarts after 321 page', (done) => {
     vm.simonlyGame.gameInfo.numTurn = 5;
 
     vm.restart();
-    clock.tick(3001);
 
-    expect(vm.simonlyGame.gameInfo.numTurn).to.equal(1);
+    vm.$nextTick(() => {
+      clock.tick(3001);
+      expect(vm.simonlyGame.gameInfo.numTurn).to.equal(1);
+      done();
+    });
   });
 
   describe('welcome page', () => {
@@ -79,26 +82,34 @@ describe('SimonlyBoard', () => {
       expect(vm.currentState).to.equal('welcome');
     });
 
-    it('hides when start', () => {
+    it('hides when start', (done) => {
       vm.restart();
 
-      expect(vm.currentState).not.to.equal('welcome');
+      vm.$nextTick(() => {
+        expect(vm.currentState).not.to.equal('welcome');
+        done();
+      });
     });
   });
 
   describe('3, 2, 1 page', () => {
-    it('shows when restarting', () => {
+    it('shows when restarting', (done) => {
       vm.restart();
 
-      expect(vm.currentState).to.equal('321');
+      vm.$nextTick(() => {
+        expect(vm.currentState).to.equal('321');
+        done();
+      });
     });
 
-    it('hides after 3 secs', () => {
+    it('hides after 3 secs', (done) => {
       vm.restart();
 
-      clock.tick(3001);
-
-      expect(vm.currentState).to.equal('playing');
+      vm.$nextTick(() => {
+        clock.tick(3001);
+        expect(vm.currentState).to.equal('playing');
+        done();
+      });
     });
   });
 

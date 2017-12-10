@@ -1,6 +1,5 @@
 import { mount } from 'avoriaz';
 import SimonlyMultiplayerHud from './SimonlyMultiplayerHud.vue';
-import * as Vue from 'vue';
 
 describe('SimonlyMultiplayerHud', () => {
   let wrapper;

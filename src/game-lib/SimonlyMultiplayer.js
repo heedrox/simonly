@@ -1,5 +1,13 @@
 import Firebase from 'firebase';
 
+const buildUserData = (name, userId) => ({
+  name,
+  userId,
+  score: 0,
+  userAgent: window.navigator.userAgent,
+  lastUpdateDate: Firebase.database.ServerValue.TIMESTAMP,
+});
+
 export default class SimonlyMultiplayer {
 
   constructor(db, nameOfFamily) {
@@ -11,25 +19,20 @@ export default class SimonlyMultiplayer {
 
   setPresence(name) {
     const myConnectionsRef = this.db.ref(`${this.nameOfFamily}/players`);
-
     const connectedRef = this.db.ref('.info/connected');
-
-    const handleConnection = (isConnected) => {
+    const handleConnection = resolve => (isConnected) => {
       if (isConnected.val() === true) {
         this.connectedNode = this.connectedNode || myConnectionsRef.push();
         this.userId = this.connectedNode.key;
         this.connectedNode.onDisconnect().remove();
-        this.connectedNode.set({
-          name,
-          score: 0,
-          userAgent: window.navigator.userAgent,
-          userId: this.userId,
-        });
-        this.updateLastUpdate();
+        this.connectedNode.set(buildUserData(name, this.userId))
+          .then(() => resolve());
       }
     };
 
-    connectedRef.on('value', handleConnection);
+    return new Promise((resolve) => {
+      connectedRef.on('value', handleConnection(resolve));
+    });
   }
 
   updateLastUpdate() {

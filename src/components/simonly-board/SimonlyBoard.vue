@@ -40,6 +40,7 @@
     PLAYING: 'playing',
     HALL_OF_FAME: 'hall-of-fame',
     GO321: '321',
+    WAITING_FOR_PLAYERS: 'waiting-for-players',
   };
 
   export default {
@@ -64,7 +65,16 @@
     props: {},
     methods: {
       restart() {
-        this.setMultiplayerPresence();
+        this.setMultiplayerPresence()
+          .then(() => this.waitForOthers())
+          .then(() => this.showWelcomeAndStart());
+      },
+      waitForOthers() {
+        this.currentState = STATES.WAITING_FOR_PLAYERS;
+
+        return { then: x => x() };
+      },
+      showWelcomeAndStart() {
         this.currentState = STATES.GO321;
         setTimeout(() => {
           this.currentState = STATES.PLAYING;
@@ -83,10 +93,8 @@
         return states.indexOf(this.currentState) >= 0;
       },
       setMultiplayerPresence() {
-        this.simonlyStorage.get('name')
-          .then((name) => {
-            this.simonlyMultiplayer.setPresence(name);
-          });
+        return this.simonlyStorage.get('name')
+          .then(name => this.simonlyMultiplayer.setPresence(name));
       },
     },
     mounted() {
