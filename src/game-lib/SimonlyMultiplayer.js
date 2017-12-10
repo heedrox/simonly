@@ -44,6 +44,10 @@ export default class SimonlyMultiplayer {
     return this.userId;
   }
 
+  setMasterUser() {
+    this.db.ref(`${this.nameOfFamily}/master-player`).set(this.userId);
+  }
+
   updatePropertyValue(property, value) {
     if (this.connectedNode) {
       this.connectedNode.child(property).set(value);

@@ -1,6 +1,6 @@
 <template>
   <div class="simonly-multiplayer-hud">
-    <div v-if="sortedPlayers.length > 0">
+    <div v-if="sortedPlayers.length > 1">
       <div class="line"> - Juegan contigo - </div>
       <ul>
         <li v-for="(row, index) in sortedPlayers" :key="index">
@@ -14,7 +14,7 @@
 <script>
 
 
-  import { byDesc, byNot } from '../../lib/arrays';
+  import { byDesc } from '../../lib/arrays';
 
   export default {
     name: 'simonly-multiplayer-hud',
@@ -22,9 +22,7 @@
     computed: {
       sortedPlayers() {
         if (!this.players) return [];
-        const myId = this.simonlyMultiplayer.getUserId();
-        const playersWithoutMe = this.players.filter(byNot('userId', myId));
-        return playersWithoutMe.sort(byDesc('score'));
+        return this.players.sort(byDesc('score'));
       },
     },
     firebase() {
