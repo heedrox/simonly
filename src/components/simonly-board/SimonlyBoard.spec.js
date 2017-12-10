@@ -49,7 +49,7 @@ describe('SimonlyBoard', () => {
   beforeEach(() => {
     clock = sinon.useFakeTimers();
     simonlyMockIOC();
-    ioc.set('config', {numKeys: 4, nameOfFamily: 'testFamily'});
+    ioc.set('config', { numKeys: 4, nameOfFamily: 'testFamily' });
     wrapper = mount(SimonlyBoard);
     vm = wrapper.vm;
   });
@@ -115,10 +115,10 @@ describe('SimonlyBoard', () => {
 
   describe('multiplayer hud showing or hiding is controller', () => {
     const TEST_DATA = [
-      {state: '321', expectedShown: true},
-      {state: 'playing', expectedShown: true},
-      {state: 'welcome', expectedShown: false},
-      {state: 'hall-of-fame', expectedShown: false},
+      { state: '321', expectedShown: true },
+      { state: 'playing', expectedShown: true },
+      { state: 'welcome', expectedShown: false },
+      { state: 'hall-of-fame', expectedShown: false },
     ];
 
     TEST_DATA.forEach((test) => {
