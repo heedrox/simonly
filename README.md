@@ -69,7 +69,7 @@ being json something with this format:
   { "i": "https://simon.ly/static-chiquito/4.png", "a": "https://simon.ly/static-chiquito/1.m4a" }
   ]
 }
-``
+```
 
 # Technologies of this repo
 
