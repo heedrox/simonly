@@ -11,7 +11,7 @@
                   v-show="currentState === 'playing' || currentState === 'hall-of-fame' " :whenUserPress="userPressed"
                   :simonlyUI="simonlyLocalUI"></simonly-keys>
 
-    <simonly-music :track="currentState"></simonly-music>
+    <simonly-music :track="getMusicTrack"></simonly-music>
     <audio src="./static/audio/round-ko.mp3" ref="roundKoAudio"></audio>
     <audio src="./static/audio/round-ok.mp3" ref="roundOkAudio"></audio>
 
@@ -101,6 +101,13 @@
       setMultiplayerPresence() {
         return this.simonlyStorage.get('name')
           .then(name => this.simonlyMultiplayer.setPresence(name));
+      },
+    },
+    computed: {
+      getMusicTrack() {
+        if (this.currentState === STATES.WAITING_FOR_PLAYERS) return STATES.WELCOME;
+        if (this.currentState === STATES.GO321) return STATES.WELCOME;
+        return this.currentState;
       },
     },
     mounted() {
