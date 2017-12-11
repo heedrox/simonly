@@ -38,7 +38,11 @@ const simonlyMockIOC = () => {
     addTop10: () => [],
   });
   ioc.set('multiplayerHudQueries', { players: () => [] });
-  ioc.set('simonlyMultiplayer', { setPresence: () => { }, updateState: () => { } });
+  ioc.set('simonlyMultiplayer', {
+    setPresence: () => {
+    },
+    updateState: () => Promise.resolve(),
+  });
 
   Vue.use(vueIoc);
 };
@@ -110,8 +114,10 @@ describe('SimonlyBoard', () => {
 
     vm.$nextTick(() => {
       clock.tick(3001);
-      expect(vm.simonlyGame.gameInfo.numTurn).to.equal(1);
-      done();
+      vm.$nextTick(() => {
+        expect(vm.simonlyGame.gameInfo.numTurn).to.equal(1);
+        done();
+      });
     });
   });
 

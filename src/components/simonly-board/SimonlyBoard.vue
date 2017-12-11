@@ -73,8 +73,7 @@
           .then(() => this.waitForOthers());
       },
       waitForOthers() {
-        this.currentState = STATES.WAITING_FOR_PLAYERS;
-        return this.simonlyMultiplayer.updateState(STATES.WAITING_FOR_PLAYERS);
+        return this.updateState(STATES.WAITING_FOR_PLAYERS);
       },
       waitForOthersReadyCallback() {
         this.show321AndStart();
@@ -82,8 +81,8 @@
       show321AndStart() {
         this.currentState = STATES.GO321;
         setTimeout(() => {
-          this.currentState = STATES.PLAYING;
-          this.simonlyGame.start();
+          this.updateState(STATES.PLAYING)
+            .then(() => this.simonlyGame.start());
         }, 3000);
       },
       preloadAndStart() {
@@ -101,6 +100,10 @@
         return this.simonlyStorage.get('name')
           .then(name => this.simonlyMultiplayer.setPresence(name));
       },
+      updateState(state) {
+        this.currentState = state;
+        return this.simonlyMultiplayer.updateState(state);
+      },
     },
     computed: {
       getMusicTrack() {
@@ -110,7 +113,7 @@
       },
     },
     mounted() {
-      this.currentState = STATES.WELCOME;
+      this.simonlyMultiplayer.updateState(STATES.WELCOME);
       this.simonlyLocalUI.setOkAudio(this.$refs.roundOkAudio);
       this.simonlyLocalUI.setKoAudio(this.$refs.roundKoAudio);
       this.$watch('simonlyLocalUI.theRightKey', () => {
