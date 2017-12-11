@@ -38,7 +38,7 @@ const simonlyMockIOC = () => {
     addTop10: () => [],
   });
   ioc.set('multiplayerHudQueries', { players: () => [] });
-  ioc.set('simonlyMultiplayer', { setPresence: () => { } });
+  ioc.set('simonlyMultiplayer', { setPresence: () => { }, updateState: () => { } });
 
   Vue.use(vueIoc);
 };
@@ -65,18 +65,6 @@ describe('SimonlyBoard', () => {
     expect(vm.simonlyGame).to.be.defined;
   });
 
-  it('restarts after 321 page', (done) => {
-    vm.simonlyGame.gameInfo.numTurn = 5;
-
-    vm.restart();
-
-    vm.$nextTick(() => {
-      clock.tick(3001);
-      expect(vm.simonlyGame.gameInfo.numTurn).to.equal(1);
-      done();
-    });
-  });
-
   describe('welcome page', () => {
     it('shows at beginning', () => {
       expect(vm.currentState).to.equal('welcome');
@@ -92,9 +80,44 @@ describe('SimonlyBoard', () => {
     });
   });
 
-  describe('3, 2, 1 page', () => {
-    it('shows when restarting', (done) => {
+  describe('waiting for other players', () => {
+    it('shows when starting', (done) => {
       vm.restart();
+
+      vm.$nextTick()
+        .then(() => {
+          expect(vm.currentState).to.equal('waiting-for-players');
+          done();
+        });
+    });
+
+    it('hides when ready', (done) => {
+      vm.currentState = 'waiting-for-players';
+
+      vm.waitForOthersReadyCallback();
+
+      vm.$nextTick(() => {
+        expect(vm.currentState).to.equal('321');
+        done();
+      });
+    });
+  });
+
+  it('starts game after 321 page', (done) => {
+    vm.simonlyGame.gameInfo.numTurn = 5;
+
+    vm.show321AndStart();
+
+    vm.$nextTick(() => {
+      clock.tick(3001);
+      expect(vm.simonlyGame.gameInfo.numTurn).to.equal(1);
+      done();
+    });
+  });
+
+  describe('3, 2, 1 page', () => {
+    it('shows after ready callback', (done) => {
+      vm.waitForOthersReadyCallback();
 
       vm.$nextTick(() => {
         expect(vm.currentState).to.equal('321');
@@ -103,7 +126,7 @@ describe('SimonlyBoard', () => {
     });
 
     it('hides after 3 secs', (done) => {
-      vm.restart();
+      vm.waitForOthersReadyCallback();
 
       vm.$nextTick(() => {
         clock.tick(3001);
@@ -149,7 +172,7 @@ describe('SimonlyBoard', () => {
 
   it('adds multiplayer presence when starting after welcome', (done) => {
     ioc.get('simonlyStorage').set('name', 'Jordi');
-    ioc.set('simonlyMultiplayer', { setPresence: sinon.spy() });
+    ioc.get('simonlyMultiplayer').setPresence = sinon.spy();
     wrapper = mount(SimonlyBoard);
     vm = wrapper.vm;
 

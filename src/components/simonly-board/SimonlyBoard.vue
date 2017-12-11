@@ -1,6 +1,6 @@
 <template>
   <div class="simonly-board">
-    <simonly-waiting-for-players v-if="currentState === 'waiting-for-players'"></simonly-waiting-for-players>
+    <simonly-waiting-for-players v-if="currentState === 'waiting-for-players'" @players:ready="waitForOthersReadyCallback"></simonly-waiting-for-players>
     <simonly-welcome v-if="currentState === 'welcome'" :onClick="preloadAndStart"></simonly-welcome>
     <simonly-go321 v-if="currentState === '321'"></simonly-go321>
     <simonly-score class="score" :score="simonlyLocalUI.score"></simonly-score>
@@ -70,17 +70,16 @@
     methods: {
       restart() {
         this.setMultiplayerPresence()
-          .then(() => this.waitForOthers())
-          .then(() => this.showWelcomeAndStart());
+          .then(() => this.waitForOthers());
       },
       waitForOthers() {
         this.currentState = STATES.WAITING_FOR_PLAYERS;
-        return this.simonlyMultiplayer.updateState(STATES.WAITING_FOR_PLAYERS)
-          .then(() => new Promise(() => {
-            setTimeout(() => { }, 5000);
-          }));
+        return this.simonlyMultiplayer.updateState(STATES.WAITING_FOR_PLAYERS);
       },
-      showWelcomeAndStart() {
+      waitForOthersReadyCallback() {
+        this.show321AndStart();
+      },
+      show321AndStart() {
         this.currentState = STATES.GO321;
         setTimeout(() => {
           this.currentState = STATES.PLAYING;
