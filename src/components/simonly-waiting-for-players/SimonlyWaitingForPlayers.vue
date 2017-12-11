@@ -132,5 +132,17 @@
         players: this.simonlyMultiplayer.getPlayers(),
       };
     },
+    mounted() {
+      this.$watch('players', (newPlayers) => {
+        this.checkReady(newPlayers);
+      });
+    },
+    methods: {
+      checkReady(players) {
+        if (players.length === 0) return;
+        const notReadyPlayers = players.find(player => player.state !== 'waiting-for-players');
+        if (typeof notReadyPlayers === 'undefined') this.$emit('players:ready');
+      },
+    },
   };
 </script>
