@@ -1,8 +1,6 @@
 import SimonlyGame from './SimonlyGame';
 import FakePromise from '../../test/unit/fake-promise';
 
-const A_GOOD_KEY = 1;
-
 const SimonlyUIMock = () => ({
   showSequence: () => {},
   roundFailed: () => {},
@@ -12,9 +10,13 @@ const SimonlyUIMock = () => ({
 
 describe('SimonlyGame', () => {
   let clock;
+  let ui;
+  let game;
 
   beforeEach(() => {
     clock = sinon.useFakeTimers();
+    ui = SimonlyUIMock();
+    game = new SimonlyGame(ui);
   });
 
   afterEach(() => {
@@ -22,7 +24,6 @@ describe('SimonlyGame', () => {
   });
 
   it('should exist', () => {
-    const game = new SimonlyGame();
     expect(game).to.be.defined;
     expect(game.gameInfo).to.be.defined;
     expect(game.gameInfo.numTurn).to.equal(0);
@@ -30,9 +31,7 @@ describe('SimonlyGame', () => {
   });
 
   it('runs turn ONE when starting', () => {
-    const ui = SimonlyUIMock();
     ui.updateScore = sinon.spy();
-    const game = new SimonlyGame(ui);
     game.runTurn = sinon.spy();
 
     game.start();
@@ -42,7 +41,6 @@ describe('SimonlyGame', () => {
   });
 
   it('creates a turn with numTurn', () => {
-    const game = new SimonlyGame();
     game.gameInfo.numTurn = 5;
     game.gameInfo.currentTurnKeys = [1, 2, 3, 4];
     game.addTurnKeys();
@@ -55,8 +53,6 @@ describe('SimonlyGame', () => {
   });
 
   it('runs a turn', () => {
-    const ui = SimonlyUIMock();
-    const game = new SimonlyGame(ui);
     game.runTurn(3);
 
     expect(game.gameInfo.numTurn).to.equal(3);
@@ -64,9 +60,7 @@ describe('SimonlyGame', () => {
   });
 
   it('increases score if you press correctly', () => {
-    const ui = SimonlyUIMock();
     ui.updateScore = sinon.spy();
-    const game = new SimonlyGame(ui);
     game.gameInfo.numTurn = 2;
     game.gameInfo.currentTurnKeys = [2, 5, 8];
 
@@ -83,47 +77,36 @@ describe('SimonlyGame', () => {
   });
 
   describe('when press wrong', () => {
-    it('sets that you fail ', () => {
-      const ui = SimonlyUIMock();
-      const game = new SimonlyGame(ui);
-      ui.roundFailed = () => {};
+    beforeEach(() => {
+      ui.roundFailed = sinon.spy();
       game.gameInfo.numTurn = 2;
       game.gameInfo.currentTurnKeys = [2, 5];
 
       game.userPressed(2);
       game.userPressed(3);
-
+    });
+    it('sets that you fail ', () => {
       expect(game.gameInfo.score).to.equal(1);
       expect(game.gameInfo.failed).to.be.true;
     });
 
-    it('tells the UI presenter that you fail', () => {
-      const ui = SimonlyUIMock();
-      const game = new SimonlyGame(ui);
-      game.gameInfo.numTurn = 1;
-
-      game.gameInfo.currentTurnKeys = [A_GOOD_KEY];
-      ui.roundFailed = sinon.spy();
-
-      game.userPressed(2);
-
+    it('tells the UI presenter that you fail with the key that you should have presseds', () => {
       expect(ui.roundFailed).to.have.been.calledOnce;
-      expect(ui.roundFailed).to.have.been.calledWith(A_GOOD_KEY);
+      expect(ui.roundFailed).to.have.been.calledWith(5);
     });
   });
 
   it('tells the UI presenter that round is OK when presses all keys ok', () => {
-    const ui = SimonlyUIMock();
+    const NUM_TURN = 2;
     sinon.stub(ui, 'roundOk').returns(FakePromise.resolved({}));
-    const game = new SimonlyGame(ui);
     game.runTurn = sinon.spy();
-    game.gameInfo.numTurn = 2;
-    game.gameInfo.currentTurnKeys = [7, 7];
+    game.gameInfo.numTurn = NUM_TURN;
+    game.gameInfo.currentTurnKeys = [6, 7];
 
-    game.userPressed(7);
+    game.userPressed(6);
     game.userPressed(7);
 
-    expect(ui.roundOk).to.have.been.calledWith(3);
+    expect(ui.roundOk).to.have.been.calledWith(NUM_TURN + 1);
     expect(ui.roundOk).to.have.been.calledOnce;
     expect(game.runTurn).to.have.been.called;
   });
