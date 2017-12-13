@@ -9,12 +9,14 @@ export default class SimonlyRemoteUI {
     console.log('TODO remote.showSequence', keys);
   }
 
-  roundFailed(expectedKey) {
-    console.log('TODO remote.roundFailes', expectedKey);
+  roundFailed(expectedKey, numTurn) {
+    return this.simonlyMultiplayer.updateLastFinishedTurn(numTurn, true)
+      .then(() => this.simonlyMultiplayer.waitForUsersFinishRound(numTurn));
   }
 
-  roundOk() {
-    console.log('TODO remote.roundOk');
+  roundOk(numTurn) {
+    return this.simonlyMultiplayer.updateLastFinishedTurn(numTurn, true)
+      .then(() => this.simonlyMultiplayer.waitForUsersFinishRound(numTurn));
   }
 
   updateScore(score) {

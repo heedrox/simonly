@@ -1,4 +1,30 @@
 import Firebase from 'firebase';
+import { byEqual, byNot, extractProperty } from '../lib/arrays';
+import { getArrayFromFireSnapshot } from '../lib/fireutils';
+
+const getPlayersNotFinishedYet = (players, numTurn) => players
+  .map(extractProperty('lastFinishedTurn'))
+  .filter(byNot('numTurn', numTurn));
+
+const getPlayersFinished = players => players
+  .map(extractProperty('lastFinishedTurn'))
+  .filter(byEqual('isOk', false));
+
+const checkRoundFinishedAndResolve = numTurn => resolve => (players) => {
+  const playersNotFinishedYet = getPlayersNotFinishedYet(players, numTurn);
+  if (playersNotFinishedYet.length === 0) {
+    resolve();
+  }
+  return playersNotFinishedYet.length === 0;
+};
+
+const checkGameFinishedAndResolve = resolve => (players) => {
+  const playersFinished = getPlayersFinished(players);
+  if (playersFinished.length === players.length) {
+    resolve();
+  }
+  return playersFinished.length === players.length;
+};
 
 const buildUserData = (name, userId) => ({
   name,
@@ -7,7 +33,12 @@ const buildUserData = (name, userId) => ({
   userAgent: window.navigator.userAgent,
   lastUpdateDate: Firebase.database.ServerValue.TIMESTAMP,
   state: 'welcome',
+  lastFinishedTurn: {
+    numTurn: 0,
+    isOk: true,
+  },
 });
+
 
 export default class SimonlyMultiplayer {
 
@@ -16,14 +47,32 @@ export default class SimonlyMultiplayer {
     this.nameOfFamily = nameOfFamily;
     this.connectedNode = null;
     this.userId = null;
+    this.playersRef = this.db.ref(`${this.nameOfFamily}/players`);
+    this.playersRef.on('value', snap => this.onPlayersChange(getArrayFromFireSnapshot(snap)));
+  }
+
+  onPlayersChange(players) {
+    if (this.promisePendingResolve) {
+      const roundFinished = this.checkPendingAndResolve(players);
+      if (roundFinished) {
+        this.checkPendingAndResolve = null;
+        this.promisePendingResolve = null;
+      }
+    }
+  }
+
+  addPendingPromiseWhenPlayersChange(checkFunction) {
+    return new Promise((resolve) => {
+      this.promisePendingResolve = resolve;
+      this.checkPendingAndResolve = checkFunction(resolve);
+    });
   }
 
   setPresence(name) {
-    const myConnectionsRef = this.db.ref(`${this.nameOfFamily}/players`);
     const connectedRef = this.db.ref('.info/connected');
     const handleConnection = resolve => (isConnected) => {
       if (isConnected.val() === true) {
-        this.connectedNode = this.connectedNode || myConnectionsRef.push();
+        this.connectedNode = this.connectedNode || this.playersRef.push();
         this.userId = this.connectedNode.key;
         this.connectedNode.onDisconnect().remove();
         this.connectedNode.set(buildUserData(name, this.userId))
@@ -46,6 +95,18 @@ export default class SimonlyMultiplayer {
 
   updateState(state) {
     return this.updatePropertyValue('state', state);
+  }
+
+  updateLastFinishedTurn(numTurn, isOk) {
+    return this.updatePropertyValue('lastFinishedTurn', { numTurn, isOk });
+  }
+
+  waitForUsersFinishRound(numTurn) {
+    return this.addPendingPromiseWhenPlayersChange(checkRoundFinishedAndResolve(numTurn));
+  }
+
+  waitForUsersFinishGame() {
+    return this.addPendingPromiseWhenPlayersChange(checkGameFinishedAndResolve);
   }
 
   getUserId() {

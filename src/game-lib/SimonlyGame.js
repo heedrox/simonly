@@ -34,7 +34,7 @@ export default class SimonlyGame {
       this.checkNextTurn();
     } else {
       this.gameInfo.failed = true;
-      this.simonlyUI.roundFailed(expectedKey);
+      this.simonlyUI.roundFailed(expectedKey, this.gameInfo.numTurn);
     }
   }
 
@@ -43,7 +43,7 @@ export default class SimonlyGame {
     const turnKeys = this.gameInfo.currentTurnKeys;
     const endOfRound = (userKeys.length === turnKeys.length);
     if (endOfRound) {
-      this.simonlyUI.roundOk(this.gameInfo.numTurn + 1)
+      this.simonlyUI.roundOk(this.gameInfo.numTurn)
         .then(() => {
           this.runTurn(this.gameInfo.numTurn + 1);
         });

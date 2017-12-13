@@ -90,9 +90,9 @@ describe('SimonlyGame', () => {
       expect(game.gameInfo.failed).to.be.true;
     });
 
-    it('tells the UI presenter that you fail with the key that you should have presseds', () => {
+    it('tells the UI presenter that you fail with the key that you should have pressed and the num turn', () => {
       expect(ui.roundFailed).to.have.been.calledOnce;
-      expect(ui.roundFailed).to.have.been.calledWith(5);
+      expect(ui.roundFailed).to.have.been.calledWith(5, 2);
     });
   });
 
@@ -106,7 +106,7 @@ describe('SimonlyGame', () => {
     game.userPressed(6);
     game.userPressed(7);
 
-    expect(ui.roundOk).to.have.been.calledWith(NUM_TURN + 1);
+    expect(ui.roundOk).to.have.been.calledWith(NUM_TURN);
     expect(ui.roundOk).to.have.been.calledOnce;
     expect(game.runTurn).to.have.been.called;
   });

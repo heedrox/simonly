@@ -3,8 +3,9 @@
     <div v-if="sortedPlayers.length > 1">
       <div class="line"> - Now Playing - </div>
       <ul>
-        <li v-for="(row, index) in sortedPlayers" :key="index">
+        <li v-for="(row, index) in sortedPlayers" :key="index" :class="{ ko: row.lastFinishedTurn.isOk === false }">
           <span class="badge">{{index + 1}}</span> {{row.name}}: {{row.score}}
+          ({{lastFinishedTurn.numTurn}})
         </li>
       </ul>
     </div>

@@ -11,15 +11,15 @@ export default class SimonlyMultiplayerUI {
     this.simonlyRemoteUI.showSequence(keys);
   }
 
-  roundFailed(expectedKey) {
-    this.simonlyLocalUI.roundFailed(expectedKey);
-    this.simonlyRemoteUI.roundFailed(expectedKey);
+  roundFailed(expectedKey, numTurn) {
+    this.simonlyLocalUI.roundFailed(expectedKey, numTurn);
+    this.simonlyRemoteUI.roundFailed(expectedKey, numTurn);
   }
 
-  roundOk() {
+  roundOk(nextTurn) {
     const promises = [
-      this.simonlyLocalUI.roundOk(),
-      this.simonlyRemoteUI.roundOk(),
+      this.simonlyLocalUI.roundOk(nextTurn),
+      this.simonlyRemoteUI.roundOk(nextTurn),
     ];
     return Promise.all(promises);
   }
