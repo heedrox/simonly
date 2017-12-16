@@ -10,7 +10,7 @@ export default class SimonlyRemoteUI {
   }
 
   roundFailed(expectedKey, numTurn) {
-    return this.simonlyMultiplayer.updateLastFinishedTurn(numTurn, true)
+    return this.simonlyMultiplayer.updateLastFinishedTurn(numTurn, false)
       .then(() => this.simonlyMultiplayer.waitForUsersFinishRound(numTurn));
   }
 

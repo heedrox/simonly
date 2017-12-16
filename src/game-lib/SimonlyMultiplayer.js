@@ -65,6 +65,7 @@ export default class SimonlyMultiplayer {
     return new Promise((resolve) => {
       this.promisePendingResolve = resolve;
       this.checkPendingAndResolve = checkFunction(resolve);
+      this.playersRef.once('value', snap => this.onPlayersChange(getArrayFromFireSnapshot(snap)));
     });
   }
 
