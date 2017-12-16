@@ -14,7 +14,7 @@ describe('SimonlyWaitingForPlayers', () => {
     expect(vm).to.be.defined;
   });
 
-  it('emits players:ready when all players are in waiting-for-players state', () => {
+  it('does not emit players:ready when one player is still in waiting-for-players state', () => {
     const players = [{ name: 'jordi', state: 'playing' }, { name: 'juan', state: 'waiting-for-players' }];
     vm.$emit = sinon.spy();
 

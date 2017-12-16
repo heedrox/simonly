@@ -124,6 +124,8 @@
   }
 </style>
 <script>
+  import { getArrayFromFireSnapshot } from '../../lib/fireutils';
+
   export default {
     name: 'simonly-waiting-for-players',
     ioc: ['simonlyMultiplayer'],
@@ -133,6 +135,9 @@
       };
     },
     mounted() {
+      this.$firebaseRefs.players.once('value', (snap) => {
+        this.checkReady(getArrayFromFireSnapshot(snap));
+      });
       this.$watch('players', (newPlayers) => {
         this.checkReady(newPlayers);
       });
