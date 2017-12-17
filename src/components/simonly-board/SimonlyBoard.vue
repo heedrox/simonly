@@ -10,7 +10,7 @@
                   :class="{ 'simonly-keys': true, 'slide-when-hall-of-fame' : (currentState === 'hall-of-fame') }"
                   v-show="currentState === 'playing' || currentState === 'hall-of-fame' " :whenUserPress="userPressed"
                   :simonlyUI="simonlyLocalUI"
-                  :readonly="blockKeys"></simonly-keys>
+                  :readonly="simonlyLocalUI.blockKeys"></simonly-keys>
 
     <simonly-music :track="getMusicTrack"></simonly-music>
     <audio id="roundKoAudio" src="./static/audio/round-ko.mp3" ref="roundKoAudio"></audio>
@@ -67,16 +67,15 @@
     data() {
       return {
         currentState: STATES.WELCOME,
-        blockKeys: false,
       };
     },
     props: {},
     methods: {
       restart() {
         this.setMultiplayerPresence()
-          .then(() => this.waitForOthers());
+          .then(() => this.showWaitForOthersScreen());
       },
-      waitForOthers() {
+      showWaitForOthersScreen() {
         return this.updateState(STATES.WAITING_FOR_PLAYERS);
       },
       waitForOthersReadyCallback() {
