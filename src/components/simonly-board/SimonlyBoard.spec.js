@@ -42,6 +42,7 @@ const simonlyMockIOC = () => {
     setPresence: () => {
     },
     updateState: () => Promise.resolve(),
+    waitForUsersFinishGame: () => Promise.resolve(),
   });
 
   Vue.use(vueIoc);
@@ -149,8 +150,10 @@ describe('SimonlyBoard', () => {
 
       vm.$nextTick(() => {
         clock.tick(5005);
-        expect(vm.currentState).to.equal('hall-of-fame');
-        done();
+        vm.$nextTick(() => {
+          expect(vm.currentState).to.equal('hall-of-fame');
+          done();
+        });
       });
     });
   });
