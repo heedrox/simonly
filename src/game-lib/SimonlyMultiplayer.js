@@ -1,18 +1,21 @@
 import Firebase from 'firebase';
-import { byEqual, byLess, byNot, extractProperty } from '../lib/arrays';
 import { getArrayFromFireSnapshot } from '../lib/fireutils';
 
-// clevernotclean? => https://twitter.com/artolamola/status/942422322354573312
+// clevernotclean story, thanks artolamola <3 => https://twitter.com/artolamola/status/942422322354573312
+const byNotFinishedYet = numTurn => player =>
+  player.state !== 'waiting-for-players' &&
+  player.lastFinishedTurn.numTurn < numTurn &&
+  player.lastFinishedTurn.isOk;
+
+const byFinishedGamePlayer = player =>
+  player.state !== 'waiting-for-players' &&
+  !player.lastFinishedTurn.isOk;
+
 const getPlayersNotFinishedYet = (players, numTurn) => players
-  .filter(byNot('state', 'waiting-for-players'))
-  .map(extractProperty('lastFinishedTurn'))
-  .filter(byLess('numTurn', numTurn))
-  .filter(byEqual('isOk', true));
+  .filter(byNotFinishedYet(numTurn));
 
 const getPlayersFinished = players => players
-  .filter(byNot('state', 'waiting-for-players'))
-  .map(extractProperty('lastFinishedTurn'))
-  .filter(byEqual('isOk', false));
+  .filter(byFinishedGamePlayer);
 
 const checkRoundFinishedAndResolve = numTurn => resolve => (players) => {
   const playersNotFinishedYet = getPlayersNotFinishedYet(players, numTurn);
