@@ -4,11 +4,12 @@ export default class SimonlyMultiplayerKeysGenerator {
 
   static LOCAL_KEYS_CACHE_LENGTH = 50;
 
-  constructor(db, numKeys, simonlyMultiplayer) {
+  constructor(db, nameOfFamily, numKeys, simonlyMultiplayer) {
     this.db = db;
     this.numKeys = numKeys;
     this.simonlyMultiplayer = simonlyMultiplayer;
     this.localKeysCache = [];
+    // this.db.ref('')
   }
 
   addMoreKeys(keys) {

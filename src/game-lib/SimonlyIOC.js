@@ -27,7 +27,7 @@ const simonlyIOC = (Vue) => {
   const simonlyMultiplayerUI = new SimonlyMultiplayerUI(simonlyLocalUI, simonlyRemoteUI);
 
   const simonlyMultiplayerKeysGenerator = new SimonlyMultiplayerKeysGenerator(db,
-    overwrittenConfig.numKeys, simonlyMultiplayer);
+    overwrittenConfig.nameOfFamily, overwrittenConfig.numKeys, simonlyMultiplayer);
 
   const simonlyGame = new SimonlyGame(simonlyMultiplayerUI,
     overwrittenConfig.numKeys, simonlyMultiplayerKeysGenerator);
