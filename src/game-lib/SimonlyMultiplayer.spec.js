@@ -1,13 +1,5 @@
 import SimonlyMultiplayer from './SimonlyMultiplayer';
-
-const dbMock = () => ({
-  ref: () => ({
-    on: () => {
-    },
-    once: () => {
-    },
-  }),
-});
+import dbMock from '../lib/dbMock';
 
 const userInTurnOk = (name, numTurn) => ({ name, state: 'playing', lastFinishedTurn: { numTurn, isOk: true } });
 const userInTurnOkAndWaiting = (name, numTurn) => ({ name, state: 'waiting-for-players', lastFinishedTurn: { numTurn, isOk: true } });

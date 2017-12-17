@@ -19,8 +19,8 @@ export default class SimonlyGame {
 
   addTurnKeys() {
     const numOfNewKeys = this.gameInfo.numTurn - this.gameInfo.currentTurnKeys.length;
-    this.gameInfo.currentTurnKeys =
-      this.simonlyKeysGenerator.addKeys(this.gameInfo.currentTurnKeys, numOfNewKeys);
+    return this.simonlyKeysGenerator.addKeys(this.gameInfo.currentTurnKeys, numOfNewKeys)
+      .then((newKeys) => { this.gameInfo.currentTurnKeys = newKeys; });
   }
 
   userPressed(pressedKey) {
@@ -53,8 +53,8 @@ export default class SimonlyGame {
     this.gameInfo.numTurn = num;
     this.gameInfo.numKeyInTurn = 0;
     this.gameInfo.userEnteredTurnKeys = [];
-    this.addTurnKeys();
-    this.simonlyUI.showSequence(this.gameInfo.currentTurnKeys);
+    return this.addTurnKeys()
+      .then(() => { this.simonlyUI.showSequence(this.gameInfo.currentTurnKeys); });
   }
 
   start() {

@@ -16,7 +16,7 @@ describe('SimonlyGame', () => {
   beforeEach(() => {
     clock = sinon.useFakeTimers();
     ui = SimonlyUIMock();
-    game = new SimonlyGame(ui);
+    game = new SimonlyGame(ui, 10);
   });
 
   afterEach(() => {
@@ -40,23 +40,28 @@ describe('SimonlyGame', () => {
     expect(ui.updateScore).to.be.calledWith(0);
   });
 
-  it('creates a turn with numTurn', () => {
+  it('creates a turn with numTurn', (done) => {
     game.gameInfo.numTurn = 5;
     game.gameInfo.currentTurnKeys = [1, 2, 3, 4];
-    game.addTurnKeys();
-
-    expect(game.gameInfo.currentTurnKeys.length).to.equal(5);
-    expect(game.gameInfo.currentTurnKeys[0]).to.equal(1);
-    expect(game.gameInfo.currentTurnKeys[1]).to.equal(2);
-    expect(game.gameInfo.currentTurnKeys[2]).to.equal(3);
-    expect(game.gameInfo.currentTurnKeys[3]).to.equal(4);
+    game.addTurnKeys()
+      .then(() => {
+        expect(game.gameInfo.currentTurnKeys.length).to.equal(5);
+        expect(game.gameInfo.currentTurnKeys[0]).to.equal(1);
+        expect(game.gameInfo.currentTurnKeys[1]).to.equal(2);
+        expect(game.gameInfo.currentTurnKeys[2]).to.equal(3);
+        expect(game.gameInfo.currentTurnKeys[3]).to.equal(4);
+        done();
+      });
   });
 
-  it('runs a turn', () => {
-    game.runTurn(3);
-
-    expect(game.gameInfo.numTurn).to.equal(3);
-    expect(game.gameInfo.currentTurnKeys.length).to.equal(3);
+  it('runs a turn', (done) => {
+    game.simonlyUI.showSequence = () => Promise.resolve({});
+    game.runTurn(3)
+      .then(() => {
+        expect(game.gameInfo.numTurn).to.equal(3);
+        expect(game.gameInfo.currentTurnKeys.length).to.equal(3);
+        done();
+      });
   });
 
   it('increases score if you press correctly', () => {
