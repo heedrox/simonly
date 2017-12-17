@@ -9,7 +9,8 @@ export default class SimonlyDefaultKeysGenerator {
   }
 
   addKeys(keys, numNewKeys) {
-    return SimonlyDefaultKeysGenerator.addKeysFor(keys, numNewKeys, this.numKeys);
+    const newKeys = SimonlyDefaultKeysGenerator.addKeysFor(keys, numNewKeys, this.numKeys);
+    return Promise.resolve(newKeys);
   }
 
   static addKeysFor(keys, numNewKeys, numDifferentKeys) {
