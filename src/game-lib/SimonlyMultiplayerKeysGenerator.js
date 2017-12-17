@@ -1,4 +1,5 @@
 import SimonlyDefaultKeysGenerator from './SimonlyDefaultKeysGenerator';
+import { getArrayFromFireSnapshot } from '../lib/fireutils';
 
 export default class SimonlyMultiplayerKeysGenerator {
 
@@ -9,7 +10,9 @@ export default class SimonlyMultiplayerKeysGenerator {
     this.numKeys = numKeys;
     this.simonlyMultiplayer = simonlyMultiplayer;
     this.localKeysCache = [];
-    // this.db.ref('')
+    this.promisePendingResolve = null;
+    this.sequenceRef = this.db.ref(`${this.nameOfFamily}/sequence`);
+    this.sequenceRef.on('value', (snap) => { this.onSequenceChanged(snap.val()); });
   }
 
   addMoreKeys(keys) {
@@ -17,9 +20,28 @@ export default class SimonlyMultiplayerKeysGenerator {
       .addKeysFor(keys, SimonlyMultiplayerKeysGenerator.LOCAL_KEYS_CACHE_LENGTH, this.numKeys);
   }
 
+  onSequenceChanged(newKeys) {
+    this.localKeysCache = newKeys;
+    if (this.promisePendingResolve) {
+      const isSequenceEnough = this.checkPendingAndResolve(newKeys);
+      if (isSequenceEnough) {
+        this.checkPendingAndResolve = null;
+        this.promisePendingResolve = null;
+      }
+    }
+  }
+
+  waitForMoreKeys(numTotalKeys) {
+    return new Promise((resolve) => {
+      this.promisePendingResolve = resolve;
+      this.checkPendingAndResolve = newKeys => newKeys.length >= numTotalKeys;
+      this.sequenceRef.once('value', snap => this.onSequenceChanged(snap.val()));
+    });
+  }
+
   waitForMoreKeysAndAdd(numTotalKeys) {
     if (this.localKeysCache.length <= numTotalKeys) {
-      return this.waitForMoreKeys()
+      return this.waitForMoreKeys(numTotalKeys)
         .then((newKeys) => { this.localKeysCache = newKeys; });
     }
     return Promise.resolve(this.localKeysCache);
