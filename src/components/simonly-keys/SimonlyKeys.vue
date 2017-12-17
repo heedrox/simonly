@@ -1,10 +1,11 @@
 <template>
     <div class="simonly-keys">
         <simonly-key v-for="keyNumber in numKeys" :key="keyNumber" class="key" :position="keyNumber" :externallyPressedKey="simonlyUI && simonlyUI.pressedKey" @keypress="userPressed"
-                      :skin="keyNumber" :showRightKey="simonlyUI && simonlyUI.theRightKey"
+                     :skin="keyNumber" :showRightKey="simonlyUI && simonlyUI.theRightKey"
                      :overwriteSkin="(config.dataKeys && config.dataKeys[parseInt(keyNumber - 1)]) ?config.dataKeys[parseInt(keyNumber - 1)]['i']:null"
                      :overwriteAudio="(config.dataKeys && config.dataKeys[parseInt(keyNumber - 1)]) ?config.dataKeys[parseInt(keyNumber - 1)]['a']:null"
-                     :timePerKey = "config.timePerKey">
+                     :timePerKey = "config.timePerKey"
+                     :readonly="readonly">
         </simonly-key>
   </div>
 </template>
@@ -33,6 +34,7 @@
           return () => {};
         },
       },
+      readonly: false,
     },
     methods: {
       userPressed(ev) {
