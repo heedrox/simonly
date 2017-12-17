@@ -106,13 +106,16 @@
         this.currentState = state;
         return this.simonlyMultiplayer.updateState(state);
       },
+      setAudiosInLocalUI() {
+        this.simonlyLocalUI.setOkAudio(this.$refs.roundOkAudio);
+        this.simonlyLocalUI.setKoAudio(this.$refs.roundKoAudio);
+      },
       fixSuperStrangeBugSomethingOverwritingAudios() {
         // dont know why, but something after welcome state overwrites audio
         // changes ok - ko audios. No idea why, but lost lots of time debugging :(
         // this could be a super cool test if you want to prove yourself XD
         setInterval(() => {
-          this.simonlyLocalUI.setOkAudio(this.$refs.roundOkAudio);
-          this.simonlyLocalUI.setKoAudio(this.$refs.roundKoAudio);
+          this.setAudiosInLocalUI();
         }, 2000);
       },
     },
@@ -125,8 +128,7 @@
     },
     mounted() {
       this.simonlyMultiplayer.updateState(STATES.WELCOME);
-      this.simonlyLocalUI.setOkAudio(this.$refs.roundOkAudio);
-      this.simonlyLocalUI.setKoAudio(this.$refs.roundKoAudio);
+      this.setAudiosInLocalUI();
       this.fixSuperStrangeBugSomethingOverwritingAudios();
       this.$watch('simonlyLocalUI.theRightKey', () => {
         if (this.simonlyLocalUI.theRightKey) {
