@@ -13,6 +13,7 @@ const userInTurnOk = (name, numTurn) => ({ name, state: 'playing', lastFinishedT
 const userInTurnOkAndWaiting = (name, numTurn) => ({ name, state: 'waiting-for-players', lastFinishedTurn: { numTurn, isOk: true } });
 
 const userKo = name => ({ name, state: 'playing', lastFinishedTurn: { numTurn: 2, isOk: false } });
+const userInTurnKo = (name, numTurn) => ({ name, state: 'playing', lastFinishedTurn: { numTurn, isOk: false } });
 
 const executePreviousPromiseBeforeLeaving = (done) => {
   new Promise((resolve) => {
@@ -59,7 +60,6 @@ describe('SimonlyMultiplayer', () => {
       simonlyMultiplayer.onPlayersChange([userInTurnOk('Jordi', 3), userInTurnOk('Jordi2', 3), userInTurnOk('Jordi3', 3)]);
     });
 
-
     it('does not resolve when one player does not reach the round', (done) => {
       simonlyMultiplayer.waitForUsersFinishRound(3)
         .then(() => {
@@ -93,6 +93,17 @@ describe('SimonlyMultiplayer', () => {
 
       simonlyMultiplayer.onPlayersChange([userKo('Jordi'), userKo('Jordi2'), userKo('Jordi3')]);
     });
+
+    it('resolves when all players fail, but somebody is still waiting in waiting-for-players', (done) => {
+      simonlyMultiplayer.waitForUsersFinishGame()
+        .then(() => {
+          expect(true).to.eql(true);
+          done();
+        });
+
+      simonlyMultiplayer.onPlayersChange([userInTurnKo('Jordi', 4), userInTurnOkAndWaiting('Jordix', 0)]);
+    });
+
 
     it('does not resolve when one of them is still not KO', (done) => {
       simonlyMultiplayer.waitForUsersFinishGame()

@@ -11,6 +11,9 @@ const byFinishedGamePlayer = player =>
   player.state !== 'waiting-for-players' &&
   !player.lastFinishedTurn.isOk;
 
+const byNotWaiting = player =>
+  player.state !== 'waiting-for-players';
+
 const getPlayersNotFinishedYet = (players, numTurn) => players
   .filter(byNotFinishedYet(numTurn));
 
@@ -27,10 +30,12 @@ const checkRoundFinishedAndResolve = numTurn => resolve => (players) => {
 
 const checkGameFinishedAndResolve = resolve => (players) => {
   const playersFinished = getPlayersFinished(players);
-  if (playersFinished.length === players.length) {
+  const playersPlaying = players.filter(byNotWaiting);
+
+  if (playersFinished.length === playersPlaying.length) {
     resolve();
   }
-  return playersFinished.length === players.length;
+  return playersFinished.length === playersPlaying.length;
 };
 
 const buildUserData = (name, userId) => ({
