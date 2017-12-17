@@ -19,8 +19,9 @@ const byAsc = property => (a, b) => a[property] - b[property];
 const byDesc = property => (a, b) => b[property] - a[property];
 
 const byNot = (property, value) => obj => obj[property] !== value;
+const byLess = (property, value) => obj => obj[property] < value;
 const byEqual = (property, value) => obj => obj[property] === value;
 
 const extractProperty = property => obj => obj[property];
 
-export { emptyRows, array0ToN, byAsc, byDesc, byNot, byEqual, extractProperty };
+export { emptyRows, array0ToN, byAsc, byDesc, byNot, byLess, byEqual, extractProperty };

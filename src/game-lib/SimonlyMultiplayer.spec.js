@@ -9,8 +9,10 @@ const dbMock = () => ({
   }),
 });
 
-const userInTurnOk = (name, numTurn) => ({ name, lastFinishedTurn: { numTurn, isOk: true } });
-const userKo = name => ({ name, lastFinishedTurn: { numTurn: 2, isOk: false } });
+const userInTurnOk = (name, numTurn) => ({ name, state: 'playing', lastFinishedTurn: { numTurn, isOk: true } });
+const userInTurnOkAndWaiting = (name, numTurn) => ({ name, state: 'waiting-for-players', lastFinishedTurn: { numTurn, isOk: true } });
+
+const userKo = name => ({ name, state: 'playing', lastFinishedTurn: { numTurn: 2, isOk: false } });
 
 const executePreviousPromiseBeforeLeaving = (done) => {
   new Promise((resolve) => {
@@ -37,8 +39,18 @@ describe('SimonlyMultiplayer', () => {
 
       simonlyMultiplayer.onPlayersChange([]);
     });
-    it('resolves when all players reach the round', (done) => {
+    it('resolves when all players reach the round ignoring the waiting for players', (done) => {
       simonlyMultiplayer.waitForUsersFinishRound(3)
+        .then(() => {
+          expect(true).to.eql(true);
+          done();
+        });
+
+      simonlyMultiplayer.onPlayersChange([userInTurnOk('Jordi', 3), userInTurnOk('Jordi2', 3), userInTurnOk('Jordi3', 3), userInTurnOkAndWaiting('Jordi4', 1)]);
+    });
+
+    it('resolves when all players reach the round or beyond', (done) => {
+      simonlyMultiplayer.waitForUsersFinishRound(2)
         .then(() => {
           expect(true).to.eql(true);
           done();
@@ -47,10 +59,11 @@ describe('SimonlyMultiplayer', () => {
       simonlyMultiplayer.onPlayersChange([userInTurnOk('Jordi', 3), userInTurnOk('Jordi2', 3), userInTurnOk('Jordi3', 3)]);
     });
 
+
     it('does not resolve when one player does not reach the round', (done) => {
       simonlyMultiplayer.waitForUsersFinishRound(3)
         .then(() => {
-          expect(false).to.equal(true); // should never get here
+          expect(false).to.equal(true); // fail as it should never get here
         });
 
       simonlyMultiplayer.onPlayersChange([userInTurnOk('Jordi', 2), userInTurnOk('Juan', 3)]);

@@ -15,7 +15,7 @@
     <audio id="roundKoAudio" src="./static/audio/round-ko.mp3" ref="roundKoAudio"></audio>
     <audio id="roundOkAudio" src="./static/audio/round-ok.mp3" ref="roundOkAudio"></audio>
 
-    <simonly-multiplayer-hud class="multiplayer-hud" v-if="isAtState(['321','playing'])"></simonly-multiplayer-hud>
+    <simonly-multiplayer-hud class="multiplayer-hud" v-if="isAtState(['321','playing'])" :numTurn="simonlyGame.gameInfo.numTurn"></simonly-multiplayer-hud>
     <simonly-gameover :onClick="restart" v-if="currentState === 'hall-of-fame'" class="game-over"></simonly-gameover>
     <simonly-explain v-if="config.hidePubli === 0"></simonly-explain>
   </div>

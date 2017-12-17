@@ -1,10 +1,11 @@
 import Firebase from 'firebase';
-import { byEqual, byNot, extractProperty } from '../lib/arrays';
+import { byEqual, byLess, byNot, extractProperty } from '../lib/arrays';
 import { getArrayFromFireSnapshot } from '../lib/fireutils';
 
 const getPlayersNotFinishedYet = (players, numTurn) => players
+  .filter(byNot('state', 'waiting-for-players'))
   .map(extractProperty('lastFinishedTurn'))
-  .filter(byNot('numTurn', numTurn));
+  .filter(byLess('numTurn', numTurn));
 
 const getPlayersFinished = players => players
   .map(extractProperty('lastFinishedTurn'))
