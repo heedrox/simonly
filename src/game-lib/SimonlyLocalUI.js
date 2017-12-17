@@ -11,6 +11,13 @@ export default class SimonlyLocalUI {
     this.score = 0;
     this.id = Math.round(Math.random() * 100000);
     this.timePerKey = timePerKey || DEFAULT_TIME_PER_KEY;
+    this.roundOkAudio = null;
+    this.roundKoAudio = null;
+    /* setInterval(() => {
+      if (this.roundOkAudio) {
+        console.log('this.roundOkAudio.src', this.roundOkAudio);
+      }
+    }, 500); */
   }
 
   /* *** interface to be implemented by simonlyGamePresenter ***** */

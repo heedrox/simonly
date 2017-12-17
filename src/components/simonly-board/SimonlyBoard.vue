@@ -12,8 +12,8 @@
                   :simonlyUI="simonlyLocalUI"></simonly-keys>
 
     <simonly-music :track="getMusicTrack"></simonly-music>
-    <audio src="./static/audio/round-ko.mp3" ref="roundKoAudio"></audio>
-    <audio src="./static/audio/round-ok.mp3" ref="roundOkAudio"></audio>
+    <audio id="roundKoAudio" src="./static/audio/round-ko.mp3" ref="roundKoAudio"></audio>
+    <audio id="roundOkAudio" src="./static/audio/round-ok.mp3" ref="roundOkAudio"></audio>
 
     <simonly-multiplayer-hud class="multiplayer-hud" v-if="isAtState(['321','playing'])"></simonly-multiplayer-hud>
     <simonly-gameover :onClick="restart" v-if="currentState === 'hall-of-fame'" class="game-over"></simonly-gameover>
@@ -24,6 +24,8 @@
 
 
 <script>
+  /* eslint-disable no-unused-vars,arrow-body-style */
+
   import SimonlyGameover from '../../components/simonly-gameover/SimonlyGameover.vue';
   import SimonlyScore from '../../components/simonly-score/SimonlyScore.vue';
   import SimonlyMusic from '../../components/simonly-music/SimonlyMusic.vue';
@@ -104,6 +106,15 @@
         this.currentState = state;
         return this.simonlyMultiplayer.updateState(state);
       },
+      fixSuperStrangeBugSomethingOverwritingAudios() {
+        // dont know why, but something after welcome state overwrites audio
+        // changes ok - ko audios. No idea why, but lost lots of time debugging :(
+        // this could be a super cool test if you want to prove yourself XD
+        setInterval(() => {
+          this.simonlyLocalUI.setOkAudio(this.$refs.roundOkAudio);
+          this.simonlyLocalUI.setKoAudio(this.$refs.roundKoAudio);
+        }, 2000);
+      },
     },
     computed: {
       getMusicTrack() {
@@ -116,6 +127,7 @@
       this.simonlyMultiplayer.updateState(STATES.WELCOME);
       this.simonlyLocalUI.setOkAudio(this.$refs.roundOkAudio);
       this.simonlyLocalUI.setKoAudio(this.$refs.roundKoAudio);
+      this.fixSuperStrangeBugSomethingOverwritingAudios();
       this.$watch('simonlyLocalUI.theRightKey', () => {
         if (this.simonlyLocalUI.theRightKey) {
           setTimeout(() => {

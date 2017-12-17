@@ -135,9 +135,11 @@
       };
     },
     mounted() {
-      this.$firebaseRefs.players.once('value', (snap) => {
-        this.checkReady(getArrayFromFireSnapshot(snap));
-      });
+      if (this.$firebaseRefs) {
+        this.$firebaseRefs.players.once('value', (snap) => {
+          this.checkReady(getArrayFromFireSnapshot(snap));
+        });
+      }
       this.$watch('players', (newPlayers) => {
         this.checkReady(newPlayers);
       });
