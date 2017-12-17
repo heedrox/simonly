@@ -10,6 +10,7 @@ import SimonlyRemoteUI from './SimonlyRemoteUI';
 import { SimonlyDynamicConfigOverwrite } from './SimonlyDynamicConfig';
 import config from '../config';
 import SimonlyMultiplayer from './SimonlyMultiplayer';
+import SimonlyMultiplayerKeysGenerator from './SimonlyMultiplayerKeysGenerator';
 
 
 const simonlyIOC = (Vue) => {
@@ -25,7 +26,9 @@ const simonlyIOC = (Vue) => {
   const simonlyRemoteUI = new SimonlyRemoteUI(simonlyMultiplayer);
   const simonlyMultiplayerUI = new SimonlyMultiplayerUI(simonlyLocalUI, simonlyRemoteUI);
 
-  const simonlyGame = new SimonlyGame(simonlyMultiplayerUI, overwrittenConfig.numKeys);
+  const simonlyMultiplayerKeysGenerator = new SimonlyMultiplayerKeysGenerator(overwrittenConfig.numKeys, simonlyMultiplayer);
+
+  const simonlyGame = new SimonlyGame(simonlyMultiplayerUI, overwrittenConfig.numKeys, simonlyMultiplayerKeysGenerator);
 
 
   ioc.set('simonlyLocalUI', simonlyLocalUI);

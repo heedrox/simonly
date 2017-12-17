@@ -59,11 +59,13 @@ export default class SimonlyMultiplayer {
     this.nameOfFamily = nameOfFamily;
     this.connectedNode = null;
     this.userId = null;
+    this.playersLocalCache = [];
     this.playersRef = this.db.ref(`${this.nameOfFamily}/players`);
     this.playersRef.on('value', snap => this.onPlayersChange(getArrayFromFireSnapshot(snap)));
   }
 
   onPlayersChange(players) {
+    this.playersLocalCache = players;
     if (this.promisePendingResolve) {
       const roundFinished = this.checkPendingAndResolve(players);
       if (roundFinished) {
@@ -126,8 +128,9 @@ export default class SimonlyMultiplayer {
     return this.userId;
   }
 
-  setMasterUser() {
-    this.db.ref(`${this.nameOfFamily}/master-player`).set(this.userId);
+// eslint-disable-next-line class-methods-use-this
+  isMaster() {
+    return true;
   }
 
   updatePropertyValue(property, value) {
