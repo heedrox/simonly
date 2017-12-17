@@ -1,5 +1,6 @@
 import Firebase from 'firebase';
 import { getArrayFromFireSnapshot } from '../lib/fireutils';
+import { byAsc } from '../lib/arrays';
 
 // clevernotclean story, thanks artolamola <3 => https://twitter.com/artolamola/status/942422322354573312
 const byNotFinishedYet = numTurn => player =>
@@ -128,9 +129,9 @@ export default class SimonlyMultiplayer {
     return this.userId;
   }
 
-// eslint-disable-next-line class-methods-use-this
   isMaster() {
-    return true;
+    const playersSorted = this.playersLocalCache.sort(byAsc('key'));
+    return playersSorted[0].key === this.userId;
   }
 
   updatePropertyValue(property, value) {

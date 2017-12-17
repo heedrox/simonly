@@ -109,4 +109,24 @@ describe('SimonlyMultiplayer', () => {
       executePreviousPromiseBeforeLeaving(done);
     });
   });
+
+  it('decides the master if it is me', () => {
+    simonlyMultiplayer.playersLocalCache = [
+      { key: '123', name: 'jordi' },
+      { key: '023', name: 'jordiMaster' },
+    ];
+    simonlyMultiplayer.userId = '023';
+
+    expect(simonlyMultiplayer.isMaster()).to.be.true;
+  });
+
+  it('decides the master when it is not me', () => {
+    simonlyMultiplayer.playersLocalCache = [
+      { key: '123', name: 'jordi' },
+      { key: '323', name: 'jordiMaster' },
+    ];
+    simonlyMultiplayer.userId = '323';
+
+    expect(simonlyMultiplayer.isMaster()).to.be.false;
+  });
 });
