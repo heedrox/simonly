@@ -2,7 +2,6 @@ import SimonlyMultiplayerKeysGenerator from './SimonlyMultiplayerKeysGenerator';
 import dbMock from '../lib/dbMock';
 
 describe('SimonlyMultiplayerKeysGenerator', () => {
-
   const NUMBER_OF_KEYS_TO_ADD = 2;
   const CURRENT_KEYS = [1, 2, 3];
   let generator;

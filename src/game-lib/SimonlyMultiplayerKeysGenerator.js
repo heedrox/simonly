@@ -1,5 +1,4 @@
 import SimonlyDefaultKeysGenerator from './SimonlyDefaultKeysGenerator';
-import { getArrayFromFireSnapshot } from '../lib/fireutils';
 
 export default class SimonlyMultiplayerKeysGenerator {
 
@@ -16,6 +15,8 @@ export default class SimonlyMultiplayerKeysGenerator {
   }
 
   addMoreKeys(keys) {
+// eslint-disable-next-line no-console
+    console.log('i am master, i change');
     this.localKeysCache = SimonlyDefaultKeysGenerator
       .addKeysFor(keys, SimonlyMultiplayerKeysGenerator.LOCAL_KEYS_CACHE_LENGTH, this.numKeys);
     this.sequenceRef.set(this.localKeysCache);
