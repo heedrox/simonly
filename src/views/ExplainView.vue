@@ -6,7 +6,7 @@
       <li>How to customize it: Create some images and sounds, and use <router-link :to="{ path: '/new'}" replace>the simon generator</router-link>.</li>
       <li>Start playing: A couple of examples:</li>
         <ul>
-          <li>Basic style: <a href="https://simon.ly/" target="_blank">https://simon.ly/</a></li>
+          <li>Basic style: <a href="https://simon.ly/_/" target="_blank">https://simon.ly/</a></li>
           <li>Chiquito style: <a href="https://bit.ly/simonlychiquito" target="_blank">https://bit.ly/simonlychiquito</a></li>
           <li>...</li>
           <li><router-link :to="{ path: '/new'}" replace>Do your own!</router-link></li>

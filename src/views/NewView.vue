@@ -16,6 +16,7 @@
     </span>
     <input type="button" value="copy to clipboard" v-on:click="copy"></p>
     <textarea id="result">{{ result }}</textarea>
+    <p>* <b>TIP</b>: shorten the link with bit.ly, for example, to have a memorable url that you can share.</p>
     <p>What does this do? It creates a JSON object, with the identifier ("id") and an array ("d" element). Each element of array is an object with "i" and "a" property. "i" stands for image, "a" stands for audio. It later codifies it in base64 (btoa) and encodes it (encodeURIComponent). And it is attached to the server URL after the "https://simon.ly/#/_/" part ! <br/>You can try decoding the part after "_"</p>
     <p><router-link :to="{ path: '/explain'}" replace>Go back</router-link></p>
   </div>
@@ -46,7 +47,7 @@
   }
   textarea {
     width: 100%;
-    height: 40vh;
+    height: 30vh;
   }
 
   .new-view .result {

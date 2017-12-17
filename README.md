@@ -1,7 +1,8 @@
 # simonly
 simon.ly - play simon with your family
+https://simon.ly
 
-Simonly is a HTML game written in VueJS. 
+Simonly is a HTML game written in VueJS.
 
 I did it so my nephews had a game in which they were the main characters!
 
@@ -39,16 +40,16 @@ npm test
 
 # Dynamic config
 
-No need to install this in your site to add your own keys! 
+No need to install this in your site to add your own keys!
 
-Now simonly allows dynamic configuration from URL.
- 
+Now simonly allows dynamic configuration from URL. Example: https://simon.ly/_/#/new
+
 You can replace the name of the family (the id of the game), and the keys image and audio from an external
 configuration, through the URL.
 
 You can set as many keys as you like. Recommended from 4 to 8 max.
 
-Example: 
+Example:
 https://simon.ly/_/#/eyJpZCI6ImNoaXF1aXRvIiwiZCI6W3siaSI6Imh0dHBzOi8vc2ltb24ubHkvc3RhdGljLWNoaXF1aXRvLzEucG5nIiwiYSI6Imh0dHBzOi8vc2ltb24ubHkvc3RhdGljLWNoaXF1aXRvLzEubTRhIn0seyJpIjoiaHR0cHM6Ly9zaW1vbi5seS9zdGF0aWMtY2hpcXVpdG8vMi5wbmciLCJhIjoiaHR0cHM6Ly9zaW1vbi5seS9zdGF0aWMtY2hpcXVpdG8vMi5tNGEifSx7ImkiOiJodHRwczovL3NpbW9uLmx5L3N0YXRpYy1jaGlxdWl0by8zLnBuZyIsImEiOiJodHRwczovL3NpbW9uLmx5L3N0YXRpYy1jaGlxdWl0by8zLm00YSJ9LHsiaSI6Imh0dHBzOi8vc2ltb24ubHkvc3RhdGljLWNoaXF1aXRvLzQucG5nIiwiYSI6Imh0dHBzOi8vc2ltb24ubHkvc3RhdGljLWNoaXF1aXRvLzQubTRhIn1dfQ%3D%3D
 http://localhost:8080/_/#/eyJpZCI6ImNoaXF1aXRvIiwiZCI6W3siaSI6Imh0dHBzOi8vc2ltb24ubHkvc3RhdGljLWNoaXF1aXRvLzEucG5nIiwiYSI6Imh0dHBzOi8vc2ltb24ubHkvc3RhdGljLWNoaXF1aXRvLzEubTRhIn0seyJpIjoiaHR0cHM6Ly9zaW1vbi5seS9zdGF0aWMtY2hpcXVpdG8vMi5wbmciLCJhIjoiaHR0cHM6Ly9zaW1vbi5seS9zdGF0aWMtY2hpcXVpdG8vMi5tNGEifSx7ImkiOiJodHRwczovL3NpbW9uLmx5L3N0YXRpYy1jaGlxdWl0by8zLnBuZyIsImEiOiJodHRwczovL3NpbW9uLmx5L3N0YXRpYy1jaGlxdWl0by8zLm00YSJ9LHsiaSI6Imh0dHBzOi8vc2ltb24ubHkvc3RhdGljLWNoaXF1aXRvLzQucG5nIiwiYSI6Imh0dHBzOi8vc2ltb24ubHkvc3RhdGljLWNoaXF1aXRvLzQubTRhIn1dfQ%3D%3D
 
@@ -60,11 +61,11 @@ encodeURIComponent(window.btoa(JSON.stringify(json)));
 being json something with this format:
 
 ```
-{ 
+{
  "id": "myid",
  "d": [
   { "i": "https://simon.ly/static-chiquito/1.png", "a": "https://simon.ly/static-chiquito/1.m4a" },
-  { "i": "https://simon.ly/static-chiquito/2.png", "a": "https://simon.ly/static-chiquito/1.m4a" }, 
+  { "i": "https://simon.ly/static-chiquito/2.png", "a": "https://simon.ly/static-chiquito/1.m4a" },
   { "i": "https://simon.ly/static-chiquito/3.png", "a": "https://simon.ly/static-chiquito/1.m4a" },
   { "i": "https://simon.ly/static-chiquito/4.png", "a": "https://simon.ly/static-chiquito/1.m4a" }
   ]
@@ -84,7 +85,7 @@ being json something with this format:
 # Where am I going?
 - Collaborative mode: my nephews and nieces playing together!
 
-# License stuff 
+# License stuff
 
 ## About images
 I bought them in game dev market. Forbidden its use.
@@ -107,20 +108,20 @@ Please read this before any use of the font.
 
 This font is for PERSONAL USE ONLY:
 
-Do not under any circumstances use the font in public media unless 
-permission is given from designer MÂns Greb‰ck or legal reseller. 
+Do not under any circumstances use the font in public media unless
+permission is given from designer MÂns Greb‰ck or legal reseller.
 
 You may not share this font, neither on websites or to other computers,
 unless MÂns Greb‰ck's permission is given.
 
-If you do not accept these agreements, do not install or use the font. 
+If you do not accept these agreements, do not install or use the font.
 
 
 -----------------------
 
 For further information, purchase and licence, please contact designer:
 
-MÂns Greb‰ck 
+MÂns Greb‰ck
 mawns@live.se
 +46763068614 (Sweden)
 
@@ -162,7 +163,7 @@ By downloading this font package you agree to the following terms
 of use:
 
  - This FONT PACKAGE is FREEWARE and may be distributed ONLY via the
-   Internet for FREE.  Under NO circumstances may this FONT PACKAGE 
+   Internet for FREE.  Under NO circumstances may this FONT PACKAGE
    be sold for a profit nor be included as part of another product or
    CD-ROM compilation.  If you wish to include this FONT PACKAGE for
    FREE distribution on your Web Site, please  include all of the fonts
@@ -188,4 +189,4 @@ Thank you for downloading this font package and enjoy!
 
 ATARI and the FUJI logo are TM and Hasbro Interactive.
 ------------------------------------------------------------------------
-�1999 ShyFonts Type Foundry -- http://www.shyfonts.com
+(c) 1999 ShyFonts Type Foundry -- http://www.shyfonts.com
