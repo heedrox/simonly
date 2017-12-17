@@ -40,6 +40,7 @@
 
 
   import autoPlayerHack from '../../lib/auto-player-hack';
+  import timeoutUtil from '../../lib/timeoutUtil';
 
   const STATES = {
     WELCOME: 'welcome',
@@ -133,9 +134,9 @@
       this.fixSuperStrangeBugSomethingOverwritingAudios();
       this.$watch('simonlyLocalUI.theRightKey', () => {
         if (this.simonlyLocalUI.theRightKey) {
-          setTimeout(() => {
-            this.currentState = STATES.HALL_OF_FAME;
-          }, 1500);
+          timeoutUtil.syncTimeout(1500)
+            .then(() => this.simonlyMultiplayer.waitForUsersFinishGame())
+            .then(() => { this.currentState = STATES.HALL_OF_FAME; });
         }
       });
     },

@@ -5,7 +5,8 @@ import { getArrayFromFireSnapshot } from '../lib/fireutils';
 const getPlayersNotFinishedYet = (players, numTurn) => players
   .filter(byNot('state', 'waiting-for-players'))
   .map(extractProperty('lastFinishedTurn'))
-  .filter(byLess('numTurn', numTurn));
+  .filter(byLess('numTurn', numTurn))
+  .filter(byEqual('isOk', true));
 
 const getPlayersFinished = players => players
   .map(extractProperty('lastFinishedTurn'))
