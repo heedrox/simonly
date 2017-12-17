@@ -18,6 +18,7 @@ export default class SimonlyMultiplayerKeysGenerator {
   addMoreKeys(keys) {
     this.localKeysCache = SimonlyDefaultKeysGenerator
       .addKeysFor(keys, SimonlyMultiplayerKeysGenerator.LOCAL_KEYS_CACHE_LENGTH, this.numKeys);
+    this.sequenceRef.set(this.localKeysCache);
   }
 
   onSequenceChanged(newKeys) {
