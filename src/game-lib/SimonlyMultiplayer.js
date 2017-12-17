@@ -2,6 +2,7 @@ import Firebase from 'firebase';
 import { byEqual, byLess, byNot, extractProperty } from '../lib/arrays';
 import { getArrayFromFireSnapshot } from '../lib/fireutils';
 
+// clevernotclean? => https://twitter.com/artolamola/status/942422322354573312
 const getPlayersNotFinishedYet = (players, numTurn) => players
   .filter(byNot('state', 'waiting-for-players'))
   .map(extractProperty('lastFinishedTurn'))
@@ -9,6 +10,7 @@ const getPlayersNotFinishedYet = (players, numTurn) => players
   .filter(byEqual('isOk', true));
 
 const getPlayersFinished = players => players
+  .filter(byNot('state', 'waiting-for-players'))
   .map(extractProperty('lastFinishedTurn'))
   .filter(byEqual('isOk', false));
 
