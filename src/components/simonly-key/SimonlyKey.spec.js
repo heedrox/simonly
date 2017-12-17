@@ -73,6 +73,14 @@ describe('SimonlyKey', () => {
       expect(vm.pressed).to.be.true;
     });
 
+    it('does not set pressed to true if readonly', () => {
+      vm.playAudio = () => FakePromise.resolved({});
+      vm.readonly = true;
+      vm.pressImage();
+
+      expect(vm.pressed).to.be.false;
+    });
+
     it('sets pressed to false after 1000 sec', () => {
       vm.$refs.audio = audioWithPaused(true);
       vm.pressed = true;

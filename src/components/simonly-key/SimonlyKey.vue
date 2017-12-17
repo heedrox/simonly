@@ -72,6 +72,7 @@
           return null;
         },
       },
+      readonly: false,
     },
     computed: {
       src() {
@@ -116,6 +117,7 @@
       },
       pressImage() {
         if (this.showRightKey !== null) return;
+        if (this.readonly) return;
         this.playAudio()
           .then(() => {
             this.pressed = true;
