@@ -1,22 +1,36 @@
-/* eslint-disable class-methods-use-this */
 import SimonlyDefaultKeysGenerator from './SimonlyDefaultKeysGenerator';
 
 export default class SimonlyMultiplayerKeysGenerator {
 
-  constructor(numKeys, simonlyMultiplayer) {
+  static LOCAL_KEYS_CACHE_LENGTH = 50;
+
+  constructor(db, numKeys, simonlyMultiplayer) {
+    this.db = db;
     this.numKeys = numKeys;
     this.simonlyMultiplayer = simonlyMultiplayer;
+    this.localKeysCache = [];
   }
 
-  addKeysAsMaster(keys, numNewKeys) {
-    return SimonlyDefaultKeysGenerator.addKeysFor(keys, numNewKeys, this.numKeys);
+  addMoreKeys(keys) {
+    this.localKeysCache = SimonlyDefaultKeysGenerator
+      .addKeysFor(keys, SimonlyMultiplayerKeysGenerator.LOCAL_KEYS_CACHE_LENGTH, this.numKeys);
+  }
+
+  waitForMoreKeysAndAdd(numTotalKeys) {
+    if (this.localKeysCache.length <= numTotalKeys) {
+      return this.waitForMoreKeys()
+        .then((newKeys) => { this.localKeysCache = newKeys; });
+    }
+    return Promise.resolve(this.localKeysCache);
   }
 
   addKeys(keys, numNewKeys) {
     if (this.simonlyMultiplayer.isMaster()) {
-      return this.addKeysAsMaster(keys, numNewKeys);
+      this.addMoreKeys(keys);
+      return Promise.resolve(this.localKeysCache.slice(0, keys.length + numNewKeys));
     }
-    return [1, 2, 3, 4, 5];
-    // return this.simonlyMultiplayer.getKeysFromRemote();
+
+    return this.waitForMoreKeysAndAdd(keys.length + numNewKeys)
+      .then(() => this.localKeysCache.slice(0, keys.length + numNewKeys));
   }
 }
