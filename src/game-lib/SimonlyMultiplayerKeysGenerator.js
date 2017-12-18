@@ -15,10 +15,13 @@ export default class SimonlyMultiplayerKeysGenerator {
   }
 
   addMoreKeys(keys) {
+    const numKeysToAdd =
+      (SimonlyMultiplayerKeysGenerator.LOCAL_KEYS_CACHE_LENGTH + keys.length) -
+      this.localKeysCache.length;
 // eslint-disable-next-line no-console
     console.log('i am master, i change');
-    this.localKeysCache = SimonlyDefaultKeysGenerator
-      .addKeysFor(keys, SimonlyMultiplayerKeysGenerator.LOCAL_KEYS_CACHE_LENGTH, this.numKeys);
+    this.localKeysCache = SimonlyDefaultKeysGenerator.addKeysFor(this.localKeysCache,
+      numKeysToAdd, this.numKeys);
     this.sequenceRef.set(this.localKeysCache);
   }
 

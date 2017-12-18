@@ -29,11 +29,25 @@ describe('SimonlyMultiplayerKeysGenerator', () => {
 
     it('generates and maintains a local keys cache of LOCAL_KEYS_CACHE_LENGTH size more than current key', (done) => {
       generator.simonlyMultiplayer.isMaster = () => true;
+      generator.localKeysCache = [];
 
       generator.addKeys(CURRENT_KEYS, NUMBER_OF_KEYS_TO_ADD)
         .then(() => {
           expect(generator.localKeysCache).to.be
             .length(SimonlyMultiplayerKeysGenerator.LOCAL_KEYS_CACHE_LENGTH + CURRENT_KEYS.length);
+          done();
+        });
+    });
+
+    it('generate and maintains the same local keys cache from previous', (done) => {
+      SimonlyMultiplayerKeysGenerator.LOCAL_KEYS_CACHE_LENGTH = 3;
+      generator.simonlyMultiplayer.isMaster = () => true;
+      generator.localKeysCache = [1, 2, 3, 4, 5, 6];
+      generator.numKeys = 2; // hack to avoid generating in the test casually the same sequence
+
+      generator.addKeys([1, 2, 3], 3)
+        .then(() => {
+          expect(generator.localKeysCache).to.eql([1, 2, 3, 4, 5, 6]);
           done();
         });
     });
