@@ -1,5 +1,6 @@
 import repeat from '../lib/repeat';
 import { randomNumber } from '../lib/numbers';
+import { copyArray } from '../lib/arrays';
 
 export default class SimonlyDefaultKeysGenerator {
 
@@ -14,8 +15,9 @@ export default class SimonlyDefaultKeysGenerator {
   }
 
   static addKeysFor(keys, numNewKeys, numDifferentKeys) {
-    const newKeys = keys.slice();
+    const newKeys = copyArray(keys);
     const pushRandomNumber = () => newKeys.push(randomNumber(1, numDifferentKeys));
+
     repeat(numNewKeys, pushRandomNumber);
     return newKeys;
   }

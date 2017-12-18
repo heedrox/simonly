@@ -15,6 +15,8 @@ const array0ToN = (n) => {
   return Array(...{ length: (n + 1) }).map(Number.call, Number);
 };
 
+const copyArray = array => array.slice();
+
 const byAsc = property => (a, b) => a[property] - b[property];
 const byDesc = property => (a, b) => b[property] - a[property];
 
@@ -24,4 +26,4 @@ const byEqual = (property, value) => obj => obj[property] === value;
 
 const extractProperty = property => obj => obj[property];
 
-export { emptyRows, array0ToN, byAsc, byDesc, byNot, byLess, byEqual, extractProperty };
+export { emptyRows, array0ToN, copyArray, byAsc, byDesc, byNot, byLess, byEqual, extractProperty };
