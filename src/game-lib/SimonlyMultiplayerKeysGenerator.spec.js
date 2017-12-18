@@ -51,6 +51,18 @@ describe('SimonlyMultiplayerKeysGenerator', () => {
           done();
         });
     });
+
+    it('generates beyond local keys cache length always a number of that size of keys', (done) => {
+      SimonlyMultiplayerKeysGenerator.LOCAL_KEYS_CACHE_LENGTH = 3;
+      generator.simonlyMultiplayer.isMaster = () => true;
+      generator.localKeysCache = [1, 2, 3];
+
+      generator.addKeys([1, 2], 1)
+        .then(() => {
+          expect(generator.localKeysCache).to.be.length(5);
+          done();
+        });
+    });
   });
 
   describe('when i am NOT master', () => {
