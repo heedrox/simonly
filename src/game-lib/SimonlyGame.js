@@ -53,6 +53,7 @@ export default class SimonlyGame {
     this.gameInfo.numTurn = num;
     this.gameInfo.numKeyInTurn = 0;
     this.gameInfo.userEnteredTurnKeys = [];
+    this.simonlyUI.resetTurn();
     return this.addTurnKeys()
       .then(() => { this.simonlyUI.showSequence(this.gameInfo.currentTurnKeys); });
   }

@@ -63,6 +63,18 @@ describe('SimonlyMultiplayerKeysGenerator', () => {
           done();
         });
     });
+
+    it('removes local keys cache when starts a new game', (done) => {
+      generator.simonlyMultiplayer.isMaster = () => true;
+      generator.localKeysCache = [1, 2, 3];
+      generator.numKeys = 2; // hack to make sure does not create a 3 casually
+
+      generator.addKeys([], 1)
+        .then(() => {
+          expect(generator.localKeysCache.slice(0, 3)).not.to.eql([1, 2, 3]);
+          done();
+        });
+    });
   });
 
   describe('when i am NOT master', () => {

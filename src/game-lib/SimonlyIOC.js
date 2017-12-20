@@ -38,6 +38,7 @@ const simonlyIOC = (Vue) => {
   ioc.set('simonlyStorage', simonlyStorage);
   ioc.set('queries', simonlyHallOfFameQueries);
   ioc.set('simonlyMultiplayer', simonlyMultiplayer);
+  ioc.set('simonlyMultiplayerKeysGenerator', simonlyMultiplayerKeysGenerator);
 
   Vue.use(vueIoc);
 };

@@ -7,6 +7,7 @@ export default class SimonlyMultiplayerKeysGenerator {
   constructor(db, nameOfFamily, numKeys, simonlyMultiplayer) {
     this.db = db;
     this.numKeys = numKeys;
+    this.nameOfFamily = nameOfFamily;
     this.simonlyMultiplayer = simonlyMultiplayer;
     this.localKeysCache = [];
     this.promisePendingResolve = null;
@@ -14,22 +15,33 @@ export default class SimonlyMultiplayerKeysGenerator {
     this.sequenceRef.on('value', (snap) => { this.onSequenceChanged(snap.val()); });
   }
 
+  cleanSequence() {
+    console.log('cleaning');
+    if (this.sequenceRef) {
+      console.log('cleaning');
+      this.sequenceRef.set([]);
+      this.localKeysCache = [];
+    }
+  }
+
   addMoreKeys(keys) {
     const numKeysToAdd =
       (SimonlyMultiplayerKeysGenerator.LOCAL_KEYS_CACHE_LENGTH + keys.length) -
       this.localKeysCache.length;
-// eslint-disable-next-line no-console
-    console.log('i am master, i change');
     this.localKeysCache = SimonlyDefaultKeysGenerator.addKeysFor(this.localKeysCache,
       numKeysToAdd, this.numKeys);
     this.sequenceRef.set(this.localKeysCache);
   }
 
   onSequenceChanged(newKeys) {
-    this.localKeysCache = newKeys;
+    const safeNewKeys = !newKeys ? [] : newKeys;
+    this.localKeysCache = safeNewKeys;
     if (this.promisePendingResolve) {
-      const isSequenceEnough = this.checkPendingAndResolve(newKeys);
+      console.log('solving promise');
+      const isSequenceEnough = this.checkPendingAndResolve(safeNewKeys);
+      console.log('is sequnece enogugh?', isSequenceEnough);
       if (isSequenceEnough) {
+        this.promisePendingResolve(safeNewKeys);
         this.checkPendingAndResolve = null;
         this.promisePendingResolve = null;
       }
@@ -53,6 +65,10 @@ export default class SimonlyMultiplayerKeysGenerator {
   }
 
   addKeys(keys, numNewKeys) {
+    if (keys.length === 0) {
+      this.localKeysCache = [];
+    }
+
     if (this.simonlyMultiplayer.isMaster()) {
       this.addMoreKeys(keys);
       return Promise.resolve(this.localKeysCache.slice(0, keys.length + numNewKeys));

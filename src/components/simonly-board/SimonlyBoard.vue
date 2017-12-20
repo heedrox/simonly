@@ -52,7 +52,7 @@
 
   export default {
     name: 'simonly-board',
-    ioc: ['simonlyLocalUI', 'simonlyGame', 'config', 'simonlyStorage', 'simonlyMultiplayer'],
+    ioc: ['simonlyLocalUI', 'simonlyGame', 'config', 'simonlyStorage', 'simonlyMultiplayer', 'simonlyMultiplayerKeysGenerator'],
     components: {
       SimonlyScore,
       SimonlyGameover,
@@ -77,6 +77,8 @@
           .then(() => this.showWaitForOthersScreen());
       },
       showWaitForOthersScreen() {
+        this.simonlyLocalUI.theRightKey = null;
+        this.simonlyMultiplayerKeysGenerator.cleanSequence();
         return this.updateState(STATES.WAITING_FOR_PLAYERS);
       },
       waitForOthersReadyCallback() {

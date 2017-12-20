@@ -28,4 +28,8 @@ export default class SimonlyMultiplayerUI {
     this.simonlyLocalUI.updateScore(score);
     this.simonlyRemoteUI.updateScore(score);
   }
+
+  resetTurn() {
+    this.simonlyLocalUI.resetTurn();
+  }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { sequenceArrayPromises } from '../lib/promises';
 import timeoutUtil from '../lib/timeoutUtil';
 
@@ -51,6 +52,10 @@ export default class SimonlyLocalUI {
     this.score = score;
   }
 
+  resetTurn() {
+    console.log('resteo');
+    this.theRightKey = null;
+  }
   /* *** end interface ***** */
 
   showKey(pos) {

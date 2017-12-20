@@ -44,6 +44,10 @@ const simonlyMockIOC = () => {
     updateState: () => Promise.resolve(),
     waitForUsersFinishGame: () => Promise.resolve(),
   });
+  ioc.set('simonlyMultiplayerKeysGenerator', {
+    addKeys: () => { },
+    cleanSequence: () => { },
+  });
 
   Vue.use(vueIoc);
 };

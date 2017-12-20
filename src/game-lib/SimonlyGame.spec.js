@@ -6,6 +6,7 @@ const SimonlyUIMock = () => ({
   roundFailed: () => {},
   roundOk: () => {},
   updateScore: () => {},
+  resetTurn: () => {},
 });
 
 describe('SimonlyGame', () => {
