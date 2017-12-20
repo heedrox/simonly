@@ -16,9 +16,7 @@ export default class SimonlyMultiplayerKeysGenerator {
   }
 
   cleanSequence() {
-    console.log('cleaning');
     if (this.sequenceRef) {
-      console.log('cleaning');
       this.sequenceRef.set([]);
       this.localKeysCache = [];
     }
@@ -37,9 +35,7 @@ export default class SimonlyMultiplayerKeysGenerator {
     const safeNewKeys = !newKeys ? [] : newKeys;
     this.localKeysCache = safeNewKeys;
     if (this.promisePendingResolve) {
-      console.log('solving promise');
       const isSequenceEnough = this.checkPendingAndResolve(safeNewKeys);
-      console.log('is sequnece enogugh?', isSequenceEnough);
       if (isSequenceEnough) {
         this.promisePendingResolve(safeNewKeys);
         this.checkPendingAndResolve = null;
